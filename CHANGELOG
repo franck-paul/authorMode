@@ -1,0 +1,32 @@
+v1.9 Franck Paul
+* 2.16+ compliance
+
+v1.8.2 06-11-2017 Pierre Van Glabeke
+* modifs tpl
+
+v1.8.1 23-07-2015 Pierre Van Glabeke
+* modifs tpl
+* ajout css
+
+v1.8 19-07-2015 Pierre Van Glabeke
+* ajout breadcrumb
+* héritage thème mustek
+* dc2.8 requis
+
+v1.7.1 22-04-2015 Pierre Van Glabeke
+* modifs localisation widget
+* modifs html5 pour validation
+* ajout favoris
+* modifs icône
+
+v1.7 17-12-2014 Pierre Van Glabeke
+* compatibilité dc2.7
+* html5 (mustek et currywurst)
+* mise en place de la barre d'édition pour la description de l'auteur (merci à Nikrou)
+
+v1.6.1 02-10-2014 Pierre Van Glabeke
+* ajout d'un lien vers la liste des auteurs
+* modif du widget
+* modif de la page listant les auteurs
+* ajout aide intégrée
+* dc2.6 requis

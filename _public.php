@@ -1,0 +1,367 @@
+<?php
+/**
+ * @brief authorMode, a plugin for Dotclear 2
+ *
+ * @package Dotclear
+ * @subpackage Plugins
+ *
+ * @author xave, Pierre Van Glabeke, Franck Paul
+ *
+ * @copyright GPL-2.0
+ */
+
+if (!defined('DC_RC_PATH')) {return;}
+
+if (!$core->blog->settings->authormode->authormode_active) {
+    return;
+}
+
+require_once dirname(__FILE__) . '/_widgets.php';
+
+$core->tpl->addValue('AuthorCommonName', array('tplAuthor', 'AuthorCommonName'));
+$core->tpl->addValue('AuthorDisplayName', array('tplAuthor', 'AuthorDisplayName'));
+$core->tpl->addValue('AuthorEmail', array('tplAuthor', 'AuthorEmail'));
+$core->tpl->addValue('AuthorID', array('tplAuthor', 'AuthorID'));
+$core->tpl->addValue('AuthorLink', array('tplAuthor', 'AuthorLink'));
+$core->tpl->addValue('AuthorName', array('tplAuthor', 'AuthorName'));
+$core->tpl->addValue('AuthorFirstName', array('tplAuthor', 'AuthorFirstName'));
+$core->tpl->addValue('AuthorURL', array('tplAuthor', 'AuthorURL'));
+$core->tpl->addValue('AuthorDesc', array('tplAuthor', 'AuthorDesc'));
+$core->tpl->addValue('AuthorPostsURL', array('tplAuthor', 'AuthorPostsURL'));
+$core->tpl->addValue('AuthorNbPosts', array('tplAuthor', 'AuthorNbPosts'));
+$core->tpl->addValue('AuthorFeedURL', array('tplAuthor', 'AuthorFeedURL'));
+
+$core->tpl->addBlock('Authors', array('tplAuthor', 'Authors'));
+$core->tpl->addBlock('AuthorsHeader', array('tplAuthor', 'AuthorsHeader'));
+$core->tpl->addBlock('AuthorsFooter', array('tplAuthor', 'AuthorsFooter'));
+
+$core->addBehavior('templateBeforeBlock', array('behaviorAuthorMode', 'block'));
+$core->addBehavior('publicBeforeDocument', array('behaviorAuthorMode', 'addTplPath'));
+$core->addBehavior('publicBreadcrumb', array('extAuthorMode', 'publicBreadcrumb'));
+$core->addBehavior('publicBreadcrumb', array('extAuthorsMode', 'publicBreadcrumb'));
+$core->addBehavior('publicHeadContent', array('publicAuthorMode', 'publicHeadContent'));
+
+class behaviorAuthorMode
+{
+    public static function block()
+    {
+        $args = func_get_args();
+        array_shift($args);
+
+        if ($args[0] == 'Comments') {
+            $p =
+                '<?php if ($_ctx->exists("users")) { ' .
+                "@\$params['sql'] .= \"AND P.user_id = '\".\$_ctx->users->user_id.\"' \";" .
+                "unset(\$params['limit']); " .
+                "} ?>\n";
+            return $p;
+        }
+    }
+
+    public static function addTplPath($core)
+    {
+        $tplset = $core->themes->moduleInfo($core->blog->settings->system->theme, 'tplset');
+        if (!empty($tplset) && is_dir(dirname(__FILE__) . '/default-templates/' . $tplset)) {
+            $core->tpl->setPath($core->tpl->getPath(), dirname(__FILE__) . '/default-templates/' . $tplset);
+        } else {
+            $core->tpl->setPath($core->tpl->getPath(), dirname(__FILE__) . '/default-templates/' . DC_DEFAULT_TPLSET);
+        }
+    }
+}
+
+class tplAuthor
+{
+    public static function Authors($attr, $content)
+    {
+        $p = '';
+        if (isset($attr['post_type'])) {
+            $p .= "\$params['post_type'] = '" . addslashes($attr['post_type']) . "';\n";
+        }
+        if (isset($attr['sortby'])) {
+            $order = 'asc';
+            switch ($attr['sortby']) {
+                case 'id':$sortby = 'user_id';
+                    break;
+                case 'posts':$sortby = 'nb_post';
+                    break;
+                case 'name':$sortby = 'user_displayname, user_firstname, user_name';
+                    break;
+            }
+            if (isset($attr['order']) && preg_match('/^(desc|asc)$/i', $attr['order'])) {
+                $order = $attr['order'];
+            }
+            if (isset($sortby)) {
+                $p .= "\$params['order'] = '" . $sortby . " " . $order . "';\n";
+            }
+        }
+
+        if (empty($p)) {
+            $p = '$params = null;' . "\n";
+        } else {
+            $p = '$params = array();' . "\n" . $p;
+        }
+
+        $res =
+            "<?php\n" .
+            'if (!$_ctx->exists("users")) { ' .
+            $p .
+            '$_ctx->users = authormodeUtils::getPostsUsers($params); unset($params);' . "\n" .
+            ' } ' .
+            "?>\n" .
+            '<?php while ($_ctx->users->fetch()) : ?>' . $content . '<?php endwhile; $_ctx->users = null; ?>';
+
+        return $res;
+    }
+
+    public static function AuthorsHeader($attr, $content)
+    {
+        return
+            "<?php if (\$_ctx->users->isStart()) : ?>" .
+            $content .
+            "<?php endif; ?>";
+    }
+
+    public static function AuthorsFooter($attr, $content)
+    {
+        return
+            "<?php if (\$_ctx->users->isEnd()) : ?>" .
+            $content .
+            "<?php endif; ?>";
+    }
+
+    public static function AuthorDesc($attr)
+    {
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, '$_ctx->users->user_desc') . '; ?>';
+    }
+
+    public static function AuthorPostsURL($attr)
+    {
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' .
+        sprintf($f, '$core->blog->url.$core->url->getBase("author").
+            "/".$_ctx->users->user_id') . '; ?>';
+    }
+
+    public static function AuthorNbPosts($attr)
+    {
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, '$_ctx->users->nb_post') . '; ?>';
+    }
+
+    public static function AuthorCommonName($attr)
+    {
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, '$_ctx->users->getAuthorCN()') . '; ?>';
+    }
+
+    public static function AuthorDisplayName($attr)
+    {
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, '$_ctx->users->user_displayname') . '; ?>';
+    }
+
+    public static function AuthorFirstName($attr)
+    {
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, '$_ctx->users->user_firstname') . '; ?>';
+    }
+
+    public static function AuthorName($attr)
+    {
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, '$_ctx->users->user_name') . '; ?>';
+    }
+
+    public static function AuthorID($attr)
+    {
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, '$_ctx->users->user_id') . '; ?>';
+    }
+
+    public static function AuthorEmail($attr)
+    {
+        $p = 'true';
+        if (isset($attr['spam_protected']) && !$attr['spam_protected']) {
+            $p = 'false';
+        }
+
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, "\$_ctx->users->getAuthorEmail(" . $p . ")") . '; ?>';
+    }
+
+    public static function AuthorLink($attr)
+    {
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, '$_ctx->users->getAuthorLink()') . '; ?>';
+    }
+
+    public static function AuthorURL($attr)
+    {
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, '$_ctx->users->user_url') . '; ?>';
+    }
+
+    public static function AuthorFeedURL($attr)
+    {
+        $type = !empty($attr['type']) ? $attr['type'] : 'rss2';
+
+        if (!preg_match('#^(rss2|atom)$#', $type)) {
+            $type = 'rss2';
+        }
+
+        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        return '<?php echo ' . sprintf($f, '$core->blog->url.$core->url->getBase("author_feed")."/".' .
+            'rawurlencode($_ctx->users->user_id)."/' . $type . '"') . '; ?>';
+    }
+}
+
+class urlAuthor extends dcUrlHandlers
+{
+    public static function Author($args)
+    {
+        $n = self::getPageNumber($args);
+
+        if ($args == '' && !$n) {
+            self::p404();
+        } else {
+            if ($n) {
+                $GLOBALS['_page_number'] = $n;
+            }
+            $GLOBALS['_ctx']->users = authormodeUtils::getPostsUsers($args);
+
+            if ($GLOBALS['_ctx']->users->isEmpty()) {
+                self::p404();
+            }
+
+            self::serveDocument('author.html');
+        }
+        exit;
+    }
+
+    public static function Authors($args)
+    {
+        $GLOBALS['_ctx']->users = authormodeUtils::getPostsUsers($args);
+
+        if ($GLOBALS['_ctx']->users->isEmpty()) {
+            self::p404();
+        }
+
+        self::serveDocument('authors.html');
+        exit;
+    }
+
+    public static function feed($args)
+    {
+        $mime = 'application/xml';
+
+        if (preg_match('#^(.+)/(atom|rss2)(/comments)?$#', $args, $m)) {
+            $author   = $m[1];
+            $type     = $m[2];
+            $comments = !empty($m[3]);
+        } else {
+            self::p404();
+        }
+
+        $GLOBALS['_ctx']->users = authormodeUtils::getPostsUsers($author);
+
+        if ($GLOBALS['_ctx']->users->isEmpty()) {
+            self::p404();
+        }
+
+        if ($type == 'atom') {
+            $mime = 'application/atom+xml';
+        }
+
+        $tpl = $type;
+        if ($comments) {
+            $tpl .= '-comments';
+        }
+        $tpl .= '.xml';
+
+        self::serveDocument($tpl, $mime);
+        exit;
+    }
+}
+
+class authormodeUtils
+{
+    public static function getPostsUsers($params = null)
+    {
+        global $core;
+
+        if ($params !== null && is_string($params)) {
+            $params = array('author' => $params);
+        }
+
+        $strReq =
+        'SELECT P.user_id, user_name, user_firstname, ' .
+        'user_displayname, user_desc, COUNT(P.post_id) as nb_post ' .
+        'FROM ' . $core->prefix . 'user U ' .
+        'LEFT JOIN ' . $core->prefix . 'post P ON P.user_id = U.user_id ' .
+        "WHERE blog_id = '" . $core->con->escape($core->blog->id) . "' " .
+            'AND P.post_status = 1 ';
+
+        if (!empty($params['author'])) {
+            $strReq .=
+            " AND P.user_id = '" . $core->con->escape($params['author']) . "' ";
+        }
+
+        if (!empty($params['post_type'])) {
+            $strReq .=
+            " AND P.post_type = '" . $core->con->escape($params['post_type']) . "' ";
+        } elseif ($core->blog->settings->authormode->authormode_default_posts_only) {
+            $strReq .=
+                " AND P.post_type = 'post' ";
+        }
+
+        $strReq .=
+            'GROUP BY P.user_id, user_name, user_firstname, user_displayname, user_desc ';
+
+        if (!empty($params['order'])) {
+            $strReq .=
+            'ORDER BY ' . $core->con->escape($params['order']) . ' ';
+        } elseif ($core->blog->settings->authormode->authormode_default_alpha_order) {
+            $strReq .=
+                'ORDER BY user_displayname, user_firstname, user_name ';
+        }
+
+        try
+        {
+            $rs = $core->con->select($strReq);
+            $rs->extend('rsAuthor');
+            return $rs;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+}
+
+class extAuthorMode
+{
+    public static function publicBreadcrumb($context, $separator)
+    {
+        if ($context == 'author') {
+            return __('Author\'s page');
+        }
+    }
+}
+
+class extAuthorsMode
+{
+    public static function publicBreadcrumb($context, $separator)
+    {
+        if ($context == 'authors') {
+            return __('List of authors');
+        }
+    }
+}
+
+class publicAuthorMode
+{
+    public static function publicHeadContent($core)
+    {
+        echo
+        dcUtils::cssLoad($core->blog->getPF('authorMode/css/authorMode.css'));
+    }
+}
