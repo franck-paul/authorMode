@@ -16,7 +16,7 @@ $this->registerModule(
     "authorMode",                                     // Name
     "Post entries per author + author desc handling", // Description
     "xave, Pierre Van Glabeke, Franck Paul",          // Author
-    '1.9',                                            // Version
+    '1.10',                                           // Version
     [
         'requires'    => [['core', '2.16']],                                     // Dependencies
         'permissions' => 'usage,contentadmin',                                   // Permissions
