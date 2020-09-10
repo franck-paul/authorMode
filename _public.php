@@ -52,7 +52,7 @@ class behaviorAuthorMode
             $p =
                 '<?php if ($_ctx->exists("users")) { ' .
                 "@\$params['sql'] .= \"AND P.user_id = '\".\$_ctx->users->user_id.\"' \";" .
-                "unset(\$params['limit']); " .
+//                "unset(\$params['limit']); " .
                 "} ?>\n";
             return $p;
         }
@@ -276,6 +276,10 @@ class urlAuthor extends dcUrlHandlers
         $tpl = $type;
         if ($comments) {
             $tpl .= '-comments';
+            $GLOBALS['_ctx']->nb_comment_per_page = $GLOBALS['core']->blog->settings->system->nb_comment_per_feed;
+        } else {
+            $GLOBALS['_ctx']->nb_entry_per_page = $GLOBALS['core']->blog->settings->system->nb_post_per_feed;
+            $GLOBALS['_ctx']->short_feed_items  = $GLOBALS['core']->blog->settings->system->short_feed_items;
         }
         $tpl .= '.xml';
 

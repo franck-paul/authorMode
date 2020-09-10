@@ -2,7 +2,7 @@
 'use strict';
 
 $(function() {
-  if ($.isFunction(jsToolBar)) {
+  if (typeof jsToolBar === 'function') {
     var tbUser = new jsToolBar(document.getElementById('user_desc'));
     tbUser.draw('xhtml');
   }
