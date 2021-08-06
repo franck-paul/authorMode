@@ -9,8 +9,9 @@
  *
  * @copyright GPL-2.0
  */
-
-if (!defined('DC_RC_PATH')) {return;}
+if (!defined('DC_RC_PATH')) {
+    return;
+}
 
 $core->addBehavior('initWidgets', ['widgetsAuthorMode', 'init']);
 
@@ -28,8 +29,7 @@ class widgetsAuthorMode
             return;
         }
 
-        if (($w->homeonly == 1 && !$core->url->isHome($core->url->type)) ||
-            ($w->homeonly == 2 && $core->url->isHome($core->url->type))) {
+        if (($w->homeonly == 1 && !$core->url->isHome($core->url->type)) || ($w->homeonly == 2 && $core->url->isHome($core->url->type))) {
             return;
         }
 
@@ -41,20 +41,20 @@ class widgetsAuthorMode
         switch ($core->url->type) {
             case 'post':
                 $currentuser = $GLOBALS['_ctx']->posts->user_id;
+
                 break;
             case 'author':
                 $currentuser = $GLOBALS['_ctx']->users->user_id;
+
                 break;
             default:
                 $currentuser = '';
         }
 
-        $res =
-            ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') .
+        $res = ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') .
             '<ul>';
 
-        $res .=
-        '<li class="listauthors"><strong><a href="' . $core->blog->url . $core->url->getBase("authors") . '">' .
+        $res .= '<li class="listauthors"><strong><a href="' . $core->blog->url . $core->url->getBase('authors') . '">' .
         __('List of authors') . '</a></strong></li>';
 
         while ($rs->fetch()) {
@@ -71,7 +71,6 @@ class widgetsAuthorMode
         $res .= '</ul>';
 
         return $w->renderDiv($w->content_only, 'authors ' . $w->class, '', $res);
-
     }
 
     public static function init($w)

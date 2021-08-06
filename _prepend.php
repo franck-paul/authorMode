@@ -9,8 +9,9 @@
  *
  * @copyright GPL-2.0
  */
-
-if (!defined('DC_RC_PATH')) {return;}
+if (!defined('DC_RC_PATH')) {
+    return;
+}
 
 $core = &$GLOBALS['core'];
 
@@ -36,8 +37,9 @@ class rsAuthor
     public static function getAuthorEmail($rs, $encoded = true)
     {
         if ($encoded) {
-            return strtr($rs->user_email, array('@' => '%40', '.' => '%2e'));
+            return strtr($rs->user_email, ['@' => '%40', '.' => '%2e']);
         }
+
         return $rs->user_email;
     }
 }
@@ -50,8 +52,8 @@ if ($core->blog->settings->authormode->authormode_active) {
             $url_prefix = 'author';
         }
         $feed_prefix = $core->url->getBase('feed') . '/' . $url_prefix;
-        $core->url->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', array('urlAuthor', 'author'));
-        $core->url->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', array('urlAuthor', 'feed'));
+        $core->url->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', ['urlAuthor', 'author']);
+        $core->url->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', ['urlAuthor', 'feed']);
         unset($url_prefix, $feed_prefix);
     }
 
@@ -60,7 +62,7 @@ if ($core->blog->settings->authormode->authormode_active) {
         if (empty($url_prefix)) {
             $url_prefix = 'authors';
         }
-        $core->url->register('authors', $url_prefix, '^' . $url_prefix . '$', array('urlAuthor', 'authors'));
+        $core->url->register('authors', $url_prefix, '^' . $url_prefix . '$', ['urlAuthor', 'authors']);
         unset($url_prefix);
     }
 }

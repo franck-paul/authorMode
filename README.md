@@ -21,25 +21,21 @@ The new template pages used by this plugins are located in the
 default-template subfolder. There is no need to move them to your
 template's folder (although you can do it if you want.)
 
-
 New template tags :
 
-{{tpl:AuthorName}} : Last name.
-{{tpl:AuthorFirstName}} : First name.
-{{tpl:AuthorDisplayName}} : Display name (so far, so good.)
-{{tpl:AuthorCommonName}} : Display name if it exists, otherwise First name + last name.
+``{{tpl:AuthorName}}`` : Last name.
+``{{tpl:AuthorFirstName}}`` : First name.
+``{{tpl:AuthorDisplayName}}`` : Display name (so far, so good.)
+``{{tpl:AuthorCommonName}}`` : Display name if it exists, otherwise First name + last name.
 
+``{{tpl:AuthorEmail}}`` : email, encoded for spam protection
+``{{tpl:AuthorID}}`` : userid
+``{{tpl:AuthorURL}}`` : the URL defined in the user settings page.
+``{{tpl:AuthorDesc}}`` : Description.
+``{{tpl:AuthorPostsURL}}`` : the URL of the page with all the author's posts.
+``{{tpl:AuthorFeedURL}}`` : feed for the said page.
 
-{{tpl:AuthorEmail}} : email, encoded for spam protection
-{{tpl:AuthorID}} : userid
-{{tpl:AuthorURL}} : the URL defined in the user settings page.
-{{tpl:AuthorDesc}} : Description.
-{{tpl:AuthorPostsURL}} : the URL of the page with all the author's posts.
-{{tpl:AuthorFeedURL}} : feed for the said page.
-
-<tpl:Authors> : Authors list.
-
-
+``<tpl:Authors>`` : Authors list. -->
 
 _________________________________________________________
 A big thanks to Olivier and Pep, as they wrote nearly all

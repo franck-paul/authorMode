@@ -1,9 +1,9 @@
-/*global $, jsToolBar */
+/*global $, jsToolBar, dotclear */
 'use strict';
 
-$(function() {
+$(function () {
   if (typeof jsToolBar === 'function') {
-    var tbUser = new jsToolBar(document.getElementById('user_desc'));
-    tbUser.draw('xhtml');
+    dotclear.tbUser = new jsToolBar(document.getElementById('user_desc'));
+    dotclear.tbUser.draw('xhtml');
   }
 });

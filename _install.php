@@ -9,8 +9,9 @@
  *
  * @copyright GPL-2.0
  */
-
-if (!defined('DC_CONTEXT_ADMIN')) {exit;}
+if (!defined('DC_CONTEXT_ADMIN')) {
+    exit;
+}
 
 $new_version = $core->plugins->moduleInfo('authorMode', 'version');
 $cur_version = $core->getVersion('authorMode');
@@ -30,4 +31,5 @@ if ($cur_version === null) {
     $core->blog->settings->authormode->put('authormode_default_posts_only', true, 'boolean');
 }
 $core->setVersion('authorMode', $new_version);
+
 return true;

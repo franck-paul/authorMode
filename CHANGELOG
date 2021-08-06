@@ -1,3 +1,10 @@
+v1.11 Franck Paul
+* 2.19+ compliance
+
+v1.10 Franck Paul
+* Cope with blog settings for nb of entries per page depending on context
+* jQuery3+ compliance
+
 v1.9 Franck Paul
 * 2.16+ compliance
 

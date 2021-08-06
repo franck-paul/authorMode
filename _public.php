@@ -9,8 +9,9 @@
  *
  * @copyright GPL-2.0
  */
-
-if (!defined('DC_RC_PATH')) {return;}
+if (!defined('DC_RC_PATH')) {
+    return;
+}
 
 if (!$core->blog->settings->authormode->authormode_active) {
     return;
@@ -18,28 +19,28 @@ if (!$core->blog->settings->authormode->authormode_active) {
 
 require_once dirname(__FILE__) . '/_widgets.php';
 
-$core->tpl->addValue('AuthorCommonName', array('tplAuthor', 'AuthorCommonName'));
-$core->tpl->addValue('AuthorDisplayName', array('tplAuthor', 'AuthorDisplayName'));
-$core->tpl->addValue('AuthorEmail', array('tplAuthor', 'AuthorEmail'));
-$core->tpl->addValue('AuthorID', array('tplAuthor', 'AuthorID'));
-$core->tpl->addValue('AuthorLink', array('tplAuthor', 'AuthorLink'));
-$core->tpl->addValue('AuthorName', array('tplAuthor', 'AuthorName'));
-$core->tpl->addValue('AuthorFirstName', array('tplAuthor', 'AuthorFirstName'));
-$core->tpl->addValue('AuthorURL', array('tplAuthor', 'AuthorURL'));
-$core->tpl->addValue('AuthorDesc', array('tplAuthor', 'AuthorDesc'));
-$core->tpl->addValue('AuthorPostsURL', array('tplAuthor', 'AuthorPostsURL'));
-$core->tpl->addValue('AuthorNbPosts', array('tplAuthor', 'AuthorNbPosts'));
-$core->tpl->addValue('AuthorFeedURL', array('tplAuthor', 'AuthorFeedURL'));
+$core->tpl->addValue('AuthorCommonName', ['tplAuthor', 'AuthorCommonName']);
+$core->tpl->addValue('AuthorDisplayName', ['tplAuthor', 'AuthorDisplayName']);
+$core->tpl->addValue('AuthorEmail', ['tplAuthor', 'AuthorEmail']);
+$core->tpl->addValue('AuthorID', ['tplAuthor', 'AuthorID']);
+$core->tpl->addValue('AuthorLink', ['tplAuthor', 'AuthorLink']);
+$core->tpl->addValue('AuthorName', ['tplAuthor', 'AuthorName']);
+$core->tpl->addValue('AuthorFirstName', ['tplAuthor', 'AuthorFirstName']);
+$core->tpl->addValue('AuthorURL', ['tplAuthor', 'AuthorURL']);
+$core->tpl->addValue('AuthorDesc', ['tplAuthor', 'AuthorDesc']);
+$core->tpl->addValue('AuthorPostsURL', ['tplAuthor', 'AuthorPostsURL']);
+$core->tpl->addValue('AuthorNbPosts', ['tplAuthor', 'AuthorNbPosts']);
+$core->tpl->addValue('AuthorFeedURL', ['tplAuthor', 'AuthorFeedURL']);
 
-$core->tpl->addBlock('Authors', array('tplAuthor', 'Authors'));
-$core->tpl->addBlock('AuthorsHeader', array('tplAuthor', 'AuthorsHeader'));
-$core->tpl->addBlock('AuthorsFooter', array('tplAuthor', 'AuthorsFooter'));
+$core->tpl->addBlock('Authors', ['tplAuthor', 'Authors']);
+$core->tpl->addBlock('AuthorsHeader', ['tplAuthor', 'AuthorsHeader']);
+$core->tpl->addBlock('AuthorsFooter', ['tplAuthor', 'AuthorsFooter']);
 
-$core->addBehavior('templateBeforeBlock', array('behaviorAuthorMode', 'block'));
-$core->addBehavior('publicBeforeDocument', array('behaviorAuthorMode', 'addTplPath'));
-$core->addBehavior('publicBreadcrumb', array('extAuthorMode', 'publicBreadcrumb'));
-$core->addBehavior('publicBreadcrumb', array('extAuthorsMode', 'publicBreadcrumb'));
-$core->addBehavior('publicHeadContent', array('publicAuthorMode', 'publicHeadContent'));
+$core->addBehavior('templateBeforeBlock', ['behaviorAuthorMode', 'block']);
+$core->addBehavior('publicBeforeDocument', ['behaviorAuthorMode', 'addTplPath']);
+$core->addBehavior('publicBreadcrumb', ['extAuthorMode', 'publicBreadcrumb']);
+$core->addBehavior('publicBreadcrumb', ['extAuthorsMode', 'publicBreadcrumb']);
+$core->addBehavior('publicHeadContent', ['publicAuthorMode', 'publicHeadContent']);
 
 class behaviorAuthorMode
 {
@@ -49,11 +50,11 @@ class behaviorAuthorMode
         array_shift($args);
 
         if ($args[0] == 'Comments') {
-            $p =
-                '<?php if ($_ctx->exists("users")) { ' .
+            $p = '<?php if ($_ctx->exists("users")) { ' .
                 "@\$params['sql'] .= \"AND P.user_id = '\".\$_ctx->users->user_id.\"' \";" .
 //                "unset(\$params['limit']); " .
                 "} ?>\n";
+
             return $p;
         }
     }
@@ -81,17 +82,20 @@ class tplAuthor
             $order = 'asc';
             switch ($attr['sortby']) {
                 case 'id':$sortby = 'user_id';
+
                     break;
                 case 'posts':$sortby = 'nb_post';
+
                     break;
                 case 'name':$sortby = 'user_displayname, user_firstname, user_name';
+
                     break;
             }
             if (isset($attr['order']) && preg_match('/^(desc|asc)$/i', $attr['order'])) {
                 $order = $attr['order'];
             }
             if (isset($sortby)) {
-                $p .= "\$params['order'] = '" . $sortby . " " . $order . "';\n";
+                $p .= "\$params['order'] = '" . $sortby . ' ' . $order . "';\n";
             }
         }
 
@@ -101,8 +105,7 @@ class tplAuthor
             $p = '$params = array();' . "\n" . $p;
         }
 
-        $res =
-            "<?php\n" .
+        $res = "<?php\n" .
             'if (!$_ctx->exists("users")) { ' .
             $p .
             '$_ctx->users = authormodeUtils::getPostsUsers($params); unset($params);' . "\n" .
@@ -116,28 +119,30 @@ class tplAuthor
     public static function AuthorsHeader($attr, $content)
     {
         return
-            "<?php if (\$_ctx->users->isStart()) : ?>" .
+            '<?php if ($_ctx->users->isStart()) : ?>' .
             $content .
-            "<?php endif; ?>";
+            '<?php endif; ?>';
     }
 
     public static function AuthorsFooter($attr, $content)
     {
         return
-            "<?php if (\$_ctx->users->isEnd()) : ?>" .
+            '<?php if ($_ctx->users->isEnd()) : ?>' .
             $content .
-            "<?php endif; ?>";
+            '<?php endif; ?>';
     }
 
     public static function AuthorDesc($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->users->user_desc') . '; ?>';
     }
 
     public static function AuthorPostsURL($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' .
         sprintf($f, '$core->blog->url.$core->url->getBase("author").
             "/".$_ctx->users->user_id') . '; ?>';
@@ -146,36 +151,42 @@ class tplAuthor
     public static function AuthorNbPosts($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->users->nb_post') . '; ?>';
     }
 
     public static function AuthorCommonName($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->users->getAuthorCN()') . '; ?>';
     }
 
     public static function AuthorDisplayName($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->users->user_displayname') . '; ?>';
     }
 
     public static function AuthorFirstName($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->users->user_firstname') . '; ?>';
     }
 
     public static function AuthorName($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->users->user_name') . '; ?>';
     }
 
     public static function AuthorID($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->users->user_id') . '; ?>';
     }
 
@@ -187,18 +198,21 @@ class tplAuthor
         }
 
         $f = $GLOBALS['core']->tpl->getFilters($attr);
-        return '<?php echo ' . sprintf($f, "\$_ctx->users->getAuthorEmail(" . $p . ")") . '; ?>';
+
+        return '<?php echo ' . sprintf($f, '$_ctx->users->getAuthorEmail(' . $p . ')') . '; ?>';
     }
 
     public static function AuthorLink($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->users->getAuthorLink()') . '; ?>';
     }
 
     public static function AuthorURL($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->users->user_url') . '; ?>';
     }
 
@@ -211,6 +225,7 @@ class tplAuthor
         }
 
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$core->blog->url.$core->url->getBase("author_feed")."/".' .
             'rawurlencode($_ctx->users->user_id)."/' . $type . '"') . '; ?>';
     }
@@ -295,11 +310,10 @@ class authormodeUtils
         global $core;
 
         if ($params !== null && is_string($params)) {
-            $params = array('author' => $params);
+            $params = ['author' => $params];
         }
 
-        $strReq =
-        'SELECT P.user_id, user_name, user_firstname, ' .
+        $strReq = 'SELECT P.user_id, user_name, user_firstname, ' .
         'user_displayname, user_desc, COUNT(P.post_id) as nb_post ' .
         'FROM ' . $core->prefix . 'user U ' .
         'LEFT JOIN ' . $core->prefix . 'post P ON P.user_id = U.user_id ' .
@@ -307,33 +321,27 @@ class authormodeUtils
             'AND P.post_status = 1 ';
 
         if (!empty($params['author'])) {
-            $strReq .=
-            " AND P.user_id = '" . $core->con->escape($params['author']) . "' ";
+            $strReq .= " AND P.user_id = '" . $core->con->escape($params['author']) . "' ";
         }
 
         if (!empty($params['post_type'])) {
-            $strReq .=
-            " AND P.post_type = '" . $core->con->escape($params['post_type']) . "' ";
+            $strReq .= " AND P.post_type = '" . $core->con->escape($params['post_type']) . "' ";
         } elseif ($core->blog->settings->authormode->authormode_default_posts_only) {
-            $strReq .=
-                " AND P.post_type = 'post' ";
+            $strReq .= " AND P.post_type = 'post' ";
         }
 
-        $strReq .=
-            'GROUP BY P.user_id, user_name, user_firstname, user_displayname, user_desc ';
+        $strReq .= 'GROUP BY P.user_id, user_name, user_firstname, user_displayname, user_desc ';
 
         if (!empty($params['order'])) {
-            $strReq .=
-            'ORDER BY ' . $core->con->escape($params['order']) . ' ';
+            $strReq .= 'ORDER BY ' . $core->con->escape($params['order']) . ' ';
         } elseif ($core->blog->settings->authormode->authormode_default_alpha_order) {
-            $strReq .=
-                'ORDER BY user_displayname, user_firstname, user_name ';
+            $strReq .= 'ORDER BY user_displayname, user_firstname, user_name ';
         }
 
-        try
-        {
+        try {
             $rs = $core->con->select($strReq);
             $rs->extend('rsAuthor');
+
             return $rs;
         } catch (Exception $e) {
             throw $e;

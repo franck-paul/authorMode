@@ -9,7 +9,9 @@
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 #
 # -- END LICENSE BLOCK ------------------------------------
-if (!defined('DC_CONTEXT_ADMIN')) {exit;}
+if (!defined('DC_CONTEXT_ADMIN')) {
+    exit;
+}
 
 $page_title = __('authorMode');
 
@@ -23,8 +25,7 @@ $posts_only  = $core->blog->settings->authormode->authormode_default_posts_only;
 $alpha_order = $core->blog->settings->authormode->authormode_default_alpha_order;
 
 if (!empty($_POST['saveconfig'])) {
-    try
-    {
+    try {
         $core->blog->settings->addNameSpace('authormode');
 
         $active = (empty($_POST['active'])) ? false : true;
