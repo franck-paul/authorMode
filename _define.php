@@ -22,7 +22,9 @@ $this->registerModule(
         'requires'    => [['core', '2.19']],                                     // Dependencies
         'permissions' => 'usage,contentadmin',                                   // Permissions
         'type'        => 'plugin',                                               // Type
-        'details'     => 'https://plugins.dotaddict.org/dc2/details/authorMode', // Details URL
-        'support'     => 'https://github.com/franck-paul/authorMode'            // Support URL
+
+        'details'    => 'https://open-time.net/?q=authorMode',       // Details URL
+        'support'    => 'https://github.com/franck-paul/authorMode', // Support URL
+        'repository' => 'https://raw.githubusercontent.com/franck-paul/authorMode/main/dcstore.xml'
     ]
 );
