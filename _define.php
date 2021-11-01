@@ -25,6 +25,6 @@ $this->registerModule(
 
         'details'    => 'https://open-time.net/?q=authorMode',       // Details URL
         'support'    => 'https://github.com/franck-paul/authorMode', // Support URL
-        'repository' => 'https://raw.githubusercontent.com/franck-paul/authorMode/main/dcstore.xml'
+        'repository' => 'https://raw.githubusercontent.com/franck-paul/authorMode/master/dcstore.xml'
     ]
 );
