@@ -1,8 +1,8 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="authorMode">
-    <name>Post entries per author + author desc handling</name>
+    <name>authorMode</name>
     <version>1.11</version>
-    <author>Post entries per author + author desc handling</author>
+    <author>xave, Pierre Van Glabeke, Franck Paul</author>
     <desc>Post entries per author + author desc handling</desc>
     <file>https://github.com/franck-paul/authorMode/releases/download/1.11/plugin-authorMode-1.11.zip</file>
     <da:dcmin>2.19</da:dcmin>
