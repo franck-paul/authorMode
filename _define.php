@@ -17,14 +17,14 @@ $this->registerModule(
     'authorMode',                                     // Name
     'Post entries per author + author desc handling', // Description
     'xave, Pierre Van Glabeke, Franck Paul',          // Author
-    '1.11',                                           // Version
+    '1.12',
     [
-        'requires'    => [['core', '2.19']],                                     // Dependencies
+        'requires'    => [['core', '2.23']],                                     // Dependencies
         'permissions' => 'usage,contentadmin',                                   // Permissions
         'type'        => 'plugin',                                               // Type
 
         'details'    => 'https://open-time.net/?q=authorMode',       // Details URL
         'support'    => 'https://github.com/franck-paul/authorMode', // Support URL
-        'repository' => 'https://raw.githubusercontent.com/franck-paul/authorMode/master/dcstore.xml'
+        'repository' => 'https://raw.githubusercontent.com/franck-paul/authorMode/master/dcstore.xml',
     ]
 );

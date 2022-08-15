@@ -18,40 +18,40 @@ $page_title = __('authorMode');
 # Url de base
 $p_url = 'plugin.php?p=authorMode';
 
-$active      = $core->blog->settings->authormode->authormode_active;
-$url_author  = $core->blog->settings->authormode->authormode_url_author;
-$url_authors = $core->blog->settings->authormode->authormode_url_authors;
-$posts_only  = $core->blog->settings->authormode->authormode_default_posts_only;
-$alpha_order = $core->blog->settings->authormode->authormode_default_alpha_order;
+$active      = dcCore::app()->blog->settings->authormode->authormode_active;
+$url_author  = dcCore::app()->blog->settings->authormode->authormode_url_author;
+$url_authors = dcCore::app()->blog->settings->authormode->authormode_url_authors;
+$posts_only  = dcCore::app()->blog->settings->authormode->authormode_default_posts_only;
+$alpha_order = dcCore::app()->blog->settings->authormode->authormode_default_alpha_order;
 
 if (!empty($_POST['saveconfig'])) {
     try {
-        $core->blog->settings->addNameSpace('authormode');
+        dcCore::app()->blog->settings->addNameSpace('authormode');
 
         $active = (empty($_POST['active'])) ? false : true;
-        if (trim($_POST['url_author']) == '') {
+        if (trim((string) $_POST['url_author']) == '') {
             $url_author = 'author';
         } else {
-            $url_author = text::str2URL(trim($_POST['url_author']));
+            $url_author = text::str2URL(trim((string) $_POST['url_author']));
         }
-        if (trim($_POST['url_authors']) == '') {
+        if (trim((string) $_POST['url_authors']) == '') {
             $url_authors = 'authors';
         } else {
-            $url_authors = text::str2URL(trim($_POST['url_authors']));
+            $url_authors = text::str2URL(trim((string) $_POST['url_authors']));
         }
         $posts_only  = (empty($_POST['posts_only'])) ? false : true;
         $alpha_order = (empty($_POST['alpha_order'])) ? false : true;
 
-        $core->blog->settings->authormode->put('authormode_active', $active, 'boolean');
-        $core->blog->settings->authormode->put('authormode_url_author', $url_author, 'string');
-        $core->blog->settings->authormode->put('authormode_url_authors', $url_authors, 'string');
-        $core->blog->settings->authormode->put('authormode_default_posts_only', $posts_only, 'boolean');
-        $core->blog->settings->authormode->put('authormode_default_alpha_order', $alpha_order, 'boolean');
-        $core->blog->triggerBlog();
+        dcCore::app()->blog->settings->authormode->put('authormode_active', $active, 'boolean');
+        dcCore::app()->blog->settings->authormode->put('authormode_url_author', $url_author, 'string');
+        dcCore::app()->blog->settings->authormode->put('authormode_url_authors', $url_authors, 'string');
+        dcCore::app()->blog->settings->authormode->put('authormode_default_posts_only', $posts_only, 'boolean');
+        dcCore::app()->blog->settings->authormode->put('authormode_default_alpha_order', $alpha_order, 'boolean');
+        dcCore::app()->blog->triggerBlog();
 
         $msg = __('Configuration successfully updated.');
     } catch (Exception $e) {
-        $core->error->add($e->getMessage());
+        dcCore::app()->error->add($e->getMessage());
     }
 }
 ?>
@@ -65,9 +65,10 @@ if (!empty($_POST['saveconfig'])) {
 
 echo dcPage::breadcrumb(
     [
-        html::escapeHTML($core->blog->name)                   => '',
-        '<span class="page-title">' . $page_title . '</span>' => ''
-    ]);
+        html::escapeHTML(dcCore::app()->blog->name)           => '',
+        '<span class="page-title">' . $page_title . '</span>' => '',
+    ]
+);
 
 if (!empty($msg)) {
     dcPage::success($msg);
@@ -103,7 +104,7 @@ if (!empty($msg)) {
     </div>
     <p>
         <input type="hidden" name="p" value="authorMode" />
-        <?php echo $core->formNonce(); ?>
+        <?php echo dcCore::app()->formNonce(); ?>
         <input type="submit" name="saveconfig" value="<?php echo __('Save configuration'); ?>" />
     </p>
     </form>

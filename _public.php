@@ -13,34 +13,34 @@ if (!defined('DC_RC_PATH')) {
     return;
 }
 
-if (!$core->blog->settings->authormode->authormode_active) {
+if (!dcCore::app()->blog->settings->authormode->authormode_active) {
     return;
 }
 
-require_once dirname(__FILE__) . '/_widgets.php';
+require_once __DIR__ . '/_widgets.php';
 
-$core->tpl->addValue('AuthorCommonName', ['tplAuthor', 'AuthorCommonName']);
-$core->tpl->addValue('AuthorDisplayName', ['tplAuthor', 'AuthorDisplayName']);
-$core->tpl->addValue('AuthorEmail', ['tplAuthor', 'AuthorEmail']);
-$core->tpl->addValue('AuthorID', ['tplAuthor', 'AuthorID']);
-$core->tpl->addValue('AuthorLink', ['tplAuthor', 'AuthorLink']);
-$core->tpl->addValue('AuthorName', ['tplAuthor', 'AuthorName']);
-$core->tpl->addValue('AuthorFirstName', ['tplAuthor', 'AuthorFirstName']);
-$core->tpl->addValue('AuthorURL', ['tplAuthor', 'AuthorURL']);
-$core->tpl->addValue('AuthorDesc', ['tplAuthor', 'AuthorDesc']);
-$core->tpl->addValue('AuthorPostsURL', ['tplAuthor', 'AuthorPostsURL']);
-$core->tpl->addValue('AuthorNbPosts', ['tplAuthor', 'AuthorNbPosts']);
-$core->tpl->addValue('AuthorFeedURL', ['tplAuthor', 'AuthorFeedURL']);
+dcCore::app()->tpl->addValue('AuthorCommonName', ['tplAuthor', 'AuthorCommonName']);
+dcCore::app()->tpl->addValue('AuthorDisplayName', ['tplAuthor', 'AuthorDisplayName']);
+dcCore::app()->tpl->addValue('AuthorEmail', ['tplAuthor', 'AuthorEmail']);
+dcCore::app()->tpl->addValue('AuthorID', ['tplAuthor', 'AuthorID']);
+dcCore::app()->tpl->addValue('AuthorLink', ['tplAuthor', 'AuthorLink']);
+dcCore::app()->tpl->addValue('AuthorName', ['tplAuthor', 'AuthorName']);
+dcCore::app()->tpl->addValue('AuthorFirstName', ['tplAuthor', 'AuthorFirstName']);
+dcCore::app()->tpl->addValue('AuthorURL', ['tplAuthor', 'AuthorURL']);
+dcCore::app()->tpl->addValue('AuthorDesc', ['tplAuthor', 'AuthorDesc']);
+dcCore::app()->tpl->addValue('AuthorPostsURL', ['tplAuthor', 'AuthorPostsURL']);
+dcCore::app()->tpl->addValue('AuthorNbPosts', ['tplAuthor', 'AuthorNbPosts']);
+dcCore::app()->tpl->addValue('AuthorFeedURL', ['tplAuthor', 'AuthorFeedURL']);
 
-$core->tpl->addBlock('Authors', ['tplAuthor', 'Authors']);
-$core->tpl->addBlock('AuthorsHeader', ['tplAuthor', 'AuthorsHeader']);
-$core->tpl->addBlock('AuthorsFooter', ['tplAuthor', 'AuthorsFooter']);
+dcCore::app()->tpl->addBlock('Authors', ['tplAuthor', 'Authors']);
+dcCore::app()->tpl->addBlock('AuthorsHeader', ['tplAuthor', 'AuthorsHeader']);
+dcCore::app()->tpl->addBlock('AuthorsFooter', ['tplAuthor', 'AuthorsFooter']);
 
-$core->addBehavior('templateBeforeBlock', ['behaviorAuthorMode', 'block']);
-$core->addBehavior('publicBeforeDocument', ['behaviorAuthorMode', 'addTplPath']);
-$core->addBehavior('publicBreadcrumb', ['extAuthorMode', 'publicBreadcrumb']);
-$core->addBehavior('publicBreadcrumb', ['extAuthorsMode', 'publicBreadcrumb']);
-$core->addBehavior('publicHeadContent', ['publicAuthorMode', 'publicHeadContent']);
+dcCore::app()->addBehavior('templateBeforeBlock', ['behaviorAuthorMode', 'block']);
+dcCore::app()->addBehavior('publicBeforeDocument', ['behaviorAuthorMode', 'addTplPath']);
+dcCore::app()->addBehavior('publicBreadcrumb', ['extAuthorMode', 'publicBreadcrumb']);
+dcCore::app()->addBehavior('publicBreadcrumb', ['extAuthorsMode', 'publicBreadcrumb']);
+dcCore::app()->addBehavior('publicHeadContent', ['publicAuthorMode', 'publicHeadContent']);
 
 class behaviorAuthorMode
 {
@@ -50,8 +50,8 @@ class behaviorAuthorMode
         array_shift($args);
 
         if ($args[0] == 'Comments') {
-            $p = '<?php if ($_ctx->exists("users")) { ' .
-                "@\$params['sql'] .= \"AND P.user_id = '\".\$_ctx->users->user_id.\"' \";" .
+            $p = '<?php if (dcCore::app()->ctx->exists("users")) { ' .
+                "@\$params['sql'] .= \"AND P.user_id = '\".dcCore::app()->ctx->users->user_id.\"' \";" .
 //                "unset(\$params['limit']); " .
                 "} ?>\n";
 
@@ -61,11 +61,11 @@ class behaviorAuthorMode
 
     public static function addTplPath($core)
     {
-        $tplset = $core->themes->moduleInfo($core->blog->settings->system->theme, 'tplset');
-        if (!empty($tplset) && is_dir(dirname(__FILE__) . '/default-templates/' . $tplset)) {
-            $core->tpl->setPath($core->tpl->getPath(), dirname(__FILE__) . '/default-templates/' . $tplset);
+        $tplset = dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'tplset');
+        if (!empty($tplset) && is_dir(__DIR__ . '/default-templates/' . $tplset)) {
+            dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/default-templates/' . $tplset);
         } else {
-            $core->tpl->setPath($core->tpl->getPath(), dirname(__FILE__) . '/default-templates/' . DC_DEFAULT_TPLSET);
+            dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/default-templates/' . DC_DEFAULT_TPLSET);
         }
     }
 }
@@ -106,12 +106,12 @@ class tplAuthor
         }
 
         $res = "<?php\n" .
-            'if (!$_ctx->exists("users")) { ' .
+            'if (!dcCore::app()->ctx->exists("users")) { ' .
             $p .
-            '$_ctx->users = authormodeUtils::getPostsUsers($params); unset($params);' . "\n" .
+            'dcCore::app()->ctx->users = authormodeUtils::getPostsUsers($params); unset($params);' . "\n" .
             ' } ' .
             "?>\n" .
-            '<?php while ($_ctx->users->fetch()) : ?>' . $content . '<?php endwhile; $_ctx->users = null; ?>';
+            '<?php while (dcCore::app()->ctx->users->fetch()) : ?>' . $content . '<?php endwhile; dcCore::app()->ctx->users = null; ?>';
 
         return $res;
     }
@@ -119,7 +119,7 @@ class tplAuthor
     public static function AuthorsHeader($attr, $content)
     {
         return
-            '<?php if ($_ctx->users->isStart()) : ?>' .
+            '<?php if (dcCore::app()->ctx->users->isStart()) : ?>' .
             $content .
             '<?php endif; ?>';
     }
@@ -127,67 +127,67 @@ class tplAuthor
     public static function AuthorsFooter($attr, $content)
     {
         return
-            '<?php if ($_ctx->users->isEnd()) : ?>' .
+            '<?php if (dcCore::app()->ctx->users->isEnd()) : ?>' .
             $content .
             '<?php endif; ?>';
     }
 
     public static function AuthorDesc($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->users->user_desc') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_desc') . '; ?>';
     }
 
     public static function AuthorPostsURL($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' .
-        sprintf($f, '$core->blog->url.$core->url->getBase("author").
-            "/".$_ctx->users->user_id') . '; ?>';
+        sprintf($f, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("author").
+            "/".dcCore::app()->ctx->users->user_id') . '; ?>';
     }
 
     public static function AuthorNbPosts($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->users->nb_post') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->nb_post') . '; ?>';
     }
 
     public static function AuthorCommonName($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->users->getAuthorCN()') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->getAuthorCN()') . '; ?>';
     }
 
     public static function AuthorDisplayName($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->users->user_displayname') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_displayname') . '; ?>';
     }
 
     public static function AuthorFirstName($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->users->user_firstname') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_firstname') . '; ?>';
     }
 
     public static function AuthorName($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->users->user_name') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_name') . '; ?>';
     }
 
     public static function AuthorID($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->users->user_id') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_id') . '; ?>';
     }
 
     public static function AuthorEmail($attr)
@@ -197,23 +197,23 @@ class tplAuthor
             $p = 'false';
         }
 
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->users->getAuthorEmail(' . $p . ')') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->getAuthorEmail(' . $p . ')') . '; ?>';
     }
 
     public static function AuthorLink($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->users->getAuthorLink()') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->getAuthorLink()') . '; ?>';
     }
 
     public static function AuthorURL($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->users->user_url') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_url') . '; ?>';
     }
 
     public static function AuthorFeedURL($attr)
@@ -224,10 +224,10 @@ class tplAuthor
             $type = 'rss2';
         }
 
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$core->blog->url.$core->url->getBase("author_feed")."/".' .
-            'rawurlencode($_ctx->users->user_id)."/' . $type . '"') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("author_feed")."/".' .
+            'rawurlencode(dcCore::app()->ctx->users->user_id)."/' . $type . '"') . '; ?>';
     }
 }
 
@@ -243,9 +243,9 @@ class urlAuthor extends dcUrlHandlers
             if ($n) {
                 $GLOBALS['_page_number'] = $n;
             }
-            $GLOBALS['_ctx']->users = authormodeUtils::getPostsUsers($args);
+            dcCore::app()->ctx->users = authormodeUtils::getPostsUsers($args);
 
-            if ($GLOBALS['_ctx']->users->isEmpty()) {
+            if (dcCore::app()->ctx->users->isEmpty()) {
                 self::p404();
             }
 
@@ -256,9 +256,9 @@ class urlAuthor extends dcUrlHandlers
 
     public static function Authors($args)
     {
-        $GLOBALS['_ctx']->users = authormodeUtils::getPostsUsers($args);
+        dcCore::app()->ctx->users = authormodeUtils::getPostsUsers($args);
 
-        if ($GLOBALS['_ctx']->users->isEmpty()) {
+        if (dcCore::app()->ctx->users->isEmpty()) {
             self::p404();
         }
 
@@ -268,7 +268,10 @@ class urlAuthor extends dcUrlHandlers
 
     public static function feed($args)
     {
-        $mime = 'application/xml';
+        $mime     = 'application/xml';
+        $author   = '';
+        $type     = '';
+        $comments = false;
 
         if (preg_match('#^(.+)/(atom|rss2)(/comments)?$#', $args, $m)) {
             $author   = $m[1];
@@ -278,9 +281,9 @@ class urlAuthor extends dcUrlHandlers
             self::p404();
         }
 
-        $GLOBALS['_ctx']->users = authormodeUtils::getPostsUsers($author);
+        dcCore::app()->ctx->users = authormodeUtils::getPostsUsers($author);
 
-        if ($GLOBALS['_ctx']->users->isEmpty()) {
+        if (dcCore::app()->ctx->users->isEmpty()) {
             self::p404();
         }
 
@@ -291,10 +294,10 @@ class urlAuthor extends dcUrlHandlers
         $tpl = $type;
         if ($comments) {
             $tpl .= '-comments';
-            $GLOBALS['_ctx']->nb_comment_per_page = $GLOBALS['core']->blog->settings->system->nb_comment_per_feed;
+            dcCore::app()->ctx->nb_comment_per_page = dcCore::app()->blog->settings->system->nb_comment_per_feed;
         } else {
-            $GLOBALS['_ctx']->nb_entry_per_page = $GLOBALS['core']->blog->settings->system->nb_post_per_feed;
-            $GLOBALS['_ctx']->short_feed_items  = $GLOBALS['core']->blog->settings->system->short_feed_items;
+            dcCore::app()->ctx->nb_entry_per_page = dcCore::app()->blog->settings->system->nb_post_per_feed;
+            dcCore::app()->ctx->short_feed_items  = dcCore::app()->blog->settings->system->short_feed_items;
         }
         $tpl .= '.xml';
 
@@ -307,39 +310,37 @@ class authormodeUtils
 {
     public static function getPostsUsers($params = null)
     {
-        global $core;
-
         if ($params !== null && is_string($params)) {
             $params = ['author' => $params];
         }
 
         $strReq = 'SELECT P.user_id, user_name, user_firstname, ' .
         'user_displayname, user_desc, COUNT(P.post_id) as nb_post ' .
-        'FROM ' . $core->prefix . 'user U ' .
-        'LEFT JOIN ' . $core->prefix . 'post P ON P.user_id = U.user_id ' .
-        "WHERE blog_id = '" . $core->con->escape($core->blog->id) . "' " .
+        'FROM ' . dcCore::app()->prefix . 'user U ' .
+        'LEFT JOIN ' . dcCore::app()->prefix . 'post P ON P.user_id = U.user_id ' .
+        "WHERE blog_id = '" . dcCore::app()->con->escape(dcCore::app()->blog->id) . "' " .
             'AND P.post_status = 1 ';
 
         if (!empty($params['author'])) {
-            $strReq .= " AND P.user_id = '" . $core->con->escape($params['author']) . "' ";
+            $strReq .= " AND P.user_id = '" . dcCore::app()->con->escape($params['author']) . "' ";
         }
 
         if (!empty($params['post_type'])) {
-            $strReq .= " AND P.post_type = '" . $core->con->escape($params['post_type']) . "' ";
-        } elseif ($core->blog->settings->authormode->authormode_default_posts_only) {
+            $strReq .= " AND P.post_type = '" . dcCore::app()->con->escape($params['post_type']) . "' ";
+        } elseif (dcCore::app()->blog->settings->authormode->authormode_default_posts_only) {
             $strReq .= " AND P.post_type = 'post' ";
         }
 
         $strReq .= 'GROUP BY P.user_id, user_name, user_firstname, user_displayname, user_desc ';
 
         if (!empty($params['order'])) {
-            $strReq .= 'ORDER BY ' . $core->con->escape($params['order']) . ' ';
-        } elseif ($core->blog->settings->authormode->authormode_default_alpha_order) {
+            $strReq .= 'ORDER BY ' . dcCore::app()->con->escape($params['order']) . ' ';
+        } elseif (dcCore::app()->blog->settings->authormode->authormode_default_alpha_order) {
             $strReq .= 'ORDER BY user_displayname, user_firstname, user_name ';
         }
 
         try {
-            $rs = $core->con->select($strReq);
+            $rs = dcCore::app()->con->select($strReq);
             $rs->extend('rsAuthor');
 
             return $rs;
@@ -374,6 +375,6 @@ class publicAuthorMode
     public static function publicHeadContent($core)
     {
         echo
-        dcUtils::cssLoad($core->blog->getPF('authorMode/css/authorMode.css'));
+        dcUtils::cssModuleLoad('authorMode/css/authorMode.css');
     }
 }

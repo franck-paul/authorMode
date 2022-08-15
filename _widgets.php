@@ -13,15 +13,13 @@ if (!defined('DC_RC_PATH')) {
     return;
 }
 
-$core->addBehavior('initWidgets', ['widgetsAuthorMode', 'init']);
+dcCore::app()->addBehavior('initWidgets', ['widgetsAuthorMode', 'init']);
 
 class widgetsAuthorMode
 {
     public static function authors($w)
     {
-        global $core;
-
-        if (!$core->blog->settings->authormode->authormode_active) {
+        if (!dcCore::app()->blog->settings->authormode->authormode_active) {
             return;
         }
 
@@ -29,7 +27,7 @@ class widgetsAuthorMode
             return;
         }
 
-        if (($w->homeonly == 1 && !$core->url->isHome($core->url->type)) || ($w->homeonly == 2 && $core->url->isHome($core->url->type))) {
+        if (($w->homeonly == 1 && !dcCore::app()->url->isHome(dcCore::app()->url->type)) || ($w->homeonly == 2 && dcCore::app()->url->isHome(dcCore::app()->url->type))) {
             return;
         }
 
@@ -38,13 +36,13 @@ class widgetsAuthorMode
             return;
         }
 
-        switch ($core->url->type) {
+        switch (dcCore::app()->url->type) {
             case 'post':
-                $currentuser = $GLOBALS['_ctx']->posts->user_id;
+                $currentuser = dcCore::app()->ctx->posts->user_id;
 
                 break;
             case 'author':
-                $currentuser = $GLOBALS['_ctx']->users->user_id;
+                $currentuser = dcCore::app()->ctx->users->user_id;
 
                 break;
             default:
@@ -54,17 +52,22 @@ class widgetsAuthorMode
         $res = ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') .
             '<ul>';
 
-        $res .= '<li class="listauthors"><strong><a href="' . $core->blog->url . $core->url->getBase('authors') . '">' .
+        $res .= '<li class="listauthors"><strong><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('authors') . '">' .
         __('List of authors') . '</a></strong></li>';
 
         while ($rs->fetch()) {
             $res .= '<li' .
             ($rs->user_id == $currentuser ? ' class="current-author"' : '') .
-            '><a href="' . $core->blog->url . $core->url->getBase('author') . '/' .
+            '><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('author') . '/' .
             $rs->user_id . '">' .
             html::escapeHTML(
-                dcUtils::getUserCN($rs->user_id, $rs->user_name,
-                    $rs->user_firstname, $rs->user_displayname)) . '</a>' .
+                dcUtils::getUserCN(
+                    $rs->user_id,
+                    $rs->user_name,
+                    $rs->user_firstname,
+                    $rs->user_displayname
+                )
+            ) . '</a>' .
                 ($w->postcount ? ' (' . $rs->nb_post . ')' : '') .
                 '</li>';
         }

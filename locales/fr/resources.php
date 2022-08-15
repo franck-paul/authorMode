@@ -11,5 +11,5 @@
  */
 
 if (!isset($__resources['help']['authorMode'])) {
-    $__resources['help']['authorMode'] = dirname(__FILE__) . '/help/authorMode.html';
+    $__resources['help']['authorMode'] = __DIR__ . '/help/authorMode.html';
 }
