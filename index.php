@@ -15,9 +15,6 @@ if (!defined('DC_CONTEXT_ADMIN')) {
 
 $page_title = __('authorMode');
 
-# Url de base
-$p_url = 'plugin.php?p=authorMode';
-
 $active      = dcCore::app()->blog->settings->authormode->authormode_active;
 $url_author  = dcCore::app()->blog->settings->authormode->authormode_url_author;
 $url_authors = dcCore::app()->blog->settings->authormode->authormode_url_authors;

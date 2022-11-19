@@ -15,7 +15,7 @@ if (!defined('DC_CONTEXT_ADMIN')) {
 
 require_once __DIR__ . '/_widgets.php';
 
-$_menu['Blog']->addItem(
+dcCore::app()->menu[dcAdmin::MENU_BLOG]->addItem(
     'authorMode',
     'plugin.php?p=authorMode',
     'index.php?pf=authorMode/icon.png',
@@ -23,18 +23,9 @@ $_menu['Blog']->addItem(
     dcCore::app()->auth->isSuperAdmin()
 );
 
-dcCore::app()->addBehavior('adminUserHeaders', ['authorModeBehaviors', 'adminAuthorHeaders']);
-dcCore::app()->addBehavior('adminPreferencesHeaders', ['authorModeBehaviors', 'adminAuthorHeaders']);
-dcCore::app()->addBehavior('adminUserForm', ['authorModeBehaviors', 'adminAuthorForm']);        // user.php
-dcCore::app()->addBehavior('adminPreferencesForm', ['authorModeBehaviors', 'adminAuthorForm']); //preferences.php
-dcCore::app()->addBehavior('adminBeforeUserCreate', ['authorModeBehaviors', 'adminBeforeUserUpdate']);
-dcCore::app()->addBehavior('adminBeforeUserUpdate', ['authorModeBehaviors', 'adminBeforeUserUpdate']);
-dcCore::app()->addBehavior('adminBeforeUserOptionsUpdate', ['authorModeBehaviors', 'adminBeforeUserUpdate']); //preferences.php
-dcCore::app()->addBehavior('adminDashboardFavorites', 'authorModeDashboardFavorites');
-
 class authorModeBehaviors
 {
-    public static function adminBeforeUserUpdate($cur, $user_id = '')
+    public static function adminBeforeUserUpdate($cur)
     {
         $cur->user_desc = $_POST['user_desc'];
     }
@@ -61,36 +52,56 @@ class authorModeBehaviors
         dcPage::jsModuleLoad('authorMode/_user.js', dcCore::app()->getVersion('authorMode'));
     }
 
-    public static function adminAuthorForm($rs)
+    public static function adminPreferencesForm()
     {
         $user_desc = '';
-        if ($rs instanceof dcCore) {
-            $strReq = 'SELECT user_desc ' .
-            'FROM ' . $rs->con->escapeSystem($rs->prefix . 'user') . ' ' .
-            "WHERE user_id = '" . $rs->con->escape($rs->auth->userID()) . "' ";
-            $_rs = $rs->con->select($strReq);
-            if (!$_rs->isEmpty()) {
-                $user_desc = $_rs->user_desc;
-            }
-        } elseif ($rs instanceof record && $rs->exists('user_desc')) {
+        $strReq    = 'SELECT user_desc ' .
+        'FROM ' . dcCore::app()->con->escapeSystem(dcCore::app()->prefix . dcAuth::USER_TABLE_NAME) . ' ' .
+        "WHERE user_id = '" . dcCore::app()->con->escape(dcCore::app()->auth->userID()) . "' ";
+        $_rs = new dcRecord(dcCore::app()->con->select($strReq));
+        if (!$_rs->isEmpty()) {
+            $user_desc = $_rs->user_desc;
+        }
+
+        echo
+        '<p><label>' . __('Author\'s description:') . '</label>' .
+        form::textarea('user_desc', 50, 8, html::escapeHTML($user_desc), '', '4') .
+        '</p>';
+    }
+
+    public static function adminUserForm($rs)
+    {
+        $user_desc = '';
+        if ($rs instanceof dcRecord && $rs->exists('user_desc')) {
             $user_desc = $rs->user_desc;
         }
 
         echo
-        '<p><label>' . __('Author\'s description:') .
-        dcPage::help('users', 'user_desc') . '</label>' .
+        '<p><label>' . __('Author\'s description:') . '</label>' .
         form::textarea('user_desc', 50, 8, html::escapeHTML($user_desc), '', '4') .
-            '</p>';
+        '</p>';
+    }
+
+    public static function authorModeDashboardFavorites($favs)
+    {
+        $favs->register('authorMode', [
+            'title'       => __('Authors'),
+            'url'         => 'plugin.php?p=authorMode',
+            'small-icon'  => 'index.php?pf=authorMode/icon.png',
+            'large-icon'  => 'index.php?pf=authorMode/icon-big.png',
+            'permissions' => dcCore::app()->auth->makePermissions([
+                dcAuth::PERMISSION_USAGE,
+                dcAuth::PERMISSION_CONTENT_ADMIN,
+            ]),
+        ]);
     }
 }
 
-function authorModeDashboardFavorites($core, $favs)
-{
-    $favs->register('authorMode', [
-        'title'       => __('Authors'),
-        'url'         => 'plugin.php?p=authorMode',
-        'small-icon'  => 'index.php?pf=authorMode/icon.png',
-        'large-icon'  => 'index.php?pf=authorMode/icon-big.png',
-        'permissions' => 'usage,contentadmin',
-    ]);
-}
+dcCore::app()->addBehavior('adminUserHeaders', [authorModeBehaviors::class, 'adminAuthorHeaders']);
+dcCore::app()->addBehavior('adminPreferencesHeaders', [authorModeBehaviors::class, 'adminAuthorHeaders']);
+dcCore::app()->addBehavior('adminUserForm', [authorModeBehaviors::class, 'adminUserForm']);        // user.php
+dcCore::app()->addBehavior('adminPreferencesFormV2', [authorModeBehaviors::class, 'adminPreferencesForm']); //preferences.php
+dcCore::app()->addBehavior('adminBeforeUserCreate', [authorModeBehaviors::class, 'adminBeforeUserUpdate']);
+dcCore::app()->addBehavior('adminBeforeUserUpdate', [authorModeBehaviors::class, 'adminBeforeUserUpdate']);
+dcCore::app()->addBehavior('adminBeforeUserOptionsUpdate', [authorModeBehaviors::class, 'adminBeforeUserUpdate']); //preferences.php
+dcCore::app()->addBehavior('adminDashboardFavoritesV2', [authorModeBehaviors::class, 'authorModeDashboardFavorites']);

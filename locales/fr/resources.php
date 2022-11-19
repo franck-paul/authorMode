@@ -9,7 +9,6 @@
  *
  * @copyright GPL-2.0
  */
-
-if (!isset($__resources['help']['authorMode'])) {
-    $__resources['help']['authorMode'] = __DIR__ . '/help/authorMode.html';
+if (!isset(dcCore::app()->resources['help']['authorMode'])) {
+    dcCore::app()->resources['help']['authorMode'] = __DIR__ . '/help/authorMode.html';
 }

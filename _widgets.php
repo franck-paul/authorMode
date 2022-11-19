@@ -13,8 +13,6 @@ if (!defined('DC_RC_PATH')) {
     return;
 }
 
-dcCore::app()->addBehavior('initWidgets', ['widgetsAuthorMode', 'init']);
-
 class widgetsAuthorMode
 {
     public static function authors($w)
@@ -88,3 +86,5 @@ class widgetsAuthorMode
             ->addOffline();
     }
 }
+
+dcCore::app()->addBehavior('initWidgets', [widgetsAuthorMode::class, 'init']);

@@ -19,29 +19,6 @@ if (!dcCore::app()->blog->settings->authormode->authormode_active) {
 
 require_once __DIR__ . '/_widgets.php';
 
-dcCore::app()->tpl->addValue('AuthorCommonName', ['tplAuthor', 'AuthorCommonName']);
-dcCore::app()->tpl->addValue('AuthorDisplayName', ['tplAuthor', 'AuthorDisplayName']);
-dcCore::app()->tpl->addValue('AuthorEmail', ['tplAuthor', 'AuthorEmail']);
-dcCore::app()->tpl->addValue('AuthorID', ['tplAuthor', 'AuthorID']);
-dcCore::app()->tpl->addValue('AuthorLink', ['tplAuthor', 'AuthorLink']);
-dcCore::app()->tpl->addValue('AuthorName', ['tplAuthor', 'AuthorName']);
-dcCore::app()->tpl->addValue('AuthorFirstName', ['tplAuthor', 'AuthorFirstName']);
-dcCore::app()->tpl->addValue('AuthorURL', ['tplAuthor', 'AuthorURL']);
-dcCore::app()->tpl->addValue('AuthorDesc', ['tplAuthor', 'AuthorDesc']);
-dcCore::app()->tpl->addValue('AuthorPostsURL', ['tplAuthor', 'AuthorPostsURL']);
-dcCore::app()->tpl->addValue('AuthorNbPosts', ['tplAuthor', 'AuthorNbPosts']);
-dcCore::app()->tpl->addValue('AuthorFeedURL', ['tplAuthor', 'AuthorFeedURL']);
-
-dcCore::app()->tpl->addBlock('Authors', ['tplAuthor', 'Authors']);
-dcCore::app()->tpl->addBlock('AuthorsHeader', ['tplAuthor', 'AuthorsHeader']);
-dcCore::app()->tpl->addBlock('AuthorsFooter', ['tplAuthor', 'AuthorsFooter']);
-
-dcCore::app()->addBehavior('templateBeforeBlock', ['behaviorAuthorMode', 'block']);
-dcCore::app()->addBehavior('publicBeforeDocument', ['behaviorAuthorMode', 'addTplPath']);
-dcCore::app()->addBehavior('publicBreadcrumb', ['extAuthorMode', 'publicBreadcrumb']);
-dcCore::app()->addBehavior('publicBreadcrumb', ['extAuthorsMode', 'publicBreadcrumb']);
-dcCore::app()->addBehavior('publicHeadContent', ['publicAuthorMode', 'publicHeadContent']);
-
 class behaviorAuthorMode
 {
     public static function block()
@@ -50,25 +27,26 @@ class behaviorAuthorMode
         array_shift($args);
 
         if ($args[0] == 'Comments') {
-            $p = '<?php if (dcCore::app()->ctx->exists("users")) { ' .
+            return '<?php if (dcCore::app()->ctx->exists("users")) { ' .
                 "@\$params['sql'] .= \"AND P.user_id = '\".dcCore::app()->ctx->users->user_id.\"' \";" .
 //                "unset(\$params['limit']); " .
                 "} ?>\n";
-
-            return $p;
         }
     }
 
-    public static function addTplPath($core)
+    public static function addTplPath()
     {
         $tplset = dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'tplset');
-        if (!empty($tplset) && is_dir(__DIR__ . '/default-templates/' . $tplset)) {
-            dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/default-templates/' . $tplset);
+        if (!empty($tplset) && is_dir(__DIR__ . '/' . dcPublic::TPL_ROOT . '/' . $tplset)) {
+            dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/' . dcPublic::TPL_ROOT . '/' . $tplset);
         } else {
-            dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/default-templates/' . DC_DEFAULT_TPLSET);
+            dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/' . dcPublic::TPL_ROOT . '/' . DC_DEFAULT_TPLSET);
         }
     }
 }
+
+dcCore::app()->addBehavior('templateBeforeBlockV2', [behaviorAuthorMode::class, 'block']);
+dcCore::app()->addBehavior('publicBeforeDocumentV2', [behaviorAuthorMode::class, 'addTplPath']);
 
 class tplAuthor
 {
@@ -105,15 +83,13 @@ class tplAuthor
             $p = '$params = array();' . "\n" . $p;
         }
 
-        $res = "<?php\n" .
+        return "<?php\n" .
             'if (!dcCore::app()->ctx->exists("users")) { ' .
             $p .
             'dcCore::app()->ctx->users = authormodeUtils::getPostsUsers($params); unset($params);' . "\n" .
             ' } ' .
             "?>\n" .
             '<?php while (dcCore::app()->ctx->users->fetch()) : ?>' . $content . '<?php endwhile; dcCore::app()->ctx->users = null; ?>';
-
-        return $res;
     }
 
     public static function AuthorsHeader($attr, $content)
@@ -231,6 +207,23 @@ class tplAuthor
     }
 }
 
+dcCore::app()->tpl->addValue('AuthorCommonName', [tplAuthor::class, 'AuthorCommonName']);
+dcCore::app()->tpl->addValue('AuthorDisplayName', [tplAuthor::class, 'AuthorDisplayName']);
+dcCore::app()->tpl->addValue('AuthorEmail', [tplAuthor::class, 'AuthorEmail']);
+dcCore::app()->tpl->addValue('AuthorID', [tplAuthor::class, 'AuthorID']);
+dcCore::app()->tpl->addValue('AuthorLink', [tplAuthor::class, 'AuthorLink']);
+dcCore::app()->tpl->addValue('AuthorName', [tplAuthor::class, 'AuthorName']);
+dcCore::app()->tpl->addValue('AuthorFirstName', [tplAuthor::class, 'AuthorFirstName']);
+dcCore::app()->tpl->addValue('AuthorURL', [tplAuthor::class, 'AuthorURL']);
+dcCore::app()->tpl->addValue('AuthorDesc', [tplAuthor::class, 'AuthorDesc']);
+dcCore::app()->tpl->addValue('AuthorPostsURL', [tplAuthor::class, 'AuthorPostsURL']);
+dcCore::app()->tpl->addValue('AuthorNbPosts', [tplAuthor::class, 'AuthorNbPosts']);
+dcCore::app()->tpl->addValue('AuthorFeedURL', [tplAuthor::class, 'AuthorFeedURL']);
+
+dcCore::app()->tpl->addBlock('Authors', [tplAuthor::class, 'Authors']);
+dcCore::app()->tpl->addBlock('AuthorsHeader', [tplAuthor::class, 'AuthorsHeader']);
+dcCore::app()->tpl->addBlock('AuthorsFooter', [tplAuthor::class, 'AuthorsFooter']);
+
 class urlAuthor extends dcUrlHandlers
 {
     public static function Author($args)
@@ -241,7 +234,7 @@ class urlAuthor extends dcUrlHandlers
             self::p404();
         } else {
             if ($n) {
-                $GLOBALS['_page_number'] = $n;
+                dcCore::app()->public->setPageNumber($n);
             }
             dcCore::app()->ctx->users = authormodeUtils::getPostsUsers($args);
 
@@ -266,7 +259,7 @@ class urlAuthor extends dcUrlHandlers
         exit;
     }
 
-    public static function feed($args)
+    public static function feed($args): void
     {
         $mime     = 'application/xml';
         $author   = '';
@@ -316,10 +309,10 @@ class authormodeUtils
 
         $strReq = 'SELECT P.user_id, user_name, user_firstname, ' .
         'user_displayname, user_desc, COUNT(P.post_id) as nb_post ' .
-        'FROM ' . dcCore::app()->prefix . 'user U ' .
+        'FROM ' . dcCore::app()->prefix . dcAuth::USER_TABLE_NAME . ' U ' .
         'LEFT JOIN ' . dcCore::app()->prefix . 'post P ON P.user_id = U.user_id ' .
         "WHERE blog_id = '" . dcCore::app()->con->escape(dcCore::app()->blog->id) . "' " .
-            'AND P.post_status = 1 ';
+        'AND P.post_status = ' . dcBlog::POST_PUBLISHED . ' ';
 
         if (!empty($params['author'])) {
             $strReq .= " AND P.user_id = '" . dcCore::app()->con->escape($params['author']) . "' ";
@@ -340,7 +333,7 @@ class authormodeUtils
         }
 
         try {
-            $rs = dcCore::app()->con->select($strReq);
+            $rs = new dcRecord(dcCore::app()->con->select($strReq));
             $rs->extend('rsAuthor');
 
             return $rs;
@@ -352,7 +345,7 @@ class authormodeUtils
 
 class extAuthorMode
 {
-    public static function publicBreadcrumb($context, $separator)
+    public static function publicBreadcrumb($context)
     {
         if ($context == 'author') {
             return __('Author\'s page');
@@ -360,9 +353,11 @@ class extAuthorMode
     }
 }
 
+dcCore::app()->addBehavior('publicBreadcrumb', [extAuthorMode::class, 'publicBreadcrumb']);
+
 class extAuthorsMode
 {
-    public static function publicBreadcrumb($context, $separator)
+    public static function publicBreadcrumb($context)
     {
         if ($context == 'authors') {
             return __('List of authors');
@@ -370,11 +365,15 @@ class extAuthorsMode
     }
 }
 
+dcCore::app()->addBehavior('publicBreadcrumb', [extAuthorsMode::class, 'publicBreadcrumb']);
+
 class publicAuthorMode
 {
-    public static function publicHeadContent($core)
+    public static function publicHeadContent()
     {
         echo
         dcUtils::cssModuleLoad('authorMode/css/authorMode.css');
     }
 }
+
+dcCore::app()->addBehavior('publicHeadContent', [publicAuthorMode::class, 'publicHeadContent']);

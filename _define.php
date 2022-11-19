@@ -14,17 +14,20 @@ if (!defined('DC_RC_PATH')) {
 }
 
 $this->registerModule(
-    'authorMode',                                     // Name
-    'Post entries per author + author desc handling', // Description
-    'xave, Pierre Van Glabeke, Franck Paul',          // Author
-    '1.12',
+    'authorMode',
+    'Post entries per author + author desc handling',
+    'xave, Pierre Van Glabeke, Franck Paul',
+    '1.13',
     [
-        'requires'    => [['core', '2.23']],                                     // Dependencies
-        'permissions' => 'usage,contentadmin',                                   // Permissions
-        'type'        => 'plugin',                                               // Type
+        'requires'    => [['core', '2.24']],
+        'permissions' => dcCore::app()->auth->makePermissions([
+            dcAuth::PERMISSION_USAGE,
+            dcAuth::PERMISSION_CONTENT_ADMIN,
+        ]),
+        'type' => 'plugin',
 
-        'details'    => 'https://open-time.net/?q=authorMode',       // Details URL
-        'support'    => 'https://github.com/franck-paul/authorMode', // Support URL
+        'details'    => 'https://open-time.net/?q=authorMode',
+        'support'    => 'https://github.com/franck-paul/authorMode',
         'repository' => 'https://raw.githubusercontent.com/franck-paul/authorMode/master/dcstore.xml',
     ]
 );
