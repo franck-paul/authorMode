@@ -15,7 +15,7 @@ if (!defined('DC_CONTEXT_ADMIN')) {
 
 $new_version = dcCore::app()->plugins->moduleInfo('authorMode', 'version');
 $cur_version = dcCore::app()->getVersion('authorMode');
-if (version_compare($cur_version, $new_version, '>=')) {
+if (version_compare((string) $cur_version, $new_version, '>=')) {
     return;
 }
 
