@@ -42,24 +42,26 @@ class rsAuthor
     }
 }
 
-if (dcCore::app()->blog->settings->authormode->authormode_active) {
-    if (dcCore::app()->blog->settings->authormode->authormode_url_author !== null) {
-        $url_prefix = dcCore::app()->blog->settings->authormode->authormode_url_author;
-        if (empty($url_prefix)) {
-            $url_prefix = 'author';
+if (dcCore::app()->blog) {
+    if (dcCore::app()->blog->settings->authormode->authormode_active) {
+        if (dcCore::app()->blog->settings->authormode->authormode_url_author !== null) {
+            $url_prefix = dcCore::app()->blog->settings->authormode->authormode_url_author;
+            if (empty($url_prefix)) {
+                $url_prefix = 'author';
+            }
+            $feed_prefix = dcCore::app()->url->getBase('feed') . '/' . $url_prefix;
+            dcCore::app()->url->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', ['urlAuthor', 'author']);
+            dcCore::app()->url->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', ['urlAuthor', 'feed']);
+            unset($url_prefix, $feed_prefix);
         }
-        $feed_prefix = dcCore::app()->url->getBase('feed') . '/' . $url_prefix;
-        dcCore::app()->url->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', ['urlAuthor', 'author']);
-        dcCore::app()->url->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', ['urlAuthor', 'feed']);
-        unset($url_prefix, $feed_prefix);
-    }
 
-    if (dcCore::app()->blog->settings->authormode->authormode_url_authors !== null) {
-        $url_prefix = dcCore::app()->blog->settings->authormode->authormode_url_authors;
-        if (empty($url_prefix)) {
-            $url_prefix = 'authors';
+        if (dcCore::app()->blog->settings->authormode->authormode_url_authors !== null) {
+            $url_prefix = dcCore::app()->blog->settings->authormode->authormode_url_authors;
+            if (empty($url_prefix)) {
+                $url_prefix = 'authors';
+            }
+            dcCore::app()->url->register('authors', $url_prefix, '^' . $url_prefix . '$', ['urlAuthor', 'authors']);
+            unset($url_prefix);
         }
-        dcCore::app()->url->register('authors', $url_prefix, '^' . $url_prefix . '$', ['urlAuthor', 'authors']);
-        unset($url_prefix);
     }
 }
