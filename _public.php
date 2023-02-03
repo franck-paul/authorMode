@@ -9,10 +9,6 @@
  *
  * @copyright GPL-2.0
  */
-if (!defined('DC_RC_PATH')) {
-    return;
-}
-
 if (!dcCore::app()->blog->settings->authormode->authormode_active) {
     return;
 }
@@ -45,8 +41,10 @@ class behaviorAuthorMode
     }
 }
 
-dcCore::app()->addBehavior('templateBeforeBlockV2', [behaviorAuthorMode::class, 'block']);
-dcCore::app()->addBehavior('publicBeforeDocumentV2', [behaviorAuthorMode::class, 'addTplPath']);
+dcCore::app()->addBehaviors([
+    'templateBeforeBlockV2'  => [behaviorAuthorMode::class, 'block'],
+    'publicBeforeDocumentV2' => [behaviorAuthorMode::class, 'addTplPath'],
+]);
 
 class tplAuthor
 {
@@ -69,8 +67,8 @@ class tplAuthor
 
                     break;
             }
-            if (isset($attr['order']) && preg_match('/^(desc|asc)$/i', $attr['order'])) {
-                $order = $attr['order'];
+            if (isset($attr['order']) && preg_match('/^(desc|asc)$/i', (string) $attr['order'])) {
+                $order = (string) $attr['order'];
             }
             if (isset($sortby)) {
                 $p .= "\$params['order'] = '" . $sortby . ' ' . $order . "';\n";
@@ -194,7 +192,7 @@ class tplAuthor
 
     public static function AuthorFeedURL($attr)
     {
-        $type = !empty($attr['type']) ? $attr['type'] : 'rss2';
+        $type = !empty($attr['type']) ? (string) $attr['type'] : 'rss2';
 
         if (!preg_match('#^(rss2|atom)$#', $type)) {
             $type = 'rss2';
@@ -266,7 +264,7 @@ class urlAuthor extends dcUrlHandlers
         $type     = '';
         $comments = false;
 
-        if (preg_match('#^(.+)/(atom|rss2)(/comments)?$#', $args, $m)) {
+        if (preg_match('#^(.+)/(atom|rss2)(/comments)?$#', (string) $args, $m)) {
             $author   = $m[1];
             $type     = $m[2];
             $comments = !empty($m[3]);

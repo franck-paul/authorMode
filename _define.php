@@ -9,10 +9,6 @@
  *
  * @copyright GPL-2.0
  */
-if (!defined('DC_RC_PATH')) {
-    return;
-}
-
 $this->registerModule(
     'authorMode',
     'Post entries per author + author desc handling',
@@ -24,10 +20,10 @@ $this->registerModule(
             dcAuth::PERMISSION_USAGE,
             dcAuth::PERMISSION_CONTENT_ADMIN,
         ]),
-        'type' => 'plugin',
+        'type'        => 'plugin',
 
-        'details'    => 'https://open-time.net/?q=authorMode',
-        'support'    => 'https://github.com/franck-paul/authorMode',
-        'repository' => 'https://raw.githubusercontent.com/franck-paul/authorMode/master/dcstore.xml',
+        'details'     => 'https://open-time.net/?q=authorMode',
+        'support'     => 'https://github.com/franck-paul/authorMode',
+        'repository'  => 'https://raw.githubusercontent.com/franck-paul/authorMode/master/dcstore.xml',
     ]
 );

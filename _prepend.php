@@ -9,10 +9,6 @@
  *
  * @copyright GPL-2.0
  */
-if (!defined('DC_RC_PATH')) {
-    return;
-}
-
 class rsAuthor
 {
     public static function getAuthorCN($rs)
@@ -46,7 +42,6 @@ class rsAuthor
     }
 }
 
-dcCore::app()->blog->settings->addNameSpace('authormode');
 if (dcCore::app()->blog->settings->authormode->authormode_active) {
     if (dcCore::app()->blog->settings->authormode->authormode_url_author !== null) {
         $url_prefix = dcCore::app()->blog->settings->authormode->authormode_url_author;

@@ -9,10 +9,6 @@
  *
  * @copyright GPL-2.0
  */
-if (!defined('DC_RC_PATH')) {
-    return;
-}
-
 class widgetsAuthorMode
 {
     public static function authors($w)

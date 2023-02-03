@@ -49,7 +49,7 @@ class authorModeBehaviors
         dcPage::jsToolBar() .
         $admin_post_behavior .
         dcPage::jsConfirmClose('opts-forms') .
-        dcPage::jsModuleLoad('authorMode/_user.js', dcCore::app()->getVersion('authorMode'));
+        dcPage::jsModuleLoad('authorMode/js/_user.js', dcCore::app()->getVersion('authorMode'));
     }
 
     public static function adminPreferencesForm()
@@ -97,11 +97,13 @@ class authorModeBehaviors
     }
 }
 
-dcCore::app()->addBehavior('adminUserHeaders', [authorModeBehaviors::class, 'adminAuthorHeaders']);
-dcCore::app()->addBehavior('adminPreferencesHeaders', [authorModeBehaviors::class, 'adminAuthorHeaders']);
-dcCore::app()->addBehavior('adminUserForm', [authorModeBehaviors::class, 'adminUserForm']);        // user.php
-dcCore::app()->addBehavior('adminPreferencesFormV2', [authorModeBehaviors::class, 'adminPreferencesForm']); //preferences.php
-dcCore::app()->addBehavior('adminBeforeUserCreate', [authorModeBehaviors::class, 'adminBeforeUserUpdate']);
-dcCore::app()->addBehavior('adminBeforeUserUpdate', [authorModeBehaviors::class, 'adminBeforeUserUpdate']);
-dcCore::app()->addBehavior('adminBeforeUserOptionsUpdate', [authorModeBehaviors::class, 'adminBeforeUserUpdate']); //preferences.php
-dcCore::app()->addBehavior('adminDashboardFavoritesV2', [authorModeBehaviors::class, 'authorModeDashboardFavorites']);
+dcCore::app()->addBehaviors([
+    'adminUserHeaders'             => [authorModeBehaviors::class, 'adminAuthorHeaders'],
+    'adminPreferencesHeaders'      => [authorModeBehaviors::class, 'adminAuthorHeaders'],
+    'adminUserForm'                => [authorModeBehaviors::class, 'adminUserForm'],        // user.php
+    'adminPreferencesFormV2'       => [authorModeBehaviors::class, 'adminPreferencesForm'], //preferences.php
+    'adminBeforeUserCreate'        => [authorModeBehaviors::class, 'adminBeforeUserUpdate'],
+    'adminBeforeUserUpdate'        => [authorModeBehaviors::class, 'adminBeforeUserUpdate'],
+    'adminBeforeUserOptionsUpdate' => [authorModeBehaviors::class, 'adminBeforeUserUpdate'], //preferences.php
+    'adminDashboardFavoritesV2'    => [authorModeBehaviors::class, 'authorModeDashboardFavorites'],
+]);

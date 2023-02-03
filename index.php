@@ -23,8 +23,6 @@ $alpha_order = dcCore::app()->blog->settings->authormode->authormode_default_alp
 
 if (!empty($_POST['saveconfig'])) {
     try {
-        dcCore::app()->blog->settings->addNameSpace('authormode');
-
         $active = (empty($_POST['active'])) ? false : true;
         if (trim((string) $_POST['url_author']) == '') {
             $url_author = 'author';
