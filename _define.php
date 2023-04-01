@@ -15,15 +15,15 @@ $this->registerModule(
     'xave, Pierre Van Glabeke, Franck Paul',
     '2.0',
     [
-        'requires'    => [['core', '2.24']],
+        'requires'    => [['core', '2.26']],
         'permissions' => dcCore::app()->auth->makePermissions([
             dcAuth::PERMISSION_USAGE,
             dcAuth::PERMISSION_CONTENT_ADMIN,
         ]),
-        'type'        => 'plugin',
+        'type' => 'plugin',
 
-        'details'     => 'https://open-time.net/?q=authorMode',
-        'support'     => 'https://github.com/franck-paul/authorMode',
-        'repository'  => 'https://raw.githubusercontent.com/franck-paul/authorMode/master/dcstore.xml',
+        'details'    => 'https://open-time.net/?q=authorMode',
+        'support'    => 'https://github.com/franck-paul/authorMode',
+        'repository' => 'https://raw.githubusercontent.com/franck-paul/authorMode/master/dcstore.xml',
     ]
 );

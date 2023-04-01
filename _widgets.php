@@ -9,6 +9,9 @@
  *
  * @copyright GPL-2.0
  */
+
+use Dotclear\Helper\Html\Html;
+
 class widgetsAuthorMode
 {
     public static function authors($w)
@@ -43,7 +46,7 @@ class widgetsAuthorMode
                 $currentuser = '';
         }
 
-        $res = ($w->title ? $w->renderTitle(html::escapeHTML($w->title)) : '') .
+        $res = ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
             '<ul>';
 
         $res .= '<li class="listauthors"><strong><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('authors') . '">' .
@@ -54,7 +57,7 @@ class widgetsAuthorMode
             ($rs->user_id == $currentuser ? ' class="current-author"' : '') .
             '><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('author') . '/' .
             $rs->user_id . '">' .
-            html::escapeHTML(
+            Html::escapeHTML(
                 dcUtils::getUserCN(
                     $rs->user_id,
                     $rs->user_name,

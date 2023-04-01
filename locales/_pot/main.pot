@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 authorMode module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-08 13:15+0200\n"
+"POT-Creation-Date: 2023-04-01 09:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../git-plugins/authorMode/__html_tpl_dummy.php:3
-#: ../git-plugins/authorMode/_admin.php:81
-#: ../git-plugins/authorMode/_widgets.php:81
+#: ../git-plugins/authorMode/_admin.php:91
+#: ../git-plugins/authorMode/_widgets.php:80
 msgid "Authors"
 msgstr ""
 
 #: ../git-plugins/authorMode/__html_tpl_dummy.php:8
-#: ../git-plugins/authorMode/_public.php:355
-#: ../git-plugins/authorMode/_widgets.php:58
-#: ../git-plugins/authorMode/_widgets.php:80
+#: ../git-plugins/authorMode/_public.php:361
+#: ../git-plugins/authorMode/_widgets.php:53
+#: ../git-plugins/authorMode/_widgets.php:79
 msgid "List of authors"
 msgstr ""
 
@@ -37,50 +37,51 @@ msgstr ""
 msgid "This authors's entries comments Atom feed"
 msgstr ""
 
-#: ../git-plugins/authorMode/_admin.php:71
+#: ../git-plugins/authorMode/_admin.php:70
+#: ../git-plugins/authorMode/_admin.php:83
 msgid "Author's description:"
 msgstr ""
 
-#: ../git-plugins/authorMode/_public.php:345
+#: ../git-plugins/authorMode/_public.php:349
 msgid "Author's page"
 msgstr ""
 
-#: ../git-plugins/authorMode/_widgets.php:80
+#: ../git-plugins/authorMode/_widgets.php:79
 msgid "AuthorMode: authors"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:14
+#: ../git-plugins/authorMode/index.php:20
 msgid "authorMode"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:82
+#: ../git-plugins/authorMode/index.php:83
 msgid "Enable authorMode"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:87
+#: ../git-plugins/authorMode/index.php:88
 msgid "Advanced options"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:88
+#: ../git-plugins/authorMode/index.php:89
 msgid "URLs prefixes"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:89
+#: ../git-plugins/authorMode/index.php:90
 msgid "URL author:"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:92
+#: ../git-plugins/authorMode/index.php:93
 msgid "URL authors:"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:95
+#: ../git-plugins/authorMode/index.php:96
 msgid "List options"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:97
+#: ../git-plugins/authorMode/index.php:98
 msgid "List only authors of standard posts"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:100
+#: ../git-plugins/authorMode/index.php:101
 msgid "Sort list (alphabetical order)"
 msgstr ""

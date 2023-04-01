@@ -9,6 +9,10 @@
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 #
 # -- END LICENSE BLOCK ------------------------------------
+
+use Dotclear\Helper\Html\Html;
+use Dotclear\Helper\Text;
+
 if (!defined('DC_CONTEXT_ADMIN')) {
     exit;
 }
@@ -27,12 +31,12 @@ if (!empty($_POST['saveconfig'])) {
         if (trim((string) $_POST['url_author']) == '') {
             $url_author = 'author';
         } else {
-            $url_author = text::str2URL(trim((string) $_POST['url_author']));
+            $url_author = Text::str2URL(trim((string) $_POST['url_author']));
         }
         if (trim((string) $_POST['url_authors']) == '') {
             $url_authors = 'authors';
         } else {
-            $url_authors = text::str2URL(trim((string) $_POST['url_authors']));
+            $url_authors = Text::str2URL(trim((string) $_POST['url_authors']));
         }
         $posts_only  = (empty($_POST['posts_only'])) ? false : true;
         $alpha_order = (empty($_POST['alpha_order'])) ? false : true;
@@ -60,7 +64,7 @@ if (!empty($_POST['saveconfig'])) {
 
 echo dcPage::breadcrumb(
     [
-        html::escapeHTML(dcCore::app()->blog->name)           => '',
+        Html::escapeHTML(dcCore::app()->blog->name)           => '',
         '<span class="page-title">' . $page_title . '</span>' => '',
     ]
 );

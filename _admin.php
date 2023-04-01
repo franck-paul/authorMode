@@ -9,6 +9,9 @@
  *
  * @copyright GPL-2.0
  */
+
+use Dotclear\Helper\Html\Html;
+
 if (!defined('DC_CONTEXT_ADMIN')) {
     return;
 }
@@ -65,7 +68,7 @@ class authorModeBehaviors
 
         echo
         '<p><label>' . __('Author\'s description:') . '</label>' .
-        form::textarea('user_desc', 50, 8, html::escapeHTML($user_desc), '', '4') .
+        form::textarea('user_desc', 50, 8, Html::escapeHTML($user_desc), '', '4') .
         '</p>';
     }
 
@@ -78,7 +81,7 @@ class authorModeBehaviors
 
         echo
         '<p><label>' . __('Author\'s description:') . '</label>' .
-        form::textarea('user_desc', 50, 8, html::escapeHTML($user_desc), '', '4') .
+        form::textarea('user_desc', 50, 8, Html::escapeHTML($user_desc), '', '4') .
         '</p>';
     }
 
