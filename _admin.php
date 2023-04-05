@@ -49,7 +49,6 @@ class authorModeBehaviors
         }
 
         return
-        dcPage::jsToolBar() .
         $admin_post_behavior .
         dcPage::jsConfirmClose('opts-forms') .
         dcPage::jsModuleLoad('authorMode/js/_user.js', dcCore::app()->getVersion('authorMode'));
