@@ -1,45 +1,48 @@
 # SOME DESCRIPTIVE TITLE.
 # This file is put in the public domain.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# Franck Paul <carnet.franck.paul@gmail.com>, 2023
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 authorMode module\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-12 08:42+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2023-06-12 06:45+0000\n"
+"Last-Translator: Franck Paul <carnet.franck.paul@gmail.com>, 2023\n"
+"Language-Team: French (https://app.transifex.com/open-time/teams/109573/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid "Authors"
-msgstr "Auteurs"
+msgstr "Auteur·rice"
 
 msgid "List of authors"
-msgstr "Liste des auteurs"
+msgstr "Liste des auteur·rice"
 
 msgid "This author's entries Atom feed"
-msgstr "Fil Atom des billets de cet auteur"
+msgstr "Fil Atom des billets de cet·te auteur·rice"
 
 msgid "This authors's entries comments Atom feed"
-msgstr "Fil Atom des commentaires de cet auteur"
+msgstr "Fil Atom des commentaires de cet·te auteur·rice"
 
-#, fuzzy
 msgid "Author Mode"
-msgstr "authorMode"
+msgstr "Mode auteur·rice·s"
 
 msgid "authorMode"
 msgstr "authorMode"
 
 msgid "Author's description:"
-msgstr "Description de l'auteur :"
+msgstr "Description de l'auteur·rice :"
 
 msgid "Author's page"
-msgstr "Page de l'auteur"
+msgstr "Page de l'auteur·rice"
 
 msgid "Enable authorMode"
 msgstr "Activer authorMode"
@@ -51,19 +54,19 @@ msgid "URLs prefixes"
 msgstr "Préfixes des URLs"
 
 msgid "URL author:"
-msgstr "URL d'un auteur :"
+msgstr "URL d'un·e auteur·rice :"
 
 msgid "URL authors:"
-msgstr "URL de la liste des auteurs :"
+msgstr "URL de la liste des auteur·rice·s :"
 
 msgid "List options"
 msgstr "Options de liste"
 
 msgid "List only authors of standard posts"
-msgstr "Lister seulement les auteurs de billets standards"
+msgstr "Lister seulement les auteur·rice·s de billets standards"
 
 msgid "Sort list (alphabetical order)"
 msgstr "Trier la liste (ordre alphabétique)"
 
 msgid "AuthorMode: authors"
-msgstr "AuthorMode : auteurs"
+msgstr "AuthorMode : auteur·rice·s"
