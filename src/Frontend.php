@@ -32,6 +32,11 @@ class Frontend extends dcNsProcess
             return false;
         }
 
+        $settings = dcCore::app()->blog->settings->get(My::id());
+        if (!(bool) $settings->authormode_active) {
+            return false;
+        }
+
         dcCore::app()->tpl->addValue('AuthorCommonName', [FrontendTemplate::class, 'AuthorCommonName']);
         dcCore::app()->tpl->addValue('AuthorDisplayName', [FrontendTemplate::class, 'AuthorDisplayName']);
         dcCore::app()->tpl->addValue('AuthorEmail', [FrontendTemplate::class, 'AuthorEmail']);
