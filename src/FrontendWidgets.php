@@ -79,6 +79,6 @@ class FrontendWidgets
         }
         $res .= '</ul>';
 
-        return $w->renderDiv($w->content_only, 'authors ' . $w->class, '', $res);
+        return $w->renderDiv((bool) $w->content_only, 'authors ' . $w->class, '', $res);
     }
 }
