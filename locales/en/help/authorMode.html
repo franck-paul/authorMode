@@ -1,9 +1,37 @@
 <html>
 <head>
-  <title>Help authorMode</title>
+   <title>authorMode Help</title>
 </head>
 <body>
-<h3>Activation</h3>
-  <p>à traduire</p>
+<h3>Enable</h3>
+   <p>To get the presentation widget and the associated .html pages,
+   you must of course activate the plugin.</p>
+   <p>An author description box is added to the profile page of
+   each user (via the <a href="/users.php">Users</a> menu).</p>
+
+<h3>Advanced options</h3>
+   <dl>
+   <dt>URL prefixes</dt>
+     <dd>You can indicate the prefix that will be used to access the page
+     public of the author (by default, the URL author will be prefixed with <code>author</code>)
+     and for the public page grouping all the authors (by default, the URL authors will have as
+     prefix <code>authors</code>).</dd>
+   <dt>List Options</dt>
+     <dd>List only standard post authors: when this option is checked,
+     only posts are considered (not pages, related pages, muppet posts or the like).<br />
+     Alphabetical sorting only occurs on the list of authors (widget and page grouping
+     all authors). It is carried out in order of preference (if empty, we go to the
+     next): Nickname -> First name -> Last name.</dd>
+</dl>
+
+<h3>Tips</h3>
+   <p>The widget displays, by default, the link to the list of authors. Not to
+   not display it, add at the end of the theme css file the following code:
+   <code>#sidebar .listauthors {display:none;}</code></p>
+
+   <p>To link the name/nickname of the author to their author page.<br />
+   In <code>&lt;p class="post-info"&gt;...&lt;/p&gt;</code> replace
+   <code>{{tpl:EntryAuthorLink}}</code> by
+   <code>&lt;a href="{{tpl:AuthorPostsURL}}"&gt;{{tpl:EntryAuthorCommonName}}&lt;/a&gt;</code></p>
 </body>
 </html>
