@@ -1,11 +1,11 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="authorMode">
     <name>authorMode</name>
-    <version>2.0</version>
+    <version>3.0</version>
     <author>xave, Pierre Van Glabeke, Franck Paul</author>
     <desc>Post entries per author + author desc handling</desc>
-    <file>https://github.com/franck-paul/authorMode/releases/download/2.0/plugin-authorMode-2.0.zip</file>
-    <da:dcmin>2.24</da:dcmin>
+    <file>https://github.com/franck-paul/authorMode/releases/download/3.0/plugin-authorMode-3.0.zip</file>
+    <da:dcmin>2.26</da:dcmin>
     <da:details>https://open-time.net/?q=authorMode</da:details>
     <da:support>https://github.com/franck-paul/authorMode</da:support>
   </module>
