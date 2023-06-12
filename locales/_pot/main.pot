@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 authorMode module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-01 09:11+0200\n"
+"POT-Creation-Date: 2023-06-12 08:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../git-plugins/authorMode/__html_tpl_dummy.php:3
-#: ../git-plugins/authorMode/_admin.php:91
-#: ../git-plugins/authorMode/_widgets.php:80
+#: ../git-plugins/authorMode/src/Backend.php:40
+#: ../git-plugins/authorMode/src/BackendBehaviors.php:108
+#: ../git-plugins/authorMode/src/Widgets.php:25
 msgid "Authors"
 msgstr ""
 
 #: ../git-plugins/authorMode/__html_tpl_dummy.php:8
-#: ../git-plugins/authorMode/_public.php:361
-#: ../git-plugins/authorMode/_widgets.php:53
-#: ../git-plugins/authorMode/_widgets.php:79
+#: ../git-plugins/authorMode/src/FrontendBehaviors.php:50
+#: ../git-plugins/authorMode/src/FrontendWidgets.php:62
+#: ../git-plugins/authorMode/src/Widgets.php:24
 msgid "List of authors"
 msgstr ""
 
@@ -37,51 +38,59 @@ msgstr ""
 msgid "This authors's entries comments Atom feed"
 msgstr ""
 
-#: ../git-plugins/authorMode/_admin.php:70
-#: ../git-plugins/authorMode/_admin.php:83
-msgid "Author's description:"
+#: ../git-plugins/authorMode/src/Backend.php:28
+#: ../git-plugins/authorMode/src/BackendBehaviors.php:70
+#: ../git-plugins/authorMode/src/BackendBehaviors.php:92
+#: ../git-plugins/authorMode/src/Manage.php:107
+#: ../git-plugins/authorMode/src/Manage.php:112
+msgid "Author Mode"
 msgstr ""
 
-#: ../git-plugins/authorMode/_public.php:349
-msgid "Author's page"
-msgstr ""
-
-#: ../git-plugins/authorMode/_widgets.php:79
-msgid "AuthorMode: authors"
-msgstr ""
-
-#: ../git-plugins/authorMode/index.php:20
+#: ../git-plugins/authorMode/src/Backend.php:28
 msgid "authorMode"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:83
+#: ../git-plugins/authorMode/src/BackendBehaviors.php:77
+#: ../git-plugins/authorMode/src/BackendBehaviors.php:99
+msgid "Author's description:"
+msgstr ""
+
+#: ../git-plugins/authorMode/src/FrontendBehaviors.php:48
+msgid "Author's page"
+msgstr ""
+
+#: ../git-plugins/authorMode/src/Manage.php:126
 msgid "Enable authorMode"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:88
+#: ../git-plugins/authorMode/src/Manage.php:128
 msgid "Advanced options"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:89
+#: ../git-plugins/authorMode/src/Manage.php:129
 msgid "URLs prefixes"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:90
+#: ../git-plugins/authorMode/src/Manage.php:135
 msgid "URL author:"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:93
+#: ../git-plugins/authorMode/src/Manage.php:142
 msgid "URL authors:"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:96
+#: ../git-plugins/authorMode/src/Manage.php:144
 msgid "List options"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:98
+#: ../git-plugins/authorMode/src/Manage.php:148
 msgid "List only authors of standard posts"
 msgstr ""
 
-#: ../git-plugins/authorMode/index.php:101
+#: ../git-plugins/authorMode/src/Manage.php:153
 msgid "Sort list (alphabetical order)"
+msgstr ""
+
+#: ../git-plugins/authorMode/src/Widgets.php:24
+msgid "AuthorMode: authors"
 msgstr ""

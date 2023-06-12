@@ -5,18 +5,27 @@
  * @package Dotclear
  * @subpackage Plugins
  *
- * @author xave, Pierre Van Glabeke, Franck Paul
+ * @author Franck Paul and contributors
  *
- * @copyright GPL-2.0
+ * @copyright Franck Paul carnet.franck.paul@gmail.com
+ * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
+declare(strict_types=1);
 
+namespace Dotclear\Plugin\authorMode;
+
+use dcCore;
+use dcUtils;
 use Dotclear\Helper\Html\Html;
+use Dotclear\Plugin\widgets\WidgetsElement;
 
-class widgetsAuthorMode
+class FrontendWidgets
 {
-    public static function authors($w)
+    public static function authors(WidgetsElement $w)
     {
-        if (!dcCore::app()->blog->settings->authormode->authormode_active) {
+        $settings = dcCore::app()->blog->settings->get(My::id());
+
+        if (!$settings->authormode_active) {
             return;
         }
 
@@ -28,7 +37,7 @@ class widgetsAuthorMode
             return;
         }
 
-        $rs = authormodeUtils::getPostsUsers();
+        $rs = CoreHelper::getPostsUsers();
         if ($rs->isEmpty()) {
             return;
         }
@@ -72,18 +81,4 @@ class widgetsAuthorMode
 
         return $w->renderDiv($w->content_only, 'authors ' . $w->class, '', $res);
     }
-
-    public static function init($w)
-    {
-        $w
-            ->create('authors', __('AuthorMode: authors'), ['widgetsAuthorMode', 'authors'], null, __('List of authors'))
-            ->addTitle(__('Authors'))
-            ->setting('postcount', __('With entries counts'), 0, 'check')
-            ->addHomeOnly()
-            ->addContentOnly()
-            ->addClass()
-            ->addOffline();
-    }
 }
-
-dcCore::app()->addBehavior('initWidgets', [widgetsAuthorMode::class, 'init']);
