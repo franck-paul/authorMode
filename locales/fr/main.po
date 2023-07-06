@@ -24,7 +24,7 @@ msgid "Authors"
 msgstr "Auteur·rice"
 
 msgid "List of authors"
-msgstr "Liste des auteur·rice"
+msgstr "Liste des auteur·rice·s"
 
 msgid "This author's entries Atom feed"
 msgstr "Fil Atom des billets de cet·te auteur·rice"
