@@ -28,3 +28,4 @@ L10n::$locales['List options'] = '';
 L10n::$locales['List only authors of standard posts'] = '';
 L10n::$locales['Sort list (alphabetical order)'] = '';
 L10n::$locales['AuthorMode: authors'] = '';
+L10n::$locales['With link to all authors'] = '';

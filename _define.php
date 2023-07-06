@@ -13,7 +13,7 @@ $this->registerModule(
     'authorMode',
     'Post entries per author + author desc handling',
     'xave, Pierre Van Glabeke, Franck Paul',
-    '3.3.2',
+    '3.4',
     [
         'requires'    => [['core', '2.26']],
         'permissions' => dcCore::app()->auth->makePermissions([

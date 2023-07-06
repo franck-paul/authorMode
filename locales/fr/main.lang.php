@@ -28,3 +28,4 @@ L10n::$locales['List options'] = 'Options de liste';
 L10n::$locales['List only authors of standard posts'] = 'Lister seulement les auteur·rice·s de billets standards';
 L10n::$locales['Sort list (alphabetical order)'] = 'Trier la liste (ordre alphabétique)';
 L10n::$locales['AuthorMode: authors'] = 'AuthorMode : auteur·rice·s';
+L10n::$locales['With link to all authors'] = 'Inclure le lien vers tous les auteur·ice·s';
