@@ -24,6 +24,8 @@ class CoreHelper
 {
     public static function getPostsUsers($params = null)
     {
+        $settings = dcCore::app()->blog->settings->get(My::id());
+
         if ($params !== null && is_string($params)) {
             $params = ['author' => $params];
         }
@@ -41,7 +43,7 @@ class CoreHelper
 
         if (!empty($params['post_type'])) {
             $strReq .= " AND P.post_type = '" . dcCore::app()->con->escape($params['post_type']) . "' ";
-        } elseif (dcCore::app()->blog->settings->authormode->authormode_default_posts_only) {
+        } elseif ($settings->authormode_default_posts_only) {
             $strReq .= " AND P.post_type = 'post' ";
         }
 
@@ -49,7 +51,7 @@ class CoreHelper
 
         if (!empty($params['order'])) {
             $strReq .= 'ORDER BY ' . dcCore::app()->con->escape($params['order']) . ' ';
-        } elseif (dcCore::app()->blog->settings->authormode->authormode_default_alpha_order) {
+        } elseif ($settings->authormode_default_alpha_order) {
             $strReq .= 'ORDER BY user_displayname, user_firstname, user_name ';
         }
 
