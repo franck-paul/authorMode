@@ -58,9 +58,6 @@ class FrontendWidgets
         $res = ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
             '<ul>';
 
-        $res .= '<li class="listauthors"><strong><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('authors') . '">' .
-        __('List of authors') . '</a></strong></li>';
-
         while ($rs->fetch()) {
             $res .= '<li' .
             ($rs->user_id == $currentuser ? ' class="current-author"' : '') .
@@ -78,6 +75,10 @@ class FrontendWidgets
                 '</li>';
         }
         $res .= '</ul>';
+
+        if (is_null($w->allauthors) || $w->allauthors) {
+            $res .= '<p class="listauthors"><strong><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('authors') . '">' . __('List of authors') . '</a></strong></p>';
+        }
 
         return $w->renderDiv((bool) $w->content_only, 'authors ' . $w->class, '', $res);
     }
