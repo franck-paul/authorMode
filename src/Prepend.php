@@ -15,21 +15,18 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\authorMode;
 
 use dcCore;
-use dcNsProcess;
+use Dotclear\Core\Process;
 
-class Prepend extends dcNsProcess
+class Prepend extends Process
 {
-    protected static $init = false; /** @deprecated since 2.27 */
     public static function init(): bool
     {
-        static::$init = My::checkContext(My::PREPEND);
-
-        return static::$init;
+        return self::status(My::checkContext(My::PREPEND));
     }
 
     public static function process(): bool
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return false;
         }
 
@@ -43,8 +40,8 @@ class Prepend extends dcNsProcess
                         $url_prefix = 'author';
                     }
                     $feed_prefix = dcCore::app()->url->getBase('feed') . '/' . $url_prefix;
-                    dcCore::app()->url->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', [FrontendUrl::class, 'author']);
-                    dcCore::app()->url->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', [FrontendUrl::class, 'feed']);
+                    dcCore::app()->url->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', FrontendUrl::author(...));
+                    dcCore::app()->url->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', FrontendUrl::feed(...));
                     unset($url_prefix, $feed_prefix);
                 }
 
@@ -53,7 +50,7 @@ class Prepend extends dcNsProcess
                     if (empty($url_prefix)) {
                         $url_prefix = 'authors';
                     }
-                    dcCore::app()->url->register('authors', $url_prefix, '^' . $url_prefix . '$', [FrontendUrl::class, 'authors']);
+                    dcCore::app()->url->register('authors', $url_prefix, '^' . $url_prefix . '$', FrontendUrl::authors(...));
                     unset($url_prefix);
                 }
             }

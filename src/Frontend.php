@@ -15,21 +15,18 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\authorMode;
 
 use dcCore;
-use dcNsProcess;
+use Dotclear\Core\Process;
 
-class Frontend extends dcNsProcess
+class Frontend extends Process
 {
-    protected static $init = false; /** @deprecated since 2.27 */
     public static function init(): bool
     {
-        static::$init = My::checkContext(My::FRONTEND);
-
-        return static::$init;
+        return self::status(My::checkContext(My::FRONTEND));
     }
 
     public static function process(): bool
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return false;
         }
 
@@ -38,30 +35,30 @@ class Frontend extends dcNsProcess
             return false;
         }
 
-        dcCore::app()->tpl->addValue('AuthorCommonName', [FrontendTemplate::class, 'AuthorCommonName']);
-        dcCore::app()->tpl->addValue('AuthorDisplayName', [FrontendTemplate::class, 'AuthorDisplayName']);
-        dcCore::app()->tpl->addValue('AuthorEmail', [FrontendTemplate::class, 'AuthorEmail']);
-        dcCore::app()->tpl->addValue('AuthorID', [FrontendTemplate::class, 'AuthorID']);
-        dcCore::app()->tpl->addValue('AuthorLink', [FrontendTemplate::class, 'AuthorLink']);
-        dcCore::app()->tpl->addValue('AuthorName', [FrontendTemplate::class, 'AuthorName']);
-        dcCore::app()->tpl->addValue('AuthorFirstName', [FrontendTemplate::class, 'AuthorFirstName']);
-        dcCore::app()->tpl->addValue('AuthorURL', [FrontendTemplate::class, 'AuthorURL']);
-        dcCore::app()->tpl->addValue('AuthorDesc', [FrontendTemplate::class, 'AuthorDesc']);
-        dcCore::app()->tpl->addValue('AuthorPostsURL', [FrontendTemplate::class, 'AuthorPostsURL']);
-        dcCore::app()->tpl->addValue('AuthorNbPosts', [FrontendTemplate::class, 'AuthorNbPosts']);
-        dcCore::app()->tpl->addValue('AuthorFeedURL', [FrontendTemplate::class, 'AuthorFeedURL']);
+        dcCore::app()->tpl->addValue('AuthorCommonName', FrontendTemplate::AuthorCommonName(...));
+        dcCore::app()->tpl->addValue('AuthorDisplayName', FrontendTemplate::AuthorDisplayName(...));
+        dcCore::app()->tpl->addValue('AuthorEmail', FrontendTemplate::AuthorEmail(...));
+        dcCore::app()->tpl->addValue('AuthorID', FrontendTemplate::AuthorID(...));
+        dcCore::app()->tpl->addValue('AuthorLink', FrontendTemplate::AuthorLink(...));
+        dcCore::app()->tpl->addValue('AuthorName', FrontendTemplate::AuthorName(...));
+        dcCore::app()->tpl->addValue('AuthorFirstName', FrontendTemplate::AuthorFirstName(...));
+        dcCore::app()->tpl->addValue('AuthorURL', FrontendTemplate::AuthorURL(...));
+        dcCore::app()->tpl->addValue('AuthorDesc', FrontendTemplate::AuthorDesc(...));
+        dcCore::app()->tpl->addValue('AuthorPostsURL', FrontendTemplate::AuthorPostsURL(...));
+        dcCore::app()->tpl->addValue('AuthorNbPosts', FrontendTemplate::AuthorNbPosts(...));
+        dcCore::app()->tpl->addValue('AuthorFeedURL', FrontendTemplate::AuthorFeedURL(...));
 
-        dcCore::app()->tpl->addBlock('Authors', [FrontendTemplate::class, 'Authors']);
-        dcCore::app()->tpl->addBlock('AuthorsHeader', [FrontendTemplate::class, 'AuthorsHeader']);
-        dcCore::app()->tpl->addBlock('AuthorsFooter', [FrontendTemplate::class, 'AuthorsFooter']);
+        dcCore::app()->tpl->addBlock('Authors', FrontendTemplate::Authors(...));
+        dcCore::app()->tpl->addBlock('AuthorsHeader', FrontendTemplate::AuthorsHeader(...));
+        dcCore::app()->tpl->addBlock('AuthorsFooter', FrontendTemplate::AuthorsFooter(...));
 
         dcCore::app()->addBehaviors([
-            'templateBeforeBlockV2'  => [FrontendBehaviors::class, 'block'],
-            'publicBeforeDocumentV2' => [FrontendBehaviors::class, 'addTplPath'],
-            'publicBreadcrumb'       => [FrontendBehaviors::class, 'publicBreadcrumb'],
-            'publicHeadContent'      => [FrontendBehaviors::class, 'publicHeadContent'],
+            'templateBeforeBlockV2'  => FrontendBehaviors::block(...),
+            'publicBeforeDocumentV2' => FrontendBehaviors::addTplPath(...),
+            'publicBreadcrumb'       => FrontendBehaviors::publicBreadcrumb(...),
+            'publicHeadContent'      => FrontendBehaviors::publicHeadContent(...),
 
-            'initWidgets' => [Widgets::class, 'initWidgets'],
+            'initWidgets' => Widgets::initWidgets(...),
         ]);
 
         return true;

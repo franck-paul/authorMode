@@ -16,8 +16,8 @@ namespace Dotclear\Plugin\authorMode;
 
 use dcAuth;
 use dcCore;
-use dcFavorites;
-use dcPage;
+use Dotclear\Core\Backend\Favorites;
+use Dotclear\Core\Backend\Page;
 use Dotclear\Database\MetaRecord;
 use Dotclear\Helper\Html\Form\Fieldset;
 use Dotclear\Helper\Html\Form\Label;
@@ -50,8 +50,8 @@ class BackendBehaviors
 
         return
         $admin_post_behavior .
-        dcPage::jsConfirmClose('opts-forms') .
-        dcPage::jsModuleLoad(My::id() . '/js/_user.js', dcCore::app()->getVersion('authorMode'));
+        Page::jsConfirmClose('opts-forms') .
+        My::jsLoad('_user.js');
     }
 
     public static function adminPreferencesForm()
@@ -102,11 +102,11 @@ class BackendBehaviors
         ->render();
     }
 
-    public static function authorModeDashboardFavorites(dcFavorites $favs)
+    public static function authorModeDashboardFavorites(Favorites $favs)
     {
         $favs->register('authorMode', [
             'title'       => __('Authors'),
-            'url'         => My::makeUrl(),
+            'url'         => My::manageUrl(),
             'small-icon'  => My::icons(),
             'large-icon'  => My::icons(),
             'permissions' => My::checkContext(My::MENU),
