@@ -65,7 +65,7 @@ class Manage extends Process
                 $posts_only  = (empty($_POST['posts_only'])) ? false : true;
                 $alpha_order = (empty($_POST['alpha_order'])) ? false : true;
 
-                $settings = dcCore::app()->blog->settings->get(My::id());
+                $settings = My::settings();
 
                 $settings->put('authormode_active', $active, dcNamespace::NS_BOOL);
                 $settings->put('authormode_url_author', $url_author, dcNamespace::NS_STRING);
@@ -94,7 +94,7 @@ class Manage extends Process
             return;
         }
 
-        $settings = dcCore::app()->blog->settings->get(My::id());
+        $settings = My::settings();
 
         $active      = $settings->authormode_active;
         $url_author  = $settings->authormode_url_author;
@@ -102,7 +102,7 @@ class Manage extends Process
         $posts_only  = $settings->authormode_default_posts_only;
         $alpha_order = $settings->authormode_default_alpha_order;
 
-        Page::openModule(__('Author Mode'));
+        Page::openModule(My::name());
 
         echo Page::breadcrumb(
             [
@@ -155,7 +155,7 @@ class Manage extends Process
                 (new Para())->items([
                     (new Submit(['saveconfig']))
                         ->value(__('Save configuration')),
-                    dcCore::app()->formNonce(false),
+                    ... My::hiddenFields(),
                 ]),
             ])
         ->render();

@@ -24,7 +24,7 @@ class CoreHelper
 {
     public static function getPostsUsers($params = null)
     {
-        $settings = dcCore::app()->blog->settings->get(My::id());
+        $settings = My::settings();
 
         if ($params !== null && is_string($params)) {
             $params = ['author' => $params];

@@ -42,7 +42,7 @@ class Install extends Process
                 }
             }
 
-            $settings = dcCore::app()->blog->settings->get(My::id());
+            $settings = My::settings();
 
             $settings->put('authormode_active', false, dcNamespace::NS_BOOL, '', false, true);
             $settings->put('authormode_url_author', 'author', dcNamespace::NS_STRING, '', false, true);

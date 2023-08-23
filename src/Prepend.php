@@ -30,7 +30,7 @@ class Prepend extends Process
             return false;
         }
 
-        $settings = dcCore::app()->blog->settings->get(My::id());
+        $settings = My::settings();
 
         if (dcCore::app()->blog) {
             if ($settings->authormode_active) {

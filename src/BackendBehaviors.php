@@ -19,6 +19,7 @@ use dcCore;
 use Dotclear\Core\Backend\Favorites;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Database\MetaRecord;
+use Dotclear\Database\Statement\SelectStatement;
 use Dotclear\Helper\Html\Form\Fieldset;
 use Dotclear\Helper\Html\Form\Label;
 use Dotclear\Helper\Html\Form\Legend;
@@ -57,12 +58,17 @@ class BackendBehaviors
     public static function adminPreferencesForm()
     {
         $user_desc = '';
-        $strReq    = 'SELECT user_desc ' .
-        'FROM ' . dcCore::app()->con->escapeSystem(dcCore::app()->prefix . dcAuth::USER_TABLE_NAME) . ' ' .
-        "WHERE user_id = '" . dcCore::app()->con->escape(dcCore::app()->auth->userID()) . "' ";
-        $_rs = new MetaRecord(dcCore::app()->con->select($strReq));
-        if (!$_rs->isEmpty()) {
-            $user_desc = $_rs->user_desc;
+
+        $sql = new SelectStatement();
+        $sql
+            ->column('user_desc')
+            ->from(dcCore::app()->prefix . dcAuth::USER_TABLE_NAME)
+            ->where('user_id = ' . $sql->quote((string) dcCore::app()->auth->userID()))
+        ;
+
+        $rs = $sql->select();
+        if (!$rs->isEmpty()) {
+            $user_desc = $rs->user_desc;
         }
 
         echo

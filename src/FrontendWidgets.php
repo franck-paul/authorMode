@@ -23,7 +23,7 @@ class FrontendWidgets
 {
     public static function authors(WidgetsElement $w)
     {
-        $settings = dcCore::app()->blog->settings->get(My::id());
+        $settings = My::settings();
 
         if (!$settings->authormode_active) {
             return;
