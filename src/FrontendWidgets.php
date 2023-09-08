@@ -42,18 +42,11 @@ class FrontendWidgets
             return;
         }
 
-        switch (dcCore::app()->url->type) {
-            case 'post':
-                $currentuser = dcCore::app()->ctx->posts->user_id;
-
-                break;
-            case 'author':
-                $currentuser = dcCore::app()->ctx->users->user_id;
-
-                break;
-            default:
-                $currentuser = '';
-        }
+        $currentuser = match (dcCore::app()->url->type) {
+            'post'   => dcCore::app()->ctx->posts->user_id,
+            'author' => dcCore::app()->ctx->users->user_id,
+            default  => '',
+        };
 
         $res = ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
             '<ul>';

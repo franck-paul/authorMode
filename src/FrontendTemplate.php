@@ -25,18 +25,14 @@ class FrontendTemplate
             $p .= "\$params['post_type'] = '" . addslashes($attr['post_type']) . "';\n";
         }
         if (isset($attr['sortby'])) {
-            $order = 'asc';
-            switch ($attr['sortby']) {
-                case 'id':$sortby = 'user_id';
+            $order  = 'asc';
+            $sortby = match ($attr['sortby']) {
+                'id'    => 'user_id',
+                'posts' => 'nb_post',
+                'name'  => 'user_displayname, user_firstname, user_name',
+                default => null
+            };
 
-                    break;
-                case 'posts':$sortby = 'nb_post';
-
-                    break;
-                case 'name':$sortby = 'user_displayname, user_firstname, user_name';
-
-                    break;
-            }
             if (isset($attr['order']) && preg_match('/^(desc|asc)$/i', (string) $attr['order'])) {
                 $order = (string) $attr['order'];
             }
