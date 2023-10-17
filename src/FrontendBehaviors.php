@@ -19,7 +19,7 @@ use Dotclear\Core\Frontend\Utility;
 
 class FrontendBehaviors
 {
-    public static function block()
+    public static function block(): string
     {
         $args = func_get_args();
         array_shift($args);
@@ -29,9 +29,11 @@ class FrontendBehaviors
                 "@\$params['sql'] .= \"AND P.user_id = '\".dcCore::app()->ctx->users->user_id.\"' \";" .
                 "} ?>\n";
         }
+
+        return '';
     }
 
-    public static function addTplPath()
+    public static function addTplPath(): string
     {
         $tplset = dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'tplset');
         if (!empty($tplset) && is_dir(My::path() . '/' . Utility::TPL_ROOT . '/' . $tplset)) {
@@ -39,20 +41,26 @@ class FrontendBehaviors
         } else {
             dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), My::path() . '/' . Utility::TPL_ROOT . '/' . DC_DEFAULT_TPLSET);
         }
+
+        return '';
     }
 
-    public static function publicBreadcrumb($context)
+    public static function publicBreadcrumb(string $context): string
     {
         if ($context == 'author') {
             return __('Author\'s page');
         } elseif ($context == 'authors') {
             return __('List of authors');
         }
+
+        return '';
     }
 
-    public static function publicHeadContent()
+    public static function publicHeadContent(): string
     {
         echo
         My::cssLoad('authorMode.css');
+
+        return '';
     }
 }

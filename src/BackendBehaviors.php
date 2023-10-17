@@ -18,6 +18,7 @@ use dcAuth;
 use dcCore;
 use Dotclear\Core\Backend\Favorites;
 use Dotclear\Core\Backend\Page;
+use Dotclear\Database\Cursor;
 use Dotclear\Database\MetaRecord;
 use Dotclear\Database\Statement\SelectStatement;
 use Dotclear\Helper\Html\Form\Fieldset;
@@ -29,12 +30,14 @@ use Dotclear\Helper\Html\Html;
 
 class BackendBehaviors
 {
-    public static function adminBeforeUserUpdate($cur)
+    public static function adminBeforeUserUpdate(Cursor $cur): string
     {
         $cur->user_desc = $_POST['user_desc'];
+
+        return '';
     }
 
-    public static function adminAuthorHeaders()
+    public static function adminAuthorHeaders(): string
     {
         $post_format = dcCore::app()->auth->getOption('post_format');
         $post_editor = dcCore::app()->auth->getOption('editor');
@@ -55,7 +58,7 @@ class BackendBehaviors
         My::jsLoad('_user.js');
     }
 
-    public static function adminPreferencesForm()
+    public static function adminPreferencesForm(): string
     {
         $user_desc = '';
 
@@ -84,9 +87,11 @@ class BackendBehaviors
             ]),
         ])
         ->render();
+
+        return '';
     }
 
-    public static function adminUserForm($rs)
+    public static function adminUserForm(?MetaRecord $rs): string
     {
         $user_desc = '';
         if ($rs instanceof MetaRecord && $rs->exists('user_desc')) {
@@ -106,9 +111,11 @@ class BackendBehaviors
             ]),
         ])
         ->render();
+
+        return '';
     }
 
-    public static function authorModeDashboardFavorites(Favorites $favs)
+    public static function authorModeDashboardFavorites(Favorites $favs): string
     {
         $favs->register('authorMode', [
             'title'       => __('Authors'),
@@ -117,5 +124,7 @@ class BackendBehaviors
             'large-icon'  => My::icons(),
             'permissions' => My::checkContext(My::MENU),
         ]);
+
+        return '';
     }
 }

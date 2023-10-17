@@ -18,7 +18,7 @@ use Dotclear\Plugin\widgets\WidgetsStack;
 
 class Widgets
 {
-    public static function initWidgets(WidgetsStack $w)
+    public static function initWidgets(WidgetsStack $w): string
     {
         $w
             ->create('authors', __('AuthorMode: authors'), FrontendWidgets::authors(...), null, __('List of authors'))
@@ -29,5 +29,7 @@ class Widgets
             ->addContentOnly()
             ->addClass()
             ->addOffline();
+
+        return '';
     }
 }

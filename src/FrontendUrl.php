@@ -19,7 +19,7 @@ use dcUrlHandlers;
 
 class FrontendUrl extends dcUrlHandlers
 {
-    public static function Author($args)
+    public static function Author(?string $args): void
     {
         $n = self::getPageNumber($args);
 
@@ -40,7 +40,7 @@ class FrontendUrl extends dcUrlHandlers
         exit;
     }
 
-    public static function Authors($args)
+    public static function Authors(?string $args): void
     {
         dcCore::app()->ctx->users = CoreHelper::getPostsUsers($args);
 

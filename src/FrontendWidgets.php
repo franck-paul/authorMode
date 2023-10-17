@@ -21,25 +21,25 @@ use Dotclear\Plugin\widgets\WidgetsElement;
 
 class FrontendWidgets
 {
-    public static function authors(WidgetsElement $w)
+    public static function authors(WidgetsElement $w): string
     {
         $settings = My::settings();
 
         if (!$settings->authormode_active) {
-            return;
+            return '';
         }
 
         if ($w->offline) {
-            return;
+            return '';
         }
 
         if (($w->homeonly == 1 && !dcCore::app()->url->isHome(dcCore::app()->url->type)) || ($w->homeonly == 2 && dcCore::app()->url->isHome(dcCore::app()->url->type))) {
-            return;
+            return '';
         }
 
         $rs = CoreHelper::getPostsUsers();
         if ($rs->isEmpty()) {
-            return;
+            return '';
         }
 
         $currentuser = match (dcCore::app()->url->type) {

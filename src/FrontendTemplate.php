@@ -14,11 +14,18 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\authorMode;
 
+use ArrayObject;
 use dcCore;
 
 class FrontendTemplate
 {
-    public static function Authors($attr, $content)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     * @param      string                                            $content   The content
+     *
+     * @return     string
+     */
+    public static function Authors(array|ArrayObject $attr, string $content): string
     {
         $p = '';
         if (isset($attr['post_type'])) {
@@ -56,7 +63,13 @@ class FrontendTemplate
             '<?php while (dcCore::app()->ctx->users->fetch()) : ?>' . $content . '<?php endwhile; dcCore::app()->ctx->users = null; ?>';
     }
 
-    public static function AuthorsHeader($attr, $content)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     * @param      string                                            $content   The content
+     *
+     * @return     string
+     */
+    public static function AuthorsHeader(array|ArrayObject $attr, string $content): string
     {
         return
             '<?php if (dcCore::app()->ctx->users->isStart()) : ?>' .
@@ -64,7 +77,13 @@ class FrontendTemplate
             '<?php endif; ?>';
     }
 
-    public static function AuthorsFooter($attr, $content)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     * @param      string                                            $content   The content
+     *
+     * @return     string
+     */
+    public static function AuthorsFooter(array|ArrayObject $attr, string $content): string
     {
         return
             '<?php if (dcCore::app()->ctx->users->isEnd()) : ?>' .
@@ -72,14 +91,24 @@ class FrontendTemplate
             '<?php endif; ?>';
     }
 
-    public static function AuthorDesc($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorDesc(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_desc') . '; ?>';
     }
 
-    public static function AuthorPostsURL($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorPostsURL(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
@@ -88,49 +117,84 @@ class FrontendTemplate
             "/".dcCore::app()->ctx->users->user_id') . '; ?>';
     }
 
-    public static function AuthorNbPosts($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorNbPosts(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->nb_post') . '; ?>';
     }
 
-    public static function AuthorCommonName($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorCommonName(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->getAuthorCN()') . '; ?>';
     }
 
-    public static function AuthorDisplayName($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorDisplayName(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_displayname') . '; ?>';
     }
 
-    public static function AuthorFirstName($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorFirstName(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_firstname') . '; ?>';
     }
 
-    public static function AuthorName($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorName(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_name') . '; ?>';
     }
 
-    public static function AuthorID($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorID(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_id') . '; ?>';
     }
 
-    public static function AuthorEmail($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorEmail(array|ArrayObject $attr): string
     {
         $p = 'true';
         if (isset($attr['spam_protected']) && !$attr['spam_protected']) {
@@ -142,21 +206,36 @@ class FrontendTemplate
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->getAuthorEmail(' . $p . ')') . '; ?>';
     }
 
-    public static function AuthorLink($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorLink(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->getAuthorLink()') . '; ?>';
     }
 
-    public static function AuthorURL($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorURL(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_url') . '; ?>';
     }
 
-    public static function AuthorFeedURL($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function AuthorFeedURL(array|ArrayObject $attr): string
     {
         $type = !empty($attr['type']) ? (string) $attr['type'] : 'rss2';
 

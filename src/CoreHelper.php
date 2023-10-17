@@ -18,11 +18,17 @@ use dcAuth;
 use dcBlog;
 use dcCore;
 use Dotclear\Database\MetaRecord;
-use Exception;
 
 class CoreHelper
 {
-    public static function getPostsUsers($params = null)
+    /**
+     * Gets the posts users.
+     *
+     * @param      null|array<string, mixed>|string       $params  The parameters
+     *
+     * @return     MetaRecord  The posts users.
+     */
+    public static function getPostsUsers($params = null): MetaRecord
     {
         $settings = My::settings();
 
@@ -55,13 +61,9 @@ class CoreHelper
             $strReq .= 'ORDER BY user_displayname, user_firstname, user_name ';
         }
 
-        try {
-            $rs = new MetaRecord(dcCore::app()->con->select($strReq));
-            $rs->extend(AuthorExtensions::class);
+        $rs = new MetaRecord(dcCore::app()->con->select($strReq));
+        $rs->extend(AuthorExtensions::class);
 
-            return $rs;
-        } catch (Exception $e) {
-            throw $e;
-        }
+        return $rs;
     }
 }

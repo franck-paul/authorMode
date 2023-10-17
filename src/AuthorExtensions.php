@@ -15,10 +15,11 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\authorMode;
 
 use dcUtils;
+use Dotclear\Database\MetaRecord;
 
 class AuthorExtensions
 {
-    public static function getAuthorCN($rs)
+    public static function getAuthorCN(MetaRecord $rs): string
     {
         return dcUtils::getUserCN(
             $rs->user_id,
@@ -28,7 +29,7 @@ class AuthorExtensions
         );
     }
 
-    public static function getAuthorLink($rs)
+    public static function getAuthorLink(MetaRecord $rs): string
     {
         $res = '%1$s';
         $url = $rs->user_url;
@@ -39,7 +40,7 @@ class AuthorExtensions
         return sprintf($res, $rs->getAuthorCN(), $url);
     }
 
-    public static function getAuthorEmail($rs, $encoded = true)
+    public static function getAuthorEmail(MetaRecord $rs, bool $encoded = true): string
     {
         if ($encoded) {
             return strtr($rs->user_email, ['@' => '%40', '.' => '%2e']);
