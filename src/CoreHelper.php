@@ -40,15 +40,15 @@ class CoreHelper
         'user_displayname, user_desc, COUNT(P.post_id) as nb_post ' .
         'FROM ' . dcCore::app()->prefix . dcAuth::USER_TABLE_NAME . ' U ' .
         'LEFT JOIN ' . dcCore::app()->prefix . 'post P ON P.user_id = U.user_id ' .
-        "WHERE blog_id = '" . dcCore::app()->con->escape(dcCore::app()->blog->id) . "' " .
+        "WHERE blog_id = '" . dcCore::app()->con->escapeStr(dcCore::app()->blog->id) . "' " .
         'AND P.post_status = ' . dcBlog::POST_PUBLISHED . ' ';
 
         if (!empty($params['author'])) {
-            $strReq .= " AND P.user_id = '" . dcCore::app()->con->escape($params['author']) . "' ";
+            $strReq .= " AND P.user_id = '" . dcCore::app()->con->escapeStr($params['author']) . "' ";
         }
 
         if (!empty($params['post_type'])) {
-            $strReq .= " AND P.post_type = '" . dcCore::app()->con->escape($params['post_type']) . "' ";
+            $strReq .= " AND P.post_type = '" . dcCore::app()->con->escapeStr($params['post_type']) . "' ";
         } elseif ($settings->authormode_default_posts_only) {
             $strReq .= " AND P.post_type = 'post' ";
         }
@@ -56,7 +56,7 @@ class CoreHelper
         $strReq .= 'GROUP BY P.user_id, user_name, user_firstname, user_displayname, user_desc ';
 
         if (!empty($params['order'])) {
-            $strReq .= 'ORDER BY ' . dcCore::app()->con->escape($params['order']) . ' ';
+            $strReq .= 'ORDER BY ' . dcCore::app()->con->escapeStr($params['order']) . ' ';
         } elseif ($settings->authormode_default_alpha_order) {
             $strReq .= 'ORDER BY user_displayname, user_firstname, user_name ';
         }
