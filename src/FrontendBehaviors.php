@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\authorMode;
 
 use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Frontend\Utility;
 
 class FrontendBehaviors
@@ -35,7 +36,7 @@ class FrontendBehaviors
 
     public static function addTplPath(): string
     {
-        $tplset = dcCore::app()->themes->moduleInfo(dcCore::app()->blog->settings->system->theme, 'tplset');
+        $tplset = dcCore::app()->themes->moduleInfo(App::blog()->settings()->system->theme, 'tplset');
         if (!empty($tplset) && is_dir(My::path() . '/' . Utility::TPL_ROOT . '/' . $tplset)) {
             dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), My::path() . '/' . Utility::TPL_ROOT . '/' . $tplset);
         } else {

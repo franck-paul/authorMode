@@ -70,7 +70,7 @@ class BackendBehaviors
         ;
 
         $rs = $sql->select();
-        if (!$rs->isEmpty()) {
+        if ($rs && !$rs->isEmpty()) {
             $user_desc = $rs->user_desc;
         }
 

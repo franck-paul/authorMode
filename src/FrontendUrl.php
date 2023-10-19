@@ -16,6 +16,7 @@ namespace Dotclear\Plugin\authorMode;
 
 use dcCore;
 use dcUrlHandlers;
+use Dotclear\App;
 
 class FrontendUrl extends dcUrlHandlers
 {
@@ -80,10 +81,10 @@ class FrontendUrl extends dcUrlHandlers
         $tpl = $type;
         if ($comments) {
             $tpl .= '-comments';
-            dcCore::app()->ctx->nb_comment_per_page = dcCore::app()->blog->settings->system->nb_comment_per_feed;
+            dcCore::app()->ctx->nb_comment_per_page = App::blog()->settings()->system->nb_comment_per_feed;
         } else {
-            dcCore::app()->ctx->nb_entry_per_page = dcCore::app()->blog->settings->system->nb_post_per_feed;
-            dcCore::app()->ctx->short_feed_items  = dcCore::app()->blog->settings->system->short_feed_items;
+            dcCore::app()->ctx->nb_entry_per_page = App::blog()->settings()->system->nb_post_per_feed;
+            dcCore::app()->ctx->short_feed_items  = App::blog()->settings()->system->short_feed_items;
         }
         $tpl .= '.xml';
 

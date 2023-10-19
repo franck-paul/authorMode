@@ -17,6 +17,7 @@ namespace Dotclear\Plugin\authorMode;
 use dcAuth;
 use dcBlog;
 use dcCore;
+use Dotclear\App;
 use Dotclear\Database\MetaRecord;
 
 class CoreHelper
@@ -40,7 +41,7 @@ class CoreHelper
         'user_displayname, user_desc, COUNT(P.post_id) as nb_post ' .
         'FROM ' . dcCore::app()->prefix . dcAuth::USER_TABLE_NAME . ' U ' .
         'LEFT JOIN ' . dcCore::app()->prefix . 'post P ON P.user_id = U.user_id ' .
-        "WHERE blog_id = '" . dcCore::app()->con->escapeStr(dcCore::app()->blog->id) . "' " .
+        "WHERE blog_id = '" . dcCore::app()->con->escapeStr(App::blog()->id()) . "' " .
         'AND P.post_status = ' . dcBlog::POST_PUBLISHED . ' ';
 
         if (!empty($params['author'])) {

@@ -113,7 +113,7 @@ class FrontendTemplate
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' .
-        sprintf($f, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("author").
+        sprintf($f, 'App::blog()->url().dcCore::app()->url->getBase("author").
             "/".dcCore::app()->ctx->users->user_id') . '; ?>';
     }
 
@@ -245,7 +245,7 @@ class FrontendTemplate
 
         $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->blog->url.dcCore::app()->url->getBase("author_feed")."/".' .
+        return '<?php echo ' . sprintf($f, 'App::blog()->url().dcCore::app()->url->getBase("author_feed")."/".' .
             'rawurlencode(dcCore::app()->ctx->users->user_id)."/' . $type . '"') . '; ?>';
     }
 }

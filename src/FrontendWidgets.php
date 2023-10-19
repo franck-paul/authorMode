@@ -16,6 +16,7 @@ namespace Dotclear\Plugin\authorMode;
 
 use dcCore;
 use dcUtils;
+use Dotclear\App;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\widgets\WidgetsElement;
 
@@ -54,7 +55,7 @@ class FrontendWidgets
         while ($rs->fetch()) {
             $res .= '<li' .
             ($rs->user_id == $currentuser ? ' class="current-author"' : '') .
-            '><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('author') . '/' .
+            '><a href="' . App::blog()->url() . dcCore::app()->url->getBase('author') . '/' .
             $rs->user_id . '">' .
             Html::escapeHTML(
                 dcUtils::getUserCN(
@@ -70,7 +71,7 @@ class FrontendWidgets
         $res .= '</ul>';
 
         if (is_null($w->allauthors) || $w->allauthors) {
-            $res .= '<p class="listauthors"><strong><a href="' . dcCore::app()->blog->url . dcCore::app()->url->getBase('authors') . '">' . __('List of authors') . '</a></strong></p>';
+            $res .= '<p class="listauthors"><strong><a href="' . App::blog()->url() . dcCore::app()->url->getBase('authors') . '">' . __('List of authors') . '</a></strong></p>';
         }
 
         return $w->renderDiv((bool) $w->content_only, 'authors ' . $w->class, '', $res);

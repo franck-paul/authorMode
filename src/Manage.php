@@ -16,6 +16,7 @@ namespace Dotclear\Plugin\authorMode;
 
 use dcCore;
 use dcNamespace;
+use Dotclear\App;
 use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Core\Process;
@@ -73,7 +74,7 @@ class Manage extends Process
                 $settings->put('authormode_default_posts_only', $posts_only, dcNamespace::NS_BOOL);
                 $settings->put('authormode_default_alpha_order', $alpha_order, dcNamespace::NS_BOOL);
 
-                dcCore::app()->blog->triggerBlog();
+                App::blog()->triggerBlog();
 
                 Notices::addSuccessNotice(__('Configuration successfully updated.'));
                 dcCore::app()->adminurl->redirect('admin.plugin.' . My::id());
@@ -106,8 +107,8 @@ class Manage extends Process
 
         echo Page::breadcrumb(
             [
-                Html::escapeHTML(dcCore::app()->blog->name) => '',
-                __('Author Mode')                           => '',
+                Html::escapeHTML(App::blog()->name()) => '',
+                __('Author Mode')                     => '',
             ]
         );
         echo Notices::getNotices();
