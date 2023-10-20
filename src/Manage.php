@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\authorMode;
 
-use dcCore;
-use dcNamespace;
 use Dotclear\App;
 use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
@@ -68,18 +66,18 @@ class Manage extends Process
 
                 $settings = My::settings();
 
-                $settings->put('authormode_active', $active, dcNamespace::NS_BOOL);
-                $settings->put('authormode_url_author', $url_author, dcNamespace::NS_STRING);
-                $settings->put('authormode_url_authors', $url_authors, dcNamespace::NS_STRING);
-                $settings->put('authormode_default_posts_only', $posts_only, dcNamespace::NS_BOOL);
-                $settings->put('authormode_default_alpha_order', $alpha_order, dcNamespace::NS_BOOL);
+                $settings->put('authormode_active', $active, App::blogWorkspace()::NS_BOOL);
+                $settings->put('authormode_url_author', $url_author, App::blogWorkspace()::NS_STRING);
+                $settings->put('authormode_url_authors', $url_authors, App::blogWorkspace()::NS_STRING);
+                $settings->put('authormode_default_posts_only', $posts_only, App::blogWorkspace()::NS_BOOL);
+                $settings->put('authormode_default_alpha_order', $alpha_order, App::blogWorkspace()::NS_BOOL);
 
                 App::blog()->triggerBlog();
 
                 Notices::addSuccessNotice(__('Configuration successfully updated.'));
-                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id());
+                My::redirect();
             } catch (Exception $e) {
-                dcCore::app()->error->add($e->getMessage());
+                App::error()->add($e->getMessage());
             }
         }
 
@@ -116,7 +114,7 @@ class Manage extends Process
         // Form
         echo
         (new Form('authormode_options'))
-            ->action(dcCore::app()->admin->getPageURL())
+            ->action(App::backend()->getPageURL())
             ->method('post')
             ->fields([
                 (new Para())->items([

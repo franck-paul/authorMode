@@ -14,14 +14,14 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\authorMode;
 
-use dcUtils;
+use Dotclear\App;
 use Dotclear\Database\MetaRecord;
 
 class AuthorExtensions
 {
     public static function getAuthorCN(MetaRecord $rs): string
     {
-        return dcUtils::getUserCN(
+        return App::users()->getUserCN(
             $rs->user_id,
             $rs->user_name,
             $rs->user_firstname,

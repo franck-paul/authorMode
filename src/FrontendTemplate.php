@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\authorMode;
 
 use ArrayObject;
-use dcCore;
+use Dotclear\App;
 
 class FrontendTemplate
 {
@@ -55,12 +55,12 @@ class FrontendTemplate
         }
 
         return "<?php\n" .
-            'if (!dcCore::app()->ctx->exists("users")) { ' .
+            'if (!App::frontend()->context()->exists("users")) { ' .
             $p .
-            'dcCore::app()->ctx->users = ' . CoreHelper::class . '::getPostsUsers($params); unset($params);' . "\n" .
+            'App::frontend()->context()->users = ' . CoreHelper::class . '::getPostsUsers($params); unset($params);' . "\n" .
             ' } ' .
             "?>\n" .
-            '<?php while (dcCore::app()->ctx->users->fetch()) : ?>' . $content . '<?php endwhile; dcCore::app()->ctx->users = null; ?>';
+            '<?php while (App::frontend()->context()->users->fetch()) : ?>' . $content . '<?php endwhile; App::frontend()->context()->users = null; ?>';
     }
 
     /**
@@ -72,7 +72,7 @@ class FrontendTemplate
     public static function AuthorsHeader(array|ArrayObject $attr, string $content): string
     {
         return
-            '<?php if (dcCore::app()->ctx->users->isStart()) : ?>' .
+            '<?php if (App::frontend()->context()->users->isStart()) : ?>' .
             $content .
             '<?php endif; ?>';
     }
@@ -86,7 +86,7 @@ class FrontendTemplate
     public static function AuthorsFooter(array|ArrayObject $attr, string $content): string
     {
         return
-            '<?php if (dcCore::app()->ctx->users->isEnd()) : ?>' .
+            '<?php if (App::frontend()->context()->users->isEnd()) : ?>' .
             $content .
             '<?php endif; ?>';
     }
@@ -98,9 +98,9 @@ class FrontendTemplate
      */
     public static function AuthorDesc(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_desc') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_desc') . '; ?>';
     }
 
     /**
@@ -110,11 +110,11 @@ class FrontendTemplate
      */
     public static function AuthorPostsURL(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
         return '<?php echo ' .
-        sprintf($f, 'App::blog()->url().dcCore::app()->url->getBase("author").
-            "/".dcCore::app()->ctx->users->user_id') . '; ?>';
+        sprintf($f, 'App::blog()->url().App::url()->getBase("author").
+            "/".App::frontend()->context()->users->user_id') . '; ?>';
     }
 
     /**
@@ -124,9 +124,9 @@ class FrontendTemplate
      */
     public static function AuthorNbPosts(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->nb_post') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->nb_post') . '; ?>';
     }
 
     /**
@@ -136,9 +136,9 @@ class FrontendTemplate
      */
     public static function AuthorCommonName(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->getAuthorCN()') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->getAuthorCN()') . '; ?>';
     }
 
     /**
@@ -148,9 +148,9 @@ class FrontendTemplate
      */
     public static function AuthorDisplayName(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_displayname') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_displayname') . '; ?>';
     }
 
     /**
@@ -160,9 +160,9 @@ class FrontendTemplate
      */
     public static function AuthorFirstName(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_firstname') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_firstname') . '; ?>';
     }
 
     /**
@@ -172,9 +172,9 @@ class FrontendTemplate
      */
     public static function AuthorName(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_name') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_name') . '; ?>';
     }
 
     /**
@@ -184,9 +184,9 @@ class FrontendTemplate
      */
     public static function AuthorID(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_id') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_id') . '; ?>';
     }
 
     /**
@@ -201,9 +201,9 @@ class FrontendTemplate
             $p = 'false';
         }
 
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->getAuthorEmail(' . $p . ')') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->getAuthorEmail(' . $p . ')') . '; ?>';
     }
 
     /**
@@ -213,9 +213,9 @@ class FrontendTemplate
      */
     public static function AuthorLink(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->getAuthorLink()') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->getAuthorLink()') . '; ?>';
     }
 
     /**
@@ -225,9 +225,9 @@ class FrontendTemplate
      */
     public static function AuthorURL(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->users->user_url') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_url') . '; ?>';
     }
 
     /**
@@ -243,9 +243,9 @@ class FrontendTemplate
             $type = 'rss2';
         }
 
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::blog()->url().dcCore::app()->url->getBase("author_feed")."/".' .
-            'rawurlencode(dcCore::app()->ctx->users->user_id)."/' . $type . '"') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::blog()->url().App::url()->getBase("author_feed")."/".' .
+            'rawurlencode(App::frontend()->context()->users->user_id)."/' . $type . '"') . '; ?>';
     }
 }

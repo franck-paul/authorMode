@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\authorMode;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Process;
 
 class Prepend extends Process
@@ -32,16 +32,16 @@ class Prepend extends Process
 
         $settings = My::settings();
 
-        if (dcCore::app()->blog) {
+        if (App::blog()->isDefined()) {
             if ($settings->authormode_active) {
                 if ($settings->authormode_url_author !== null) {
                     $url_prefix = $settings->authormode_url_author;
                     if (empty($url_prefix)) {
                         $url_prefix = 'author';
                     }
-                    $feed_prefix = dcCore::app()->url->getBase('feed') . '/' . $url_prefix;
-                    dcCore::app()->url->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', FrontendUrl::author(...));
-                    dcCore::app()->url->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', FrontendUrl::feed(...));
+                    $feed_prefix = App::url()->getBase('feed') . '/' . $url_prefix;
+                    App::url()->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', FrontendUrl::author(...));
+                    App::url()->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', FrontendUrl::feed(...));
                     unset($url_prefix, $feed_prefix);
                 }
 
@@ -50,7 +50,7 @@ class Prepend extends Process
                     if (empty($url_prefix)) {
                         $url_prefix = 'authors';
                     }
-                    dcCore::app()->url->register('authors', $url_prefix, '^' . $url_prefix . '$', FrontendUrl::authors(...));
+                    App::url()->register('authors', $url_prefix, '^' . $url_prefix . '$', FrontendUrl::authors(...));
                     unset($url_prefix);
                 }
             }

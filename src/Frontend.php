@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\authorMode;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Process;
 
 class Frontend extends Process
@@ -35,24 +35,24 @@ class Frontend extends Process
             return false;
         }
 
-        dcCore::app()->tpl->addValue('AuthorCommonName', FrontendTemplate::AuthorCommonName(...));
-        dcCore::app()->tpl->addValue('AuthorDisplayName', FrontendTemplate::AuthorDisplayName(...));
-        dcCore::app()->tpl->addValue('AuthorEmail', FrontendTemplate::AuthorEmail(...));
-        dcCore::app()->tpl->addValue('AuthorID', FrontendTemplate::AuthorID(...));
-        dcCore::app()->tpl->addValue('AuthorLink', FrontendTemplate::AuthorLink(...));
-        dcCore::app()->tpl->addValue('AuthorName', FrontendTemplate::AuthorName(...));
-        dcCore::app()->tpl->addValue('AuthorFirstName', FrontendTemplate::AuthorFirstName(...));
-        dcCore::app()->tpl->addValue('AuthorURL', FrontendTemplate::AuthorURL(...));
-        dcCore::app()->tpl->addValue('AuthorDesc', FrontendTemplate::AuthorDesc(...));
-        dcCore::app()->tpl->addValue('AuthorPostsURL', FrontendTemplate::AuthorPostsURL(...));
-        dcCore::app()->tpl->addValue('AuthorNbPosts', FrontendTemplate::AuthorNbPosts(...));
-        dcCore::app()->tpl->addValue('AuthorFeedURL', FrontendTemplate::AuthorFeedURL(...));
+        App::frontend()->template()->addValue('AuthorCommonName', FrontendTemplate::AuthorCommonName(...));
+        App::frontend()->template()->addValue('AuthorDisplayName', FrontendTemplate::AuthorDisplayName(...));
+        App::frontend()->template()->addValue('AuthorEmail', FrontendTemplate::AuthorEmail(...));
+        App::frontend()->template()->addValue('AuthorID', FrontendTemplate::AuthorID(...));
+        App::frontend()->template()->addValue('AuthorLink', FrontendTemplate::AuthorLink(...));
+        App::frontend()->template()->addValue('AuthorName', FrontendTemplate::AuthorName(...));
+        App::frontend()->template()->addValue('AuthorFirstName', FrontendTemplate::AuthorFirstName(...));
+        App::frontend()->template()->addValue('AuthorURL', FrontendTemplate::AuthorURL(...));
+        App::frontend()->template()->addValue('AuthorDesc', FrontendTemplate::AuthorDesc(...));
+        App::frontend()->template()->addValue('AuthorPostsURL', FrontendTemplate::AuthorPostsURL(...));
+        App::frontend()->template()->addValue('AuthorNbPosts', FrontendTemplate::AuthorNbPosts(...));
+        App::frontend()->template()->addValue('AuthorFeedURL', FrontendTemplate::AuthorFeedURL(...));
 
-        dcCore::app()->tpl->addBlock('Authors', FrontendTemplate::Authors(...));
-        dcCore::app()->tpl->addBlock('AuthorsHeader', FrontendTemplate::AuthorsHeader(...));
-        dcCore::app()->tpl->addBlock('AuthorsFooter', FrontendTemplate::AuthorsFooter(...));
+        App::frontend()->template()->addBlock('Authors', FrontendTemplate::Authors(...));
+        App::frontend()->template()->addBlock('AuthorsHeader', FrontendTemplate::AuthorsHeader(...));
+        App::frontend()->template()->addBlock('AuthorsFooter', FrontendTemplate::AuthorsFooter(...));
 
-        dcCore::app()->addBehaviors([
+        App::behavior()->addBehaviors([
             'templateBeforeBlockV2'  => FrontendBehaviors::block(...),
             'publicBeforeDocumentV2' => FrontendBehaviors::addTplPath(...),
             'publicBreadcrumb'       => FrontendBehaviors::publicBreadcrumb(...),

@@ -14,8 +14,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\authorMode;
 
-use dcAuth;
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Backend\Favorites;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Database\Cursor;
@@ -27,6 +26,7 @@ use Dotclear\Helper\Html\Form\Legend;
 use Dotclear\Helper\Html\Form\Para;
 use Dotclear\Helper\Html\Form\Textarea;
 use Dotclear\Helper\Html\Html;
+use Dotclear\Interface\Core\AuthInterface;
 
 class BackendBehaviors
 {
@@ -39,12 +39,12 @@ class BackendBehaviors
 
     public static function adminAuthorHeaders(): string
     {
-        $post_format = dcCore::app()->auth->getOption('post_format');
-        $post_editor = dcCore::app()->auth->getOption('editor');
+        $post_format = App::auth()->getOption('post_format');
+        $post_editor = App::auth()->getOption('editor');
 
         $admin_post_behavior = '';
         if ($post_editor && !empty($post_editor[$post_format])) {
-            $admin_post_behavior = dcCore::app()->callBehavior(
+            $admin_post_behavior = App::behavior()->callBehavior(
                 'adminPostEditor',
                 $post_editor[$post_format],
                 'user_desc',
@@ -65,8 +65,8 @@ class BackendBehaviors
         $sql = new SelectStatement();
         $sql
             ->column('user_desc')
-            ->from(dcCore::app()->prefix . dcAuth::USER_TABLE_NAME)
-            ->where('user_id = ' . $sql->quote((string) dcCore::app()->auth->userID()))
+            ->from(App::con()->prefix() . AuthInterface::USER_TABLE_NAME)
+            ->where('user_id = ' . $sql->quote((string) App::auth()->userID()))
         ;
 
         $rs = $sql->select();

@@ -9,6 +9,4 @@
  *
  * @copyright GPL-2.0
  */
-if (!isset(dcCore::app()->resources['help']['authorMode'])) {
-    dcCore::app()->resources['help']['authorMode'] = __DIR__ . '/help/authorMode.html';
-}
+\Dotclear\App::backend()->resources()->set('help', 'authorMode', __DIR__ . '/help/authorMode.html');

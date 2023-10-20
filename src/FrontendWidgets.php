@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\authorMode;
 
-use dcCore;
-use dcUtils;
 use Dotclear\App;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\widgets\WidgetsElement;
@@ -34,7 +32,7 @@ class FrontendWidgets
             return '';
         }
 
-        if (($w->homeonly == 1 && !dcCore::app()->url->isHome(dcCore::app()->url->type)) || ($w->homeonly == 2 && dcCore::app()->url->isHome(dcCore::app()->url->type))) {
+        if (($w->homeonly == 1 && !App::url()->isHome(App::url()->type)) || ($w->homeonly == 2 && App::url()->isHome(App::url()->type))) {
             return '';
         }
 
@@ -43,9 +41,9 @@ class FrontendWidgets
             return '';
         }
 
-        $currentuser = match (dcCore::app()->url->type) {
-            'post'   => dcCore::app()->ctx->posts->user_id,
-            'author' => dcCore::app()->ctx->users->user_id,
+        $currentuser = match (App::url()->type) {
+            'post'   => App::frontend()->context()->posts->user_id,
+            'author' => App::frontend()->context()->users->user_id,
             default  => '',
         };
 
@@ -55,10 +53,10 @@ class FrontendWidgets
         while ($rs->fetch()) {
             $res .= '<li' .
             ($rs->user_id == $currentuser ? ' class="current-author"' : '') .
-            '><a href="' . App::blog()->url() . dcCore::app()->url->getBase('author') . '/' .
+            '><a href="' . App::blog()->url() . App::url()->getBase('author') . '/' .
             $rs->user_id . '">' .
             Html::escapeHTML(
-                dcUtils::getUserCN(
+                App::users()->getUserCN(
                     $rs->user_id,
                     $rs->user_name,
                     $rs->user_firstname,
@@ -71,7 +69,7 @@ class FrontendWidgets
         $res .= '</ul>';
 
         if (is_null($w->allauthors) || $w->allauthors) {
-            $res .= '<p class="listauthors"><strong><a href="' . App::blog()->url() . dcCore::app()->url->getBase('authors') . '">' . __('List of authors') . '</a></strong></p>';
+            $res .= '<p class="listauthors"><strong><a href="' . App::blog()->url() . App::url()->getBase('authors') . '">' . __('List of authors') . '</a></strong></p>';
         }
 
         return $w->renderDiv((bool) $w->content_only, 'authors ' . $w->class, '', $res);

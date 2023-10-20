@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\authorMode;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Backend\Menus;
 use Dotclear\Core\Process;
 
@@ -36,7 +36,7 @@ class Backend extends Process
 
         My::addBackendMenuItem(Menus::MENU_BLOG);
 
-        dcCore::app()->addBehaviors([
+        App::behavior()->addBehaviors([
             'adminUserHeaders'             => BackendBehaviors::adminAuthorHeaders(...),
             'adminPreferencesHeaders'      => BackendBehaviors::adminAuthorHeaders(...),
             'adminUserForm'                => BackendBehaviors::adminUserForm(...),        // user.php
@@ -48,7 +48,7 @@ class Backend extends Process
         ]);
 
         if (My::checkContext(My::WIDGETS)) {
-            dcCore::app()->addBehaviors([
+            App::behavior()->addBehaviors([
                 'initWidgets' => Widgets::initWidgets(...),
             ]);
         }

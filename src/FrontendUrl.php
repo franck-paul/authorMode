@@ -14,11 +14,10 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\authorMode;
 
-use dcCore;
-use dcUrlHandlers;
 use Dotclear\App;
+use Dotclear\Core\Frontend\Url;
 
-class FrontendUrl extends dcUrlHandlers
+class FrontendUrl extends Url
 {
     public static function Author(?string $args): void
     {
@@ -28,11 +27,11 @@ class FrontendUrl extends dcUrlHandlers
             self::p404();
         } else {
             if ($n) {
-                dcCore::app()->public->setPageNumber($n);
+                App::frontend()->setPageNumber($n);
             }
-            dcCore::app()->ctx->users = CoreHelper::getPostsUsers($args);
+            App::frontend()->context()->users = CoreHelper::getPostsUsers($args);
 
-            if (dcCore::app()->ctx->users->isEmpty()) {
+            if (App::frontend()->context()->users->isEmpty()) {
                 self::p404();
             }
 
@@ -43,9 +42,9 @@ class FrontendUrl extends dcUrlHandlers
 
     public static function Authors(?string $args): void
     {
-        dcCore::app()->ctx->users = CoreHelper::getPostsUsers($args);
+        App::frontend()->context()->users = CoreHelper::getPostsUsers($args);
 
-        if (dcCore::app()->ctx->users->isEmpty()) {
+        if (App::frontend()->context()->users->isEmpty()) {
             self::p404();
         }
 
@@ -68,9 +67,9 @@ class FrontendUrl extends dcUrlHandlers
             self::p404();
         }
 
-        dcCore::app()->ctx->users = CoreHelper::getPostsUsers($author);
+        App::frontend()->context()->users = CoreHelper::getPostsUsers($author);
 
-        if (dcCore::app()->ctx->users->isEmpty()) {
+        if (App::frontend()->context()->users->isEmpty()) {
             self::p404();
         }
 
@@ -81,10 +80,10 @@ class FrontendUrl extends dcUrlHandlers
         $tpl = $type;
         if ($comments) {
             $tpl .= '-comments';
-            dcCore::app()->ctx->nb_comment_per_page = App::blog()->settings()->system->nb_comment_per_feed;
+            App::frontend()->context()->nb_comment_per_page = App::blog()->settings()->system->nb_comment_per_feed;
         } else {
-            dcCore::app()->ctx->nb_entry_per_page = App::blog()->settings()->system->nb_post_per_feed;
-            dcCore::app()->ctx->short_feed_items  = App::blog()->settings()->system->short_feed_items;
+            App::frontend()->context()->nb_entry_per_page = App::blog()->settings()->system->nb_post_per_feed;
+            App::frontend()->context()->short_feed_items  = App::blog()->settings()->system->short_feed_items;
         }
         $tpl .= '.xml';
 
