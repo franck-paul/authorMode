@@ -63,12 +63,12 @@ class FrontendWidgets
                     $rs->user_displayname
                 )
             ) . '</a>' .
-                ($w->postcount ? ' (' . $rs->nb_post . ')' : '') .
+                ($w->get('postcount') ? ' (' . $rs->nb_post . ')' : '') .
                 '</li>';
         }
         $res .= '</ul>';
 
-        if (is_null($w->allauthors) || $w->allauthors) {
+        if (is_null($w->get('allauthors')) || $w->get('allauthors')) {
             $res .= '<p class="listauthors"><strong><a href="' . App::blog()->url() . App::url()->getBase('authors') . '">' . __('List of authors') . '</a></strong></p>';
         }
 
