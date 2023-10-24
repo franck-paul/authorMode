@@ -26,7 +26,6 @@ use Dotclear\Helper\Html\Form\Legend;
 use Dotclear\Helper\Html\Form\Para;
 use Dotclear\Helper\Html\Form\Textarea;
 use Dotclear\Helper\Html\Html;
-use Dotclear\Interface\Core\AuthInterface;
 
 class BackendBehaviors
 {
@@ -65,7 +64,7 @@ class BackendBehaviors
         $sql = new SelectStatement();
         $sql
             ->column('user_desc')
-            ->from(App::con()->prefix() . AuthInterface::USER_TABLE_NAME)
+            ->from(App::con()->prefix() . App::auth()::USER_TABLE_NAME)
             ->where('user_id = ' . $sql->quote((string) App::auth()->userID()))
         ;
 

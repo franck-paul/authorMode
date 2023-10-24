@@ -16,8 +16,6 @@ namespace Dotclear\Plugin\authorMode;
 
 use Dotclear\App;
 use Dotclear\Database\MetaRecord;
-use Dotclear\Interface\Core\AuthInterface;
-use Dotclear\Interface\Core\BlogInterface;
 
 class CoreHelper
 {
@@ -38,10 +36,10 @@ class CoreHelper
 
         $strReq = 'SELECT P.user_id, user_name, user_firstname, ' .
         'user_displayname, user_desc, COUNT(P.post_id) as nb_post ' .
-        'FROM ' . App::con()->prefix() . AuthInterface::USER_TABLE_NAME . ' U ' .
+        'FROM ' . App::con()->prefix() . App::auth()::USER_TABLE_NAME . ' U ' .
         'LEFT JOIN ' . App::con()->prefix() . 'post P ON P.user_id = U.user_id ' .
         "WHERE blog_id = '" . App::con()->escapeStr(App::blog()->id()) . "' " .
-        'AND P.post_status = ' . BlogInterface::POST_PUBLISHED . ' ';
+        'AND P.post_status = ' . App::blog()::POST_PUBLISHED . ' ';
 
         if (!empty($params['author'])) {
             $strReq .= " AND P.user_id = '" . App::con()->escapeStr($params['author']) . "' ";
