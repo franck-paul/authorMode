@@ -31,6 +31,7 @@ class FrontendTemplate
         if (isset($attr['post_type'])) {
             $p .= "\$params['post_type'] = '" . addslashes($attr['post_type']) . "';\n";
         }
+
         if (isset($attr['sortby'])) {
             $order  = 'asc';
             $sortby = match ($attr['sortby']) {
@@ -43,19 +44,16 @@ class FrontendTemplate
             if (isset($attr['order']) && preg_match('/^(desc|asc)$/i', (string) $attr['order'])) {
                 $order = (string) $attr['order'];
             }
+
             if (isset($sortby)) {
                 $p .= "\$params['order'] = '" . $sortby . ' ' . $order . "';\n";
             }
         }
 
-        if (empty($p)) {
-            $p = '$params = null;' . "\n";
-        } else {
-            $p = '$params = array();' . "\n" . $p;
-        }
+        $p = $p === '' ? '$params = null;' . "\n" : '$params = array();' . "\n" . $p;
 
-        return "<?php\n" .
-            'if (!App::frontend()->context()->exists("users")) { ' .
+        return '<?php
+if (!App::frontend()->context()->exists("users")) { ' .
             $p .
             'App::frontend()->context()->users = ' . CoreHelper::class . '::getPostsUsers($params); unset($params);' . "\n" .
             ' } ' .
@@ -237,7 +235,7 @@ class FrontendTemplate
      */
     public static function AuthorFeedURL(array|ArrayObject $attr): string
     {
-        $type = !empty($attr['type']) ? (string) $attr['type'] : 'rss2';
+        $type = empty($attr['type']) ? 'rss2' : (string) $attr['type'];
 
         if (!preg_match('#^(rss2|atom)$#', $type)) {
             $type = 'rss2';

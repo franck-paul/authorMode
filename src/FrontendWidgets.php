@@ -32,7 +32,7 @@ class FrontendWidgets
             return '';
         }
 
-        if (($w->homeonly == 1 && !App::url()->isHome(App::url()->type)) || ($w->homeonly == 2 && App::url()->isHome(App::url()->type))) {
+        if (($w->homeonly == 1 && !App::url()->isHome(App::url()->getType())) || ($w->homeonly == 2 && App::url()->isHome(App::url()->getType()))) {
             return '';
         }
 
@@ -41,7 +41,7 @@ class FrontendWidgets
             return '';
         }
 
-        $currentuser = match (App::url()->type) {
+        $currentuser = match (App::url()->getType()) {
             'post'   => App::frontend()->context()->posts->user_id,
             'author' => App::frontend()->context()->users->user_id,
             default  => '',
@@ -66,6 +66,7 @@ class FrontendWidgets
                 ($w->get('postcount') ? ' (' . $rs->nb_post . ')' : '') .
                 '</li>';
         }
+
         $res .= '</ul>';
 
         if (is_null($w->get('allauthors')) || $w->get('allauthors')) {

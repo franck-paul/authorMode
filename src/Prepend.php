@@ -32,27 +32,27 @@ class Prepend extends Process
 
         $settings = My::settings();
 
-        if (App::blog()->isDefined()) {
-            if ($settings->authormode_active) {
-                if ($settings->authormode_url_author !== null) {
-                    $url_prefix = $settings->authormode_url_author;
-                    if (empty($url_prefix)) {
-                        $url_prefix = 'author';
-                    }
-                    $feed_prefix = App::url()->getBase('feed') . '/' . $url_prefix;
-                    App::url()->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', FrontendUrl::author(...));
-                    App::url()->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', FrontendUrl::feed(...));
-                    unset($url_prefix, $feed_prefix);
+        if (App::blog()->isDefined() && $settings->authormode_active) {
+            if ($settings->authormode_url_author !== null) {
+                $url_prefix = $settings->authormode_url_author;
+                if (empty($url_prefix)) {
+                    $url_prefix = 'author';
                 }
 
-                if ($settings->authormode_url_authors !== null) {
-                    $url_prefix = $settings->authormode_url_authors;
-                    if (empty($url_prefix)) {
-                        $url_prefix = 'authors';
-                    }
-                    App::url()->register('authors', $url_prefix, '^' . $url_prefix . '$', FrontendUrl::authors(...));
-                    unset($url_prefix);
+                $feed_prefix = App::url()->getBase('feed') . '/' . $url_prefix;
+                App::url()->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', FrontendUrl::author(...));
+                App::url()->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', FrontendUrl::feed(...));
+                unset($url_prefix, $feed_prefix);
+            }
+
+            if ($settings->authormode_url_authors !== null) {
+                $url_prefix = $settings->authormode_url_authors;
+                if (empty($url_prefix)) {
+                    $url_prefix = 'authors';
                 }
+
+                App::url()->register('authors', $url_prefix, '^' . $url_prefix . '$', FrontendUrl::authors(...));
+                unset($url_prefix);
             }
         }
 

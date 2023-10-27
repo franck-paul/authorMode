@@ -50,19 +50,21 @@ class Manage extends Process
 
         if (!empty($_POST['saveconfig'])) {
             try {
-                $active = (empty($_POST['active'])) ? false : true;
+                $active = !empty($_POST['active']);
                 if (trim((string) $_POST['url_author']) == '') {
                     $url_author = 'author';
                 } else {
                     $url_author = Txt::str2URL(trim((string) $_POST['url_author']));
                 }
+
                 if (trim((string) $_POST['url_authors']) == '') {
                     $url_authors = 'authors';
                 } else {
                     $url_authors = Txt::str2URL(trim((string) $_POST['url_authors']));
                 }
-                $posts_only  = (empty($_POST['posts_only'])) ? false : true;
-                $alpha_order = (empty($_POST['alpha_order'])) ? false : true;
+
+                $posts_only  = !empty($_POST['posts_only']);
+                $alpha_order = !empty($_POST['alpha_order']);
 
                 $settings = My::settings();
 

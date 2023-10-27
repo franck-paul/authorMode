@@ -33,12 +33,10 @@ class Install extends Process
 
         try {
             $old_version = App::version()->getVersion(My::id());
-            if (version_compare((string) $old_version, '3.0', '<')) {
-                // Rename settings namespace
-                if (App::blog()->settings()->exists('authormode')) {
-                    App::blog()->settings()->delWorkspace(My::id());
-                    App::blog()->settings()->renWorkspace('authormode', My::id());
-                }
+            // Rename settings namespace
+            if (version_compare((string) $old_version, '3.0', '<') && App::blog()->settings()->exists('authormode')) {
+                App::blog()->settings()->delWorkspace(My::id());
+                App::blog()->settings()->renWorkspace('authormode', My::id());
             }
 
             $settings = My::settings();
@@ -48,8 +46,8 @@ class Install extends Process
             $settings->put('authormode_url_authors', 'authors', App::blogWorkspace()::NS_STRING, '', false, true);
             $settings->put('authormode_default_alpha_order', true, App::blogWorkspace()::NS_BOOL, '', false, true);
             $settings->put('authormode_default_posts_only', true, App::blogWorkspace()::NS_BOOL, '', false, true);
-        } catch (Exception $e) {
-            App::error()->add($e->getMessage());
+        } catch (Exception $exception) {
+            App::error()->add($exception->getMessage());
         }
 
         return true;

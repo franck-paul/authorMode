@@ -29,6 +29,7 @@ class FrontendUrl extends Url
             if ($n) {
                 App::frontend()->setPageNumber($n);
             }
+
             App::frontend()->context()->users = CoreHelper::getPostsUsers($args);
 
             if (App::frontend()->context()->users->isEmpty()) {
@@ -37,6 +38,7 @@ class FrontendUrl extends Url
 
             self::serveDocument('author.html');
         }
+
         exit;
     }
 
@@ -85,6 +87,7 @@ class FrontendUrl extends Url
             App::frontend()->context()->nb_entry_per_page = App::blog()->settings()->system->nb_post_per_feed;
             App::frontend()->context()->short_feed_items  = App::blog()->settings()->system->short_feed_items;
         }
+
         $tpl .= '.xml';
 
         self::serveDocument($tpl, $mime);

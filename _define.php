@@ -13,7 +13,7 @@ $this->registerModule(
     'authorMode',
     'Post entries per author + author desc handling',
     'xave, Pierre Van Glabeke, Franck Paul',
-    '5.0',
+    '5.1',
     [
         'requires'    => [['core', '2.28']],
         'permissions' => 'My',

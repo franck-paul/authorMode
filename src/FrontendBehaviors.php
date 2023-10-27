@@ -18,9 +18,8 @@ use Dotclear\App;
 
 class FrontendBehaviors
 {
-    public static function block(): string
+    public static function block(mixed ...$args): string
     {
-        $args = func_get_args();
         array_shift($args);
 
         if ($args[0] == 'Comments') {
