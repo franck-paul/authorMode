@@ -16,6 +16,8 @@ namespace Dotclear\Plugin\authorMode;
 
 use Dotclear\App;
 use Dotclear\Database\MetaRecord;
+use Dotclear\Database\Statement\JoinStatement;
+use Dotclear\Database\Statement\SelectStatement;
 
 class CoreHelper
 {
@@ -34,32 +36,57 @@ class CoreHelper
             $params = ['author' => $params];
         }
 
-        $strReq = 'SELECT P.user_id, user_name, user_firstname, ' .
-        'user_displayname, user_desc, COUNT(P.post_id) as nb_post ' .
-        'FROM ' . App::con()->prefix() . App::auth()::USER_TABLE_NAME . ' U ' .
-        'LEFT JOIN ' . App::con()->prefix() . 'post P ON P.user_id = U.user_id ' .
-        "WHERE blog_id = '" . App::con()->escapeStr(App::blog()->id()) . "' " .
-        'AND P.post_status = ' . App::blog()::POST_PUBLISHED . ' ';
+        $sql = new SelectStatement();
+        $sql
+            ->columns([
+                'P.user_id',
+                'user_name',
+                'user_firstname',
+                'user_displayname',
+                'user_desc',
+                $sql->count('P.post_id', 'nb_post'),
+            ])
+            ->from($sql->as(App::con()->prefix() . App::auth()::USER_TABLE_NAME, 'U'))
+            ->join(
+                (new JoinStatement())
+                    ->left()
+                    ->from($sql->as(App::con()->prefix() . App::blog()::POST_TABLE_NAME, 'P'))
+                    ->on('P.user_id = U.user_id')
+                    ->statement()
+            )
+            ->where('blog_id = ' . $sql->quote(App::blog()->id()))
+            ->and('P.post_status = ' . App::blog()::POST_PUBLISHED)
+        ;
 
         if (!empty($params['author'])) {
-            $strReq .= " AND P.user_id = '" . App::con()->escapeStr($params['author']) . "' ";
+            $sql->and('P.user_id = ' . $sql->quote($params['author']));
         }
 
         if (!empty($params['post_type'])) {
-            $strReq .= " AND P.post_type = '" . App::con()->escapeStr($params['post_type']) . "' ";
+            $sql->and('P.post_type = ' . $sql->quote($params['post_type']));
         } elseif ($settings->authormode_default_posts_only) {
-            $strReq .= " AND P.post_type = 'post' ";
+            $sql->and('P.post_type = ' . $sql->quote('post'));
         }
 
-        $strReq .= 'GROUP BY P.user_id, user_name, user_firstname, user_displayname, user_desc ';
+        $sql->group([
+            'P.user_id',
+            'user_name',
+            'user_firstname',
+            'user_displayname',
+            'user_desc',
+        ]);
 
         if (!empty($params['order'])) {
-            $strReq .= 'ORDER BY ' . App::con()->escapeStr($params['order']) . ' ';
+            $sql->order($sql->escape($params['order']));
         } elseif ($settings->authormode_default_alpha_order) {
-            $strReq .= 'ORDER BY user_displayname, user_firstname, user_name ';
+            $sql->order([
+                'user_displayname',
+                'user_firstname',
+                'user_name',
+            ]);
         }
 
-        $rs = new MetaRecord(App::con()->select($strReq));
+        $rs = $sql->select();
         $rs->extend(AuthorExtensions::class);
 
         return $rs;
