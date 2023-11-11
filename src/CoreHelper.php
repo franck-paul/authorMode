@@ -87,8 +87,10 @@ class CoreHelper
         }
 
         $rs = $sql->select();
-        $rs->extend(AuthorExtensions::class);
+        if ($rs) {
+            $rs->extend(AuthorExtensions::class);
+        }
 
-        return $rs;
+        return $rs ?? MetaRecord::newFromArray([]);
     }
 }
