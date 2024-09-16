@@ -98,7 +98,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_desc') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_desc') . ' ?>';
     }
 
     /**
@@ -110,9 +110,9 @@ if (!App::frontend()->context()->exists("users")) { ' .
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' .
+        return '<?= ' .
         sprintf($f, 'App::blog()->url().App::url()->getBase("author").
-            "/".App::frontend()->context()->users->user_id') . '; ?>';
+            "/".App::frontend()->context()->users->user_id') . ' ?>';
     }
 
     /**
@@ -124,7 +124,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->nb_post') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->nb_post') . ' ?>';
     }
 
     /**
@@ -136,7 +136,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->getAuthorCN()') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->getAuthorCN()') . ' ?>';
     }
 
     /**
@@ -148,7 +148,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_displayname') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_displayname') . ' ?>';
     }
 
     /**
@@ -160,7 +160,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_firstname') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_firstname') . ' ?>';
     }
 
     /**
@@ -172,7 +172,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_name') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_name') . ' ?>';
     }
 
     /**
@@ -184,7 +184,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_id') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_id') . ' ?>';
     }
 
     /**
@@ -201,7 +201,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->getAuthorEmail(' . $p . ')') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->getAuthorEmail(' . $p . ')') . ' ?>';
     }
 
     /**
@@ -213,7 +213,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->getAuthorLink()') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->getAuthorLink()') . ' ?>';
     }
 
     /**
@@ -225,7 +225,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->users->user_url') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_url') . ' ?>';
     }
 
     /**
@@ -243,7 +243,7 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::blog()->url().App::url()->getBase("author_feed")."/".' .
-            'rawurlencode(App::frontend()->context()->users->user_id)."/' . $type . '"') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::blog()->url().App::url()->getBase("author_feed")."/".' .
+            'rawurlencode(App::frontend()->context()->users->user_id)."/' . $type . '"') . ' ?>';
     }
 }
