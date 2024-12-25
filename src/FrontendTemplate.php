@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -29,7 +30,7 @@ class FrontendTemplate
     {
         $p = '';
         if (isset($attr['post_type'])) {
-            $p .= "\$params['post_type'] = '" . addslashes($attr['post_type']) . "';\n";
+            $p .= "\$params['post_type'] = '" . addslashes((string) $attr['post_type']) . "';\n";
         }
 
         if (isset($attr['sortby'])) {
