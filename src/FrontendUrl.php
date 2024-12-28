@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -75,7 +76,7 @@ class FrontendUrl extends Url
             self::p404();
         }
 
-        if ($type == 'atom') {
+        if ($type === 'atom') {
             $mime = 'application/atom+xml';
         }
 

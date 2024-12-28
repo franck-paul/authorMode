@@ -23,8 +23,6 @@ class FrontendTemplate
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
      * @param      string                                            $content   The content
-     *
-     * @return     string
      */
     public static function Authors(array|ArrayObject $attr, string $content): string
     {
@@ -65,8 +63,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
      * @param      string                                            $content   The content
-     *
-     * @return     string
      */
     public static function AuthorsHeader(array|ArrayObject $attr, string $content): string
     {
@@ -79,8 +75,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
      * @param      string                                            $content   The content
-     *
-     * @return     string
      */
     public static function AuthorsFooter(array|ArrayObject $attr, string $content): string
     {
@@ -92,8 +86,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorDesc(array|ArrayObject $attr): string
     {
@@ -104,8 +96,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorPostsURL(array|ArrayObject $attr): string
     {
@@ -118,8 +108,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorNbPosts(array|ArrayObject $attr): string
     {
@@ -130,8 +118,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorCommonName(array|ArrayObject $attr): string
     {
@@ -142,8 +128,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorDisplayName(array|ArrayObject $attr): string
     {
@@ -154,8 +138,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorFirstName(array|ArrayObject $attr): string
     {
@@ -166,8 +148,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorName(array|ArrayObject $attr): string
     {
@@ -178,8 +158,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorID(array|ArrayObject $attr): string
     {
@@ -190,8 +168,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorEmail(array|ArrayObject $attr): string
     {
@@ -207,8 +183,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorLink(array|ArrayObject $attr): string
     {
@@ -219,8 +193,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorURL(array|ArrayObject $attr): string
     {
@@ -231,8 +203,6 @@ if (!App::frontend()->context()->exists("users")) { ' .
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function AuthorFeedURL(array|ArrayObject $attr): string
     {

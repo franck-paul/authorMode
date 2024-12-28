@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -22,7 +23,8 @@ class Backend extends Process
     public static function init(): bool
     {
         // dead but useful code, in order to have translations
-        __('authorMode') . __('Author Mode');
+        __('authorMode');
+        __('Author Mode');
 
         return self::status(My::checkContext(My::BACKEND));
     }

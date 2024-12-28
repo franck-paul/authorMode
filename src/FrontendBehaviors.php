@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -40,13 +41,11 @@ class FrontendBehaviors
 
     public static function publicBreadcrumb(string $context): string
     {
-        if ($context == 'author') {
-            return __('Author\'s page');
-        } elseif ($context == 'authors') {
-            return __('List of authors');
-        }
-
-        return '';
+        return match ($context) {
+            'author'  => __('Author\'s page'),
+            'authors' => __('List of authors'),
+            default   => '',
+        };
     }
 
     public static function publicHeadContent(): string
