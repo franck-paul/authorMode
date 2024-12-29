@@ -65,7 +65,7 @@ class FrontendUrl extends Url
         if (preg_match('#^(.+)/(atom|rss2)(/comments)?$#', (string) $args, $m)) {
             $author   = $m[1];
             $type     = $m[2];
-            $comments = isset($m[3]) && $m[3] !== '';
+            $comments = isset($m[3]);
             ;
         } else {
             self::p404();
