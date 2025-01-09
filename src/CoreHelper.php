@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -55,7 +56,7 @@ class CoreHelper
                     ->statement()
             )
             ->where('blog_id = ' . $sql->quote(App::blog()->id()))
-            ->and('P.post_status = ' . App::blog()::POST_PUBLISHED)
+            ->and('P.post_status > ' . App::status()->post()->threshold())
         ;
 
         if (!empty($params['author'])) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -15,7 +16,7 @@ $this->registerModule(
     'xave, Pierre Van Glabeke, Franck Paul',
     '5.5',
     [
-        'requires'    => [['core', '2.28']],
+        'requires'    => [['core', '2.33']],
         'permissions' => 'My',
         'type'        => 'plugin',
 
