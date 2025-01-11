@@ -56,7 +56,7 @@ class CoreHelper
                     ->statement()
             )
             ->where('blog_id = ' . $sql->quote(App::blog()->id()))
-            ->and('P.post_status > ' . App::status()->post()->threshold())
+            ->and('P.post_status = ' . App::status()->post()::PUBLISHED)
         ;
 
         if (!empty($params['author'])) {
