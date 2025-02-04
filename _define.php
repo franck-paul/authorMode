@@ -16,6 +16,7 @@ $this->registerModule(
     'xave, Pierre Van Glabeke, Franck Paul',
     '6.1',
     [
+        'date'        => '2003-08-13T13:42:00+0100',
         'requires'    => [['core', '2.33']],
         'permissions' => 'My',
         'type'        => 'plugin',
