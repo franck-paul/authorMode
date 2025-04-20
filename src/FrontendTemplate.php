@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\authorMode;
 
 use ArrayObject;
-use Dotclear\App;
+use Dotclear\Plugin\TemplateHelper\Code;
 
 class FrontendTemplate
 {
@@ -26,38 +26,36 @@ class FrontendTemplate
      */
     public static function Authors(array|ArrayObject $attr, string $content): string
     {
-        $p = '';
-        if (isset($attr['post_type'])) {
-            $p .= "\$params['post_type'] = '" . addslashes((string) $attr['post_type']) . "';\n";
-        }
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
+        $post_type = $attr['post_type'] ?? '';
+
+        $sortby = '';
+        $order  = '';
         if (isset($attr['sortby'])) {
-            $order  = 'asc';
             $sortby = match ($attr['sortby']) {
                 'id'    => 'user_id',
                 'posts' => 'nb_post',
                 'name'  => 'user_displayname, user_firstname, user_name',
-                default => null
+                default => ''
             };
 
+            $order = 'asc';
             if (isset($attr['order']) && preg_match('/^(desc|asc)$/i', (string) $attr['order'])) {
                 $order = (string) $attr['order'];
             }
-
-            if (isset($sortby)) {
-                $p .= "\$params['order'] = '" . $sortby . ' ' . $order . "';\n";
-            }
         }
 
-        $p = $p === '' ? '$params = null;' . "\n" : '$params = array();' . "\n" . $p;
-
-        return '<?php
-if (!App::frontend()->context()->exists("users")) { ' .
-            $p .
-            'App::frontend()->context()->users = ' . CoreHelper::class . '::getPostsUsers($params); unset($params);' . "\n" .
-            ' } ' .
-            "?>\n" .
-            '<?php while (App::frontend()->context()->users->fetch()) : ?>' . $content . '<?php endwhile; App::frontend()->context()->users = null; ?>';
+        return Code::getPHPTemplateBlockCode(
+            FrontendTemplateCode::Authors(...),
+            [
+                $post_type,
+                $sortby,
+                $order,
+            ],
+            $content,
+            $attr,
+        );
     }
 
     /**
@@ -66,10 +64,14 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorsHeader(array|ArrayObject $attr, string $content): string
     {
-        return
-            '<?php if (App::frontend()->context()->users->isStart()) : ?>' .
-            $content .
-            '<?php endif; ?>';
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
+
+        return Code::getPHPTemplateBlockCode(
+            FrontendTemplateCode::AuthorsHeader(...),
+            [],
+            $content,
+            $attr,
+        );
     }
 
     /**
@@ -78,10 +80,14 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorsFooter(array|ArrayObject $attr, string $content): string
     {
-        return
-            '<?php if (App::frontend()->context()->users->isEnd()) : ?>' .
-            $content .
-            '<?php endif; ?>';
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
+
+        return Code::getPHPTemplateBlockCode(
+            FrontendTemplateCode::AuthorsFooter(...),
+            [],
+            $content,
+            $attr,
+        );
     }
 
     /**
@@ -89,9 +95,12 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorDesc(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_desc') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorDesc(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -99,11 +108,12 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorPostsURL(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        return '<?= ' .
-        sprintf($f, 'App::blog()->url().App::url()->getBase("author").
-            "/".App::frontend()->context()->users->user_id') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorPostsURL(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -111,9 +121,12 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorNbPosts(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->nb_post') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorNbPosts(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -121,9 +134,12 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorCommonName(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->getAuthorCN()') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorCommonName(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -131,9 +147,12 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorDisplayName(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_displayname') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorDisplayName(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -141,9 +160,12 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorFirstName(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_firstname') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorFirstName(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -151,9 +173,12 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorName(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_name') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorName(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -161,9 +186,12 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorID(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_id') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorID(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -171,14 +199,15 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorEmail(array|ArrayObject $attr): string
     {
-        $p = 'true';
-        if (isset($attr['spam_protected']) && !$attr['spam_protected']) {
-            $p = 'false';
-        }
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        $f = App::frontend()->template()->getFilters($attr);
-
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->getAuthorEmail(' . $p . ')') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorEmail(...),
+            [
+                !isset($attr['spam_protected']) || $attr['spam_protected'],
+            ],
+            attr: $attr,
+        );
     }
 
     /**
@@ -186,9 +215,12 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorLink(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->getAuthorLink()') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorLink(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -196,9 +228,12 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorURL(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->users->user_url') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorURL(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -206,15 +241,19 @@ if (!App::frontend()->context()->exists("users")) { ' .
      */
     public static function AuthorFeedURL(array|ArrayObject $attr): string
     {
-        $type = empty($attr['type']) ? 'rss2' : (string) $attr['type'];
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        if (!preg_match('#^(rss2|atom)$#', $type)) {
+        $type = $attr['type'] ?? 'rss2';
+        if (!preg_match('/^(rss2|atom)$/', $type)) {
             $type = 'rss2';
         }
 
-        $f = App::frontend()->template()->getFilters($attr);
-
-        return '<?= ' . sprintf($f, 'App::blog()->url().App::url()->getBase("author_feed")."/".' .
-            'rawurlencode(App::frontend()->context()->users->user_id)."/' . $type . '"') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorFeedURL(...),
+            [
+                $type,
+            ],
+            attr: $attr,
+        );
     }
 }

@@ -16,22 +16,10 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\authorMode;
 
 use Dotclear\App;
+use Dotclear\Plugin\TemplateHelper\Code;
 
 class FrontendBehaviors
 {
-    public static function block(mixed ...$args): string
-    {
-        array_shift($args);
-
-        if ($args[0] == 'Comments') {
-            return '<?php if (App::frontend()->context()->exists("users")) { ' .
-                "@\$params['sql'] .= \"AND P.user_id = '\".App::frontend()->context()->users->user_id.\"' \";" .
-                "} ?>\n";
-        }
-
-        return '';
-    }
-
     public static function addTplPath(): string
     {
         App::frontend()->template()->appendPath(My::tplPath());
@@ -54,5 +42,29 @@ class FrontendBehaviors
         My::cssLoad('authorMode.css');
 
         return '';
+    }
+
+    /**
+     * @param      string   $b      The block
+     */
+    public static function templateBeforeBlock(string $b): string
+    {
+        if ($b === 'Comments') {
+            return Code::getPHPCode(
+                self::userID(...),
+            );
+        }
+
+        return '';
+    }
+
+    // Template code methods
+
+    private static function userID(
+    ): void {
+        global $params; // @phpcode-remove
+        if (App::frontend()->context()->exists('users')) {
+            $params['sql'] .= "AND P.user_id = '" . App::frontend()->context()->users->user_id . "' ";
+        }
     }
 }

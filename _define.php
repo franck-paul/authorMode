@@ -16,13 +16,17 @@ $this->registerModule(
     'xave, Pierre Van Glabeke, Franck Paul',
     '6.1',
     [
-        'date'        => '2003-08-13T13:42:00+0100',
-        'requires'    => [['core', '2.33']],
+        'date'     => '2003-08-13T13:42:00+0100',
+        'requires' => [
+            ['core', '2.34'],
+            ['TemplateHelper'],
+        ],
         'permissions' => 'My',
         'type'        => 'plugin',
 
         'details'    => 'https://open-time.net/?q=authorMode',
         'support'    => 'https://github.com/franck-paul/authorMode',
         'repository' => 'https://raw.githubusercontent.com/franck-paul/authorMode/main/dcstore.xml',
+        'license'    => 'gpl2',
     ]
 );

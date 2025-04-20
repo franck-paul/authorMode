@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -53,7 +54,7 @@ class Frontend extends Process
         App::frontend()->template()->addBlock('AuthorsFooter', FrontendTemplate::AuthorsFooter(...));
 
         App::behavior()->addBehaviors([
-            'templateBeforeBlockV2'  => FrontendBehaviors::block(...),
+            'templateBeforeBlockV2'  => FrontendBehaviors::templateBeforeBlock(...),
             'publicBeforeDocumentV2' => FrontendBehaviors::addTplPath(...),
             'publicBreadcrumb'       => FrontendBehaviors::publicBreadcrumb(...),
             'publicHeadContent'      => FrontendBehaviors::publicHeadContent(...),

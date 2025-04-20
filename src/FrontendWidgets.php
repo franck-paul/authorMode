@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -15,6 +16,14 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\authorMode;
 
 use Dotclear\App;
+use Dotclear\Helper\Html\Form\Div;
+use Dotclear\Helper\Html\Form\Li;
+use Dotclear\Helper\Html\Form\Link;
+use Dotclear\Helper\Html\Form\None;
+use Dotclear\Helper\Html\Form\Para;
+use Dotclear\Helper\Html\Form\Set;
+use Dotclear\Helper\Html\Form\Text;
+use Dotclear\Helper\Html\Form\Ul;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Plugin\widgets\WidgetsElement;
 
@@ -47,31 +56,53 @@ class FrontendWidgets
             default  => '',
         };
 
-        $res = ($w->title ? $w->renderTitle(Html::escapeHTML($w->title)) : '') .
-            '<ul>';
+        $items = [];
 
-        while ($rs->fetch()) {
-            $res .= '<li' .
-            ($rs->user_id == $currentuser ? ' class="current-author"' : '') .
-            '><a href="' . App::blog()->url() . App::url()->getBase('author') . '/' .
-            $rs->user_id . '">' .
-            Html::escapeHTML(
-                App::users()->getUserCN(
-                    $rs->user_id,
-                    $rs->user_name,
-                    $rs->user_firstname,
-                    $rs->user_displayname
-                )
-            ) . '</a>' .
-                ($w->get('postcount') ? ' (' . $rs->nb_post . ')' : '') .
-                '</li>';
+        if ($w->title) {
+            $items[] = (new Text(null, $w->renderTitle(Html::escapeHTML($w->title))));
         }
 
-        $res .= '</ul>';
+        $lines = function () use ($rs, $currentuser, $w) {
+            while ($rs->fetch()) {
+                yield (new Li())
+                    ->class($rs->user_id === $currentuser ? 'current-author' : '')
+                    ->items([
+                        (new Link())
+                            ->href(App::blog()->url() . App::url()->getBase('author') . '/' . $rs->user_id)
+                            ->text(Html::escapeHTML(
+                                App::users()->getUserCN(
+                                    $rs->user_id,
+                                    $rs->user_name,
+                                    $rs->user_firstname,
+                                    $rs->user_displayname
+                                )
+                            )),
+                        $w->get('postcount') ? (new Text(null, ' (' . $rs->nb_post . ')')) : (new None()),
+                    ]);
+            }
+        };
+
+        $items[] = (new Ul())
+            ->items([
+                ... $lines(),
+            ]);
 
         if (is_null($w->get('allauthors')) || $w->get('allauthors')) {
-            $res .= '<p class="listauthors"><strong><a href="' . App::blog()->url() . App::url()->getBase('authors') . '">' . __('List of authors') . '</a></strong></p>';
+            $items[] = (new Para())
+                ->class('listauthors')
+                ->items([
+                    (new Div(null, 'strong'))
+                        ->items([
+                            (new Link())
+                                ->href(App::blog()->url() . App::url()->getBase('authors'))
+                                ->text(__('List of authors')),
+                        ]),
+                ]);
         }
+
+        $res = (new Set())
+            ->items($items)
+        ->render();
 
         return $w->renderDiv((bool) $w->content_only, 'authors ' . $w->class, '', $res);
     }
