@@ -16,12 +16,12 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\authorMode;
 
 use Dotclear\App;
-use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Li;
 use Dotclear\Helper\Html\Form\Link;
 use Dotclear\Helper\Html\Form\None;
 use Dotclear\Helper\Html\Form\Para;
 use Dotclear\Helper\Html\Form\Set;
+use Dotclear\Helper\Html\Form\Strong;
 use Dotclear\Helper\Html\Form\Text;
 use Dotclear\Helper\Html\Form\Ul;
 use Dotclear\Helper\Html\Html;
@@ -91,11 +91,10 @@ class FrontendWidgets
             $items[] = (new Para())
                 ->class('listauthors')
                 ->items([
-                    (new Div(null, 'strong'))
+                    (new Link())
+                        ->href(App::blog()->url() . App::url()->getBase('authors'))
                         ->items([
-                            (new Link())
-                                ->href(App::blog()->url() . App::url()->getBase('authors'))
-                                ->text(__('List of authors')),
+                            new Strong(__('List of authors')),
                         ]),
                 ]);
         }
