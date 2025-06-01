@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -21,7 +22,7 @@ class Widgets
     public static function initWidgets(WidgetsStack $w): string
     {
         $w
-            ->create('authors', __('AuthorMode: authors'), FrontendWidgets::authors(...), null, __('List of authors'))
+            ->create('authors', __('AuthorMode: authors'), FrontendWidgets::authors(...), null, __('List of authors'), My::id())
             ->addTitle(__('Authors'))
             ->setting('postcount', __('With entries counts'), 0, 'check')
             ->setting('allauthors', __('With link to all authors'), 1, 'check')
