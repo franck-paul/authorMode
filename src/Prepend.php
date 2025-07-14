@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -40,7 +41,7 @@ class Prepend extends Process
                 }
 
                 $feed_prefix = App::url()->getBase('feed') . '/' . $url_prefix;
-                App::url()->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', FrontendUrl::author(...));
+                App::url()->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', FrontendUrl::Author(...));
                 App::url()->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', FrontendUrl::feed(...));
                 unset($url_prefix, $feed_prefix);
             }
@@ -51,7 +52,7 @@ class Prepend extends Process
                     $url_prefix = 'authors';
                 }
 
-                App::url()->register('authors', $url_prefix, '^' . $url_prefix . '$', FrontendUrl::authors(...));
+                App::url()->register('authors', $url_prefix, '^' . $url_prefix . '$', FrontendUrl::Authors(...));
                 unset($url_prefix);
             }
         }
