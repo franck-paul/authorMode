@@ -14,9 +14,9 @@ $this->registerModule(
     'Author Mode',
     'Post entries per author + author desc handling',
     'xave, Pierre Van Glabeke, Franck Paul',
-    '7.2',
+    '7.3',
     [
-        'date'     => '2025-06-01T08:07:48+0200',
+        'date'     => '2025-07-14T17:18:09+0200',
         'requires' => [
             ['core', '2.34'],
             ['TemplateHelper'],
