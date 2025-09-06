@@ -47,11 +47,11 @@ class CoreHelper
                 'user_desc',
                 $sql->count('P.post_id', 'nb_post'),
             ])
-            ->from($sql->as(App::con()->prefix() . App::auth()::USER_TABLE_NAME, 'U'))
+            ->from($sql->as(App::db()->con()->prefix() . App::auth()::USER_TABLE_NAME, 'U'))
             ->join(
                 (new JoinStatement())
                     ->left()
-                    ->from($sql->as(App::con()->prefix() . App::blog()::POST_TABLE_NAME, 'P'))
+                    ->from($sql->as(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME, 'P'))
                     ->on('P.user_id = U.user_id')
                     ->statement()
             )

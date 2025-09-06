@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief authorMode, a plugin for Dotclear 2
  *
@@ -64,7 +65,7 @@ class BackendBehaviors
         $sql = new SelectStatement();
         $sql
             ->column('user_desc')
-            ->from(App::con()->prefix() . App::auth()::USER_TABLE_NAME)
+            ->from(App::db()->con()->prefix() . App::auth()::USER_TABLE_NAME)
             ->where('user_id = ' . $sql->quote((string) App::auth()->userID()))
         ;
 
