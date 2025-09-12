@@ -79,7 +79,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->users->user_desc,
             $_params_,
             $_tag_
@@ -95,7 +95,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::blog()->url() . App::url()->getBase('author') . '/' . App::frontend()->context()->users->user_id,
             $_params_,
             $_tag_
@@ -111,7 +111,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->users->nb_post,
             $_params_,
             $_tag_
@@ -127,7 +127,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->users->getAuthorCN(),
             $_params_,
             $_tag_
@@ -143,7 +143,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->users->user_displayname,
             $_params_,
             $_tag_
@@ -159,7 +159,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->users->user_firstname,
             $_params_,
             $_tag_
@@ -175,7 +175,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->users->user_name,
             $_params_,
             $_tag_
@@ -191,7 +191,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->users->user_id,
             $_params_,
             $_tag_
@@ -208,7 +208,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->users->getAuthorEmail($_spam_protected_),
             $_params_,
             $_tag_
@@ -224,7 +224,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->users->getAuthorLink(),
             $_params_,
             $_tag_
@@ -240,7 +240,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->users->user_url,
             $_params_,
             $_tag_
@@ -257,7 +257,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::blog()->url() . App::url()->getBase('author_feed') . '/' . rawurlencode((string) App::frontend()->context()->users->user_id) . '/' . $_type_,
             $_params_,
             $_tag_
