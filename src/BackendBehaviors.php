@@ -17,7 +17,6 @@ namespace Dotclear\Plugin\authorMode;
 
 use Dotclear\App;
 use Dotclear\Core\Backend\Favorites;
-use Dotclear\Core\Backend\Page;
 use Dotclear\Database\Cursor;
 use Dotclear\Database\MetaRecord;
 use Dotclear\Database\Statement\SelectStatement;
@@ -54,7 +53,7 @@ class BackendBehaviors
 
         return
         $admin_post_behavior .
-        Page::jsConfirmClose('opts-forms') .
+        App::backend()->page()->jsConfirmClose('opts-forms') .
         My::jsLoad('_user.js');
     }
 
