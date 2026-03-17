@@ -61,7 +61,7 @@ msgid "URLs prefixes"
 msgstr "Préfixes des URLs"
 
 msgid "URL author:"
-msgstr "URL d'un·e auteur·rice :"
+msgstr "URL d'un·e auteur·ice :"
 
 msgid "URL authors:"
 msgstr "URL de la liste des auteur·rice·s :"
