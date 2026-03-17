@@ -30,7 +30,7 @@ msgid "This author's entries Atom feed"
 msgstr "Fil Atom des billets de cet·te auteur·ice"
 
 msgid "This authors's entries comments Atom feed"
-msgstr "Fil Atom des commentaires de cet·te auteur·rice"
+msgstr "Fil Atom des commentaires de cet·te auteur·ice"
 
 msgid "authorMode"
 msgstr "authorMode"
