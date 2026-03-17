@@ -76,7 +76,7 @@ msgid "Sort list (alphabetical order)"
 msgstr "Trier la liste (ordre alphabétique)"
 
 msgid "AuthorMode: authors"
-msgstr "AuthorMode : auteur·rice·s"
+msgstr "AuthorMode : auteur·ices"
 
 msgid "With link to all authors"
 msgstr "Inclure le lien vers tous les auteur·ice·s"
