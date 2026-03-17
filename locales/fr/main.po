@@ -64,13 +64,13 @@ msgid "URL author:"
 msgstr "URL d'un·e auteur·ice :"
 
 msgid "URL authors:"
-msgstr "URL de la liste des auteur·rice·s :"
+msgstr "URL de la liste des auteur·ices :"
 
 msgid "List options"
 msgstr "Options de liste"
 
 msgid "List only authors of standard posts"
-msgstr "Lister seulement les auteur·rice·s de billets standards"
+msgstr "Lister seulement les auteur·ices de billets standards"
 
 msgid "Sort list (alphabetical order)"
 msgstr "Trier la liste (ordre alphabétique)"
