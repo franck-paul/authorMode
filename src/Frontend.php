@@ -49,6 +49,7 @@ class Frontend
         App::frontend()->template()->addValue('AuthorDesc', FrontendTemplate::AuthorDesc(...));
         App::frontend()->template()->addValue('AuthorPostsURL', FrontendTemplate::AuthorPostsURL(...));
         App::frontend()->template()->addValue('AuthorNbPosts', FrontendTemplate::AuthorNbPosts(...));
+        App::frontend()->template()->addValue('AuthorEntriesCount', FrontendTemplate::AuthorEntriesCount(...));
         App::frontend()->template()->addValue('AuthorFeedURL', FrontendTemplate::AuthorFeedURL(...));
 
         App::frontend()->template()->addBlock('Authors', FrontendTemplate::Authors(...));

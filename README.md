@@ -40,6 +40,8 @@ New template tags :
 ``{{tpl:AuthorDesc}}`` : Description.
 ``{{tpl:AuthorPostsURL}}`` : the URL of the page with all the author's posts.
 ``{{tpl:AuthorFeedURL}}`` : feed for the said page.
+``{{tpl:AuthorNbPosts}}`` : number of author's posts (number only).
+``{{tpl:AuthorEntriesCount}}`` : number of author's posts (with label).
 
 ``<tpl:Authors>`` : Authors list. -->
 

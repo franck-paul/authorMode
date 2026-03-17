@@ -132,6 +132,27 @@ class FrontendTemplate
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
      */
+    public static function AuthorEntriesCount(array|ArrayObject $attr): string
+    {
+        // Labels used for counter
+        __('one entry');
+        __('%d entries');
+
+        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
+
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::AuthorEntriesCount(...),
+            [
+                'one entry',
+                '%d entries',
+            ],
+            attr: $attr,
+        );
+    }
+
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     */
     public static function AuthorCommonName(array|ArrayObject $attr): string
     {
         $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);

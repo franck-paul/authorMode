@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 authorMode module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-06 15:54+0200\n"
+"POT-Creation-Date: 2026-03-17 14:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,16 +28,23 @@ msgstr ""
 msgid "This authors's entries comments Atom feed"
 msgstr ""
 
-msgid "Author Mode"
+msgid "authorMode"
 msgstr ""
 
-msgid "authorMode"
+msgid "Author Mode"
 msgstr ""
 
 msgid "Author's description:"
 msgstr ""
 
 msgid "Author's page"
+msgstr ""
+
+msgid "one entry"
+msgstr ""
+
+#, php-format
+msgid "%d entries"
 msgstr ""
 
 msgid "Enable authorMode"

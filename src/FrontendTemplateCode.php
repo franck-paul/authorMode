@@ -119,6 +119,24 @@ class FrontendTemplateCode
     }
 
     /**
+     * PHP code for tpl:AuthorEntriesCount value
+     *
+     * @param      array<int|string, mixed>     $_params_  The parameters
+     */
+    public static function AuthorEntriesCount(
+        string $_singular_,
+        string $_plural_,
+        array $_params_,
+        string $_tag_
+    ): void {
+        echo App::frontend()->context()::global_filters(
+            sprintf(__($_singular_, $_plural_, App::frontend()->context()->users->nb_post), App::frontend()->context()->users->nb_post),
+            $_params_,
+            $_tag_
+        );
+    }
+
+    /**
      * PHP code for tpl:AuthorCommonName value
      *
      * @param      array<int|string, mixed>     $_params_  The parameters
