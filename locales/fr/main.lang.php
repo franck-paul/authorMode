@@ -10,7 +10,7 @@
 
 use Dotclear\Helper\L10n;
 
-L10n::$locales['Authors'] = 'Auteur·rice';
+L10n::$locales['Authors'] = 'Auteur·ice';
 L10n::$locales['List of authors'] = 'Liste des auteur·ices';
 L10n::$locales['This author\'s entries Atom feed'] = 'Fil Atom des billets de cet·te auteur·ice';
 L10n::$locales['This authors\'s entries comments Atom feed'] = 'Fil Atom des commentaires de cet·te auteur·ice';
