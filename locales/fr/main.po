@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid "Authors"
-msgstr "Auteur·rice"
+msgstr "Auteur·ice"
 
 msgid "List of authors"
 msgstr "Liste des auteur·ices"
