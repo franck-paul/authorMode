@@ -1,11 +1,11 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="authorMode">
     <name>authorMode</name>
-    <version>8.4.1</version>
+    <version>8.5</version>
     <author>xave, Pierre Van Glabeke, Franck Paul</author>
     <desc>Post entries per author + author desc handling</desc>
-    <date>2026-03-22T16:05:39+0100</date>
-    <file>https://github.com/franck-paul/authorMode/releases/download/8.4.1/plugin-authorMode-8.4.1.zip</file>
+    <date>2026-04-07T10:19:41+0200</date>
+    <file>https://github.com/franck-paul/authorMode/releases/download/8.5/plugin-authorMode-8.5.zip</file>
     <da:dcmin>2.36</da:dcmin>
     <da:details>https://dotclear.org/plugin/detail/authorMode</da:details>
     <da:support>https://github.com/franck-paul/authorMode</da:support>
