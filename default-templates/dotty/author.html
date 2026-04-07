@@ -42,13 +42,11 @@
 <tpl:Block name="body-tag"><body class="dc-author"></tpl:Block>
 
 <tpl:Block name="main-content">
-  <header id="content-info">
+  <header id="content-info" class="content-info">
     <h2>{{tpl:AuthorCommonName encode_html="1"}}</h2>
-    <ul class="content-info__feed feeds">
-      <li><a type="application/atom+xml" href="{{tpl:AuthorFeedURL type="atom"}}"
-      title="{{tpl:lang This author's entries Atom feed}}" class="feed">{{tpl:lang Entries feed}}</a></li>
-      <li><a type="application/atom+xml" href="{{tpl:AuthorFeedURL type="atom"}}/comments"
-      title="{{tpl:lang This authors's entries comments Atom feed}}" class="feed">{{tpl:lang Comments feed}}</a></li>
+    <ul class="content-info__feed feeds" class="feeds">
+      <li><a type="application/atom+xml" href="{{tpl:AuthorFeedURL type="atom"}}" title="{{tpl:lang This author's entries Atom feed}}" class="feed">{{tpl:lang Entries feed}}</a></li>
+      <li><a type="application/atom+xml" href="{{tpl:AuthorFeedURL type="atom"}}/comments" title="{{tpl:lang This authors's entries comments Atom feed}}" class="feed">{{tpl:lang Comments feed}}</a></li>
     </ul>
     <div class="content-info__cat-desc">
       {{tpl:AuthorDesc}}
