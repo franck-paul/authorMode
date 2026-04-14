@@ -8,7 +8,7 @@
  *
  * @author Franck Paul and contributors
  *
- * @copyright Franck Paul carnet.franck.paul@gmail.com
+ * @copyright Franck Paul contact@open-time.net
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 declare(strict_types=1);
@@ -32,7 +32,7 @@ class FrontendTemplate
 
         $sortby = '';
         $order  = '';
-        if (isset($attr['sortby'])) {
+        if (isset($attr['sortby']) && is_string($attr['sortby'])) {
             $sortby = match ($attr['sortby']) {
                 'id'    => 'user_id',
                 'posts' => 'nb_post',
@@ -41,8 +41,8 @@ class FrontendTemplate
             };
 
             $order = 'asc';
-            if (isset($attr['order']) && preg_match('/^(desc|asc)$/i', (string) $attr['order'])) {
-                $order = (string) $attr['order'];
+            if (isset($attr['order']) && is_string($attr['order']) && preg_match('/^(desc|asc)$/i', $attr['order'])) {
+                $order = $attr['order'];
             }
         }
 
@@ -264,7 +264,7 @@ class FrontendTemplate
     {
         $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
-        $type = $attr['type'] ?? 'rss2';
+        $type = isset($attr['type']) && is_string($type = $attr['type']) ? $type : '';
         if (!preg_match('/^(rss2|atom)$/', $type)) {
             $type = 'rss2';
         }

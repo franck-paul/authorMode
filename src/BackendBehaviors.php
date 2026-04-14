@@ -8,7 +8,7 @@
  *
  * @author Franck Paul and contributors
  *
- * @copyright Franck Paul carnet.franck.paul@gmail.com
+ * @copyright Franck Paul contact@open-time.net
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 declare(strict_types=1);
@@ -38,11 +38,15 @@ class BackendBehaviors
 
     public static function adminAuthorHeaders(): string
     {
-        $post_format = App::auth()->getOption('post_format');
-        $post_editor = App::auth()->getOption('editor');
+        $post_format = is_string($post_format = App::auth()->getOption('post_format')) ? $post_format : '';
+
+        /**
+         * @var array<string, string>
+         */
+        $post_editor = is_array($post_editor = App::auth()->getOption('editor')) ? $post_editor : [];
 
         $admin_post_behavior = '';
-        if ($post_editor && !empty($post_editor[$post_format])) {
+        if ($post_editor !== [] && $post_format !== '' && !empty($post_editor[$post_format])) {
             $admin_post_behavior = App::behavior()->callBehavior(
                 'adminPostEditor',
                 $post_editor[$post_format],
@@ -69,8 +73,8 @@ class BackendBehaviors
         ;
 
         $rs = $sql->select();
-        if ($rs && !$rs->isEmpty()) {
-            $user_desc = $rs->user_desc;
+        if ($rs instanceof MetaRecord && !$rs->isEmpty()) {
+            $user_desc = is_string($user_desc = $rs->user_desc) ? $user_desc : '';
         }
 
         echo
@@ -94,7 +98,7 @@ class BackendBehaviors
     {
         $user_desc = '';
         if ($rs instanceof MetaRecord && $rs->exists('user_desc')) {
-            $user_desc = $rs->user_desc;
+            $user_desc = is_string($user_desc = $rs->user_desc) ? $user_desc : '';
         }
 
         echo

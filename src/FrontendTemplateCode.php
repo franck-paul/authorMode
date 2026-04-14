@@ -8,7 +8,7 @@
  *
  * @author Franck Paul and contributors
  *
- * @copyright Franck Paul carnet.franck.paul@gmail.com
+ * @copyright Franck Paul contact@open-time.net
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 declare(strict_types=1);
@@ -28,19 +28,22 @@ class FrontendTemplateCode
         string $_order_,
         string $_content_HTML
     ): void {
-        global $params; // @phpcode-remove
         if (!App::frontend()->context()->exists('users')) {
+            $authormode_params = [];
             if ($_post_type_ !== '') {
-                $params['post_type'] = addslashes($_post_type_);
+                $authormode_params['post_type'] = addslashes($_post_type_);
             }
             if ($_sort_by_ !== '' && $_order_ !== '') {
-                $params['order'] = $_sort_by_ . ' ' . $_order_ ;
+                $authormode_params['order'] = $_sort_by_ . ' ' . $_order_ ;
             }
             if ($_post_type_ === '' && $_sort_by_ === '' && $_order_ === '') {
-                $params = [];
+                $authormode_params = [];
             }
-            App::frontend()->context()->users = \Dotclear\Plugin\authorMode\CoreHelper::getPostsUsers($params);
-            unset($params);
+            App::frontend()->context()->users = \Dotclear\Plugin\authorMode\CoreHelper::getPostsUsers($authormode_params);
+            unset($authormode_params);
+        }
+        if (!App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            return;
         }
         while (App::frontend()->context()->users->fetch()) : ?>
             $_content_HTML
@@ -54,7 +57,7 @@ class FrontendTemplateCode
     public static function AuthorsHeader(
         string $_content_HTML
     ): void {
-        if (App::frontend()->context()->users->isStart()) : ?>
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord && App::frontend()->context()->users->isStart()) : ?>
             $_content_HTML
         <?php endif;
     }
@@ -65,7 +68,7 @@ class FrontendTemplateCode
     public static function AuthorsFooter(
         string $_content_HTML
     ): void {
-        if (App::frontend()->context()->users->isEnd()) : ?>
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord && App::frontend()->context()->users->isEnd()) : ?>
             $_content_HTML
         <?php endif;
     }
@@ -79,11 +82,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->users->user_desc,
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_user_desc = is_string($authormode_user_desc = App::frontend()->context()->users->user_desc) ? $authormode_user_desc : '';
+            echo App::frontend()->context()::global_filters(
+                $authormode_user_desc,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_user_desc);
+        }
     }
 
     /**
@@ -95,11 +102,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::blog()->url() . App::url()->getBase('author') . '/' . App::frontend()->context()->users->user_id,
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_user_id = is_string($authormode_user_id = App::frontend()->context()->users->user_id) ? $authormode_user_id : '';
+            echo App::frontend()->context()::global_filters(
+                App::blog()->url() . App::url()->getBase('author') . '/' . $authormode_user_id,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_user_id);
+        }
     }
 
     /**
@@ -111,11 +122,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->users->nb_post,
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_nb_post = is_numeric($authormode_nb_post = App::frontend()->context()->users->nb_post) ? (int) $authormode_nb_post : 0;
+            echo App::frontend()->context()::global_filters(
+                (string) $authormode_nb_post,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_nb_post);
+        }
     }
 
     /**
@@ -129,11 +144,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            sprintf(__($_singular_, $_plural_, App::frontend()->context()->users->nb_post), App::frontend()->context()->users->nb_post),
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_nb_post = is_numeric($authormode_nb_post = App::frontend()->context()->users->nb_post) ? (int) $authormode_nb_post : 0;
+            echo App::frontend()->context()::global_filters(
+                sprintf(__($_singular_, $_plural_, $authormode_nb_post), $authormode_nb_post),
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_nb_post);
+        }
     }
 
     /**
@@ -145,11 +164,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->users->getAuthorCN(),
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_author_cn = is_string($authormode_author_cn = App::frontend()->context()->users->getAuthorCN()) ? $authormode_author_cn : '';
+            echo App::frontend()->context()::global_filters(
+                $authormode_author_cn,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_author_cn);
+        }
     }
 
     /**
@@ -161,11 +184,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->users->user_displayname,
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_user_displayname = is_string($authormode_user_displayname = App::frontend()->context()->users->user_displayname) ? $authormode_user_displayname : '';
+            echo App::frontend()->context()::global_filters(
+                $authormode_user_displayname,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_user_displayname);
+        }
     }
 
     /**
@@ -177,11 +204,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->users->user_firstname,
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_user_displayname = is_string($authormode_user_displayname = App::frontend()->context()->users->user_displayname) ? $authormode_user_displayname : '';
+            echo App::frontend()->context()::global_filters(
+                $authormode_user_displayname,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_user_displayname);
+        }
     }
 
     /**
@@ -193,11 +224,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->users->user_name,
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_user_name = is_string($authormode_user_name = App::frontend()->context()->users->user_name) ? $authormode_user_name : '';
+            echo App::frontend()->context()::global_filters(
+                $authormode_user_name,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_user_name);
+        }
     }
 
     /**
@@ -209,11 +244,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->users->user_id,
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_user_id = is_string($authormode_user_id = App::frontend()->context()->users->user_id) ? $authormode_user_id : '';
+            echo App::frontend()->context()::global_filters(
+                $authormode_user_id,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_user_id);
+        }
     }
 
     /**
@@ -226,11 +265,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->users->getAuthorEmail($_spam_protected_),
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_author_email = is_string($authormode_author_email = App::frontend()->context()->users->getAuthorEmail($_spam_protected_)) ? $authormode_author_email : '';
+            echo App::frontend()->context()::global_filters(
+                $authormode_author_email,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_author_email);
+        }
     }
 
     /**
@@ -242,11 +285,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->users->getAuthorLink(),
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_author_link = is_string($authormode_author_link = App::frontend()->context()->users->getAuthorLink()) ? $authormode_author_link : '';
+            echo App::frontend()->context()::global_filters(
+                $authormode_author_link,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_author_link);
+        }
     }
 
     /**
@@ -258,11 +305,15 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->users->user_url,
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_user_url = is_string($authormode_user_url = App::frontend()->context()->users->user_url) ? $authormode_user_url : '';
+            echo App::frontend()->context()::global_filters(
+                $authormode_user_url,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_user_url);
+        }
     }
 
     /**
@@ -275,10 +326,14 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo App::frontend()->context()::global_filters(
-            App::blog()->url() . App::url()->getBase('author_feed') . '/' . rawurlencode((string) App::frontend()->context()->users->user_id) . '/' . $_type_,
-            $_params_,
-            $_tag_
-        );
+        if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_user_id = is_string($authormode_user_id = App::frontend()->context()->users->user_id) ? $authormode_user_id : '';
+            echo App::frontend()->context()::global_filters(
+                App::blog()->url() . App::url()->getBase('author_feed') . '/' . rawurlencode($authormode_user_id) . '/' . $_type_,
+                $_params_,
+                $_tag_
+            );
+            unset($authormode_user_id);
+        }
     }
 }

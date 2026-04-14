@@ -8,7 +8,7 @@
  *
  * @author Franck Paul and contributors
  *
- * @copyright Franck Paul carnet.franck.paul@gmail.com
+ * @copyright Franck Paul contact@open-time.net
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 declare(strict_types=1);
@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\authorMode;
 
 use Dotclear\App;
+use Dotclear\Database\MetaRecord;
 use Dotclear\Helper\Html\Form\Li;
 use Dotclear\Helper\Html\Form\Link;
 use Dotclear\Helper\Html\Form\None;
@@ -50,9 +51,12 @@ class FrontendWidgets
             return '';
         }
 
+        $post_user_id = App::frontend()->context()->posts instanceof MetaRecord && is_string($post_user_id = App::frontend()->context()->posts->user_id) ? $post_user_id : '';
+        $user_id      = App::frontend()->context()->users instanceof MetaRecord && is_string($user_id = App::frontend()->context()->users->user_id) ? $user_id : '';
+
         $currentuser = match (App::url()->getType()) {
-            'post'   => App::frontend()->context()->posts->user_id,
-            'author' => App::frontend()->context()->users->user_id,
+            'post'   => $post_user_id,
+            'author' => $user_id,
             default  => '',
         };
 
@@ -64,20 +68,25 @@ class FrontendWidgets
 
         $lines = function () use ($rs, $currentuser, $w) {
             while ($rs->fetch()) {
+                $user_id          = is_string($user_id = $rs->user_id) ? $user_id : '';
+                $user_name        = is_string($user_name = $rs->user_name) ? $user_name : '';
+                $user_firstname   = is_string($user_firstname = $rs->user_firstname) ? $user_firstname : '';
+                $user_displayname = is_string($user_displayname = $rs->user_displayname) ? $user_displayname : '';
+                $nb_post          = is_numeric($nb_post = $rs->nb_post) ? (int) $nb_post : 0;
                 yield (new Li())
-                    ->class($rs->user_id === $currentuser ? 'current-author' : '')
+                    ->class($user_id === $currentuser ? 'current-author' : '')
                     ->items([
                         (new Link())
-                            ->href(App::blog()->url() . App::url()->getBase('author') . '/' . $rs->user_id)
+                            ->href(App::blog()->url() . App::url()->getBase('author') . '/' . $user_id)
                             ->text(Html::escapeHTML(
                                 App::users()->getUserCN(
-                                    $rs->user_id,
-                                    $rs->user_name,
-                                    $rs->user_firstname,
-                                    $rs->user_displayname
+                                    $user_id,
+                                    $user_name,
+                                    $user_firstname,
+                                    $user_displayname
                                 )
                             )),
-                        $w->get('postcount') ? (new Text(null, ' (' . $rs->nb_post . ')')) : (new None()),
+                        $w->get('postcount') ? (new Text(null, ' (' . $nb_post . ')')) : (new None()),
                     ]);
             }
         };

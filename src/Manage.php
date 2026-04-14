@@ -8,7 +8,7 @@
  *
  * @author Franck Paul and contributors
  *
- * @copyright Franck Paul carnet.franck.paul@gmail.com
+ * @copyright Franck Paul contact@open-time.net
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 declare(strict_types=1);
@@ -50,22 +50,19 @@ class Manage
         }
 
         if (!empty($_POST['saveconfig'])) {
+            // Post data helpers
+            $_Bool = fn (string $name): bool => !empty($_POST[$name]);
+            $_Str  = fn (string $name, string $default = ''): string => isset($_POST[$name]) && is_string($val = $_POST[$name]) ? $val : $default;
+
             try {
-                $active = !empty($_POST['active']);
-                if (trim((string) $_POST['url_author']) === '') {
-                    $url_author = 'author';
-                } else {
-                    $url_author = Txt::str2URL(trim((string) $_POST['url_author']));
-                }
+                $active      = $_Bool('active');
+                $url_author  = $_Str('url_author');
+                $url_authors = $_Str('url_authors');
+                $posts_only  = $_Bool('posts_only');
+                $alpha_order = $_Bool('alpha_order');
 
-                if (trim((string) $_POST['url_authors']) === '') {
-                    $url_authors = 'authors';
-                } else {
-                    $url_authors = Txt::str2URL(trim((string) $_POST['url_authors']));
-                }
-
-                $posts_only  = !empty($_POST['posts_only']);
-                $alpha_order = !empty($_POST['alpha_order']);
+                $url_author  = trim($url_author)  === '' ? 'author' : Txt::str2URL(trim($url_author));
+                $url_authors = trim($url_authors) === '' ? 'authors' : Txt::str2URL(trim($url_authors));
 
                 $settings = My::settings();
 
@@ -96,13 +93,17 @@ class Manage
             return;
         }
 
+        // Variable data helpers
+        $_Bool = fn (mixed $var): bool => (bool) $var;
+        $_Str  = fn (mixed $var, string $default = ''): string => $var !== null && is_string($val = $var) ? $val : $default;
+
         $settings = My::settings();
 
-        $active      = $settings->authormode_active;
-        $url_author  = $settings->authormode_url_author;
-        $url_authors = $settings->authormode_url_authors;
-        $posts_only  = $settings->authormode_default_posts_only;
-        $alpha_order = $settings->authormode_default_alpha_order;
+        $active      = $_Bool($settings->authormode_active);
+        $url_author  = $_Str($settings->authormode_url_author);
+        $url_authors = $_Str($settings->authormode_url_authors);
+        $posts_only  = $_Bool($settings->authormode_default_posts_only);
+        $alpha_order = $_Bool($settings->authormode_default_alpha_order);
 
         App::backend()->page()->openModule(My::name());
 

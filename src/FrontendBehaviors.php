@@ -8,7 +8,7 @@
  *
  * @author Franck Paul and contributors
  *
- * @copyright Franck Paul carnet.franck.paul@gmail.com
+ * @copyright Franck Paul contact@open-time.net
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 declare(strict_types=1);
@@ -63,8 +63,14 @@ class FrontendBehaviors
     private static function userID(
     ): void {
         global $params; // @phpcode-remove
-        if (App::frontend()->context()->exists('users')) {
-            $params['sql'] .= "AND P.user_id = '" . App::frontend()->context()->users->user_id . "' ";
+        if (!is_array($params)) {
+            $params = [];
+        }
+        if (App::frontend()->context()->exists('users') && App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
+            $authormode_user_id    = is_string($authormode_user_id = App::frontend()->context()->users->user_id) ? $authormode_user_id : '';
+            $authormode_params_sql = is_string($authormode_params_sql = $params['sql']) ? $authormode_params_sql : '';
+            $params['sql']         = $authormode_params_sql . " AND P.user_id = '" . $authormode_user_id . "' ";
+            unset($authormode_user_id, $authormode_params_sql);
         }
     }
 }

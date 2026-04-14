@@ -8,7 +8,7 @@
  *
  * @author Franck Paul and contributors
  *
- * @copyright Franck Paul carnet.franck.paul@gmail.com
+ * @copyright Franck Paul contact@open-time.net
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 declare(strict_types=1);
@@ -59,11 +59,11 @@ class CoreHelper
             ->and('P.post_status = ' . App::status()->post()::PUBLISHED)
         ;
 
-        if (!empty($params['author'])) {
+        if (!empty($params['author']) && is_string($params['author'])) {
             $sql->and('P.user_id = ' . $sql->quote($params['author']));
         }
 
-        if (!empty($params['post_type'])) {
+        if (!empty($params['post_type']) && is_string($params['post_type'])) {
             $sql->and('P.post_type = ' . $sql->quote($params['post_type']));
         } elseif ($settings->authormode_default_posts_only) {
             $sql->and('P.post_type = ' . $sql->quote('post'));
@@ -77,7 +77,7 @@ class CoreHelper
             'user_desc',
         ]);
 
-        if (!empty($params['order'])) {
+        if (!empty($params['order']) && is_string($params['order'])) {
             $sql->order($sql->escape($params['order']));
         } elseif ($settings->authormode_default_alpha_order) {
             $sql->order([
