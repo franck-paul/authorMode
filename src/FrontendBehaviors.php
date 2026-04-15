@@ -63,7 +63,7 @@ class FrontendBehaviors
     private static function userID(
     ): void {
         global $params; // @phpcode-remove
-        if (!is_array($params)) {
+        if (!isset($params) || !is_array($params)) {
             $params = [];
         }
         if (App::frontend()->context()->exists('users') && App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
