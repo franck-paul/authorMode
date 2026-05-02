@@ -66,6 +66,7 @@ class FrontendBehaviors
         if (!isset($params) || !is_array($params)) {
             $params = [];
         }
+
         if (App::frontend()->context()->exists('users') && App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
             $authormode_user_id    = is_string($authormode_user_id = App::frontend()->context()->users->user_id) ? $authormode_user_id : '';
             $authormode_params_sql = is_string($authormode_params_sql = $params['sql']) ? $authormode_params_sql : '';
