@@ -38,12 +38,12 @@ class BackendBehaviors
 
     public static function adminAuthorHeaders(): string
     {
-        $post_format = is_string($post_format = App::auth()->getOption('post_format')) ? $post_format : '';
+        $post_format = is_string($post_format = App::auth()->prefs()->get('interface')->get('post_format')) ? $post_format : '';
 
         /**
          * @var array<string, string>
          */
-        $post_editor = is_array($post_editor = App::auth()->getOption('editor')) ? $post_editor : [];
+        $post_editor = is_array($post_editor = App::auth()->prefs()->get('interface')->get('editor')) ? $post_editor : [];
 
         $admin_post_behavior = '';
         if ($post_editor !== [] && $post_format !== '' && !empty($post_editor[$post_format])) {
