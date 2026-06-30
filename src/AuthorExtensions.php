@@ -22,23 +22,18 @@ class AuthorExtensions
 {
     public static function getAuthorCN(MetaRecord $rs): string
     {
-        $user_id          = is_string($user_id = $rs->user_id) ? $user_id : '';
-        $user_name        = is_string($user_name = $rs->user_name) ? $user_name : '';
-        $user_firstname   = is_string($user_firstname = $rs->user_firstname) ? $user_firstname : '';
-        $user_displayname = is_string($user_displayname = $rs->user_displayname) ? $user_displayname : '';
-
         return App::users()->getUserCN(
-            $user_id,
-            $user_name,
-            $user_firstname,
-            $user_displayname
+            $rs->strField('user_id'),
+            $rs->strField('user_name'),
+            $rs->strField('user_firstname'),
+            $rs->strField('user_displayname')
         );
     }
 
     public static function getAuthorLink(MetaRecord $rs): string
     {
         $res = '%1$s';
-        $url = is_string($url = $rs->user_url) ? $url : '';
+        $url = $rs->strField('user_url');
         if ($url !== '') {
             $res = '<a href="%2$s">%1$s</a>';
         }
@@ -50,7 +45,7 @@ class AuthorExtensions
 
     public static function getAuthorEmail(MetaRecord $rs, bool $encoded = true): string
     {
-        $user_email = is_string($user_email = $rs->user_email) ? $user_email : '';
+        $user_email = $rs->strField('user_email');
         if ($encoded) {
             return strtr($user_email, ['@' => '%40', '.' => '%2e']);
         }

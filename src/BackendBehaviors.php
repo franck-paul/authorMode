@@ -74,7 +74,7 @@ class BackendBehaviors
 
         $rs = $sql->select();
         if ($rs instanceof MetaRecord && !$rs->isEmpty()) {
-            $user_desc = is_string($user_desc = $rs->user_desc) ? $user_desc : '';
+            $user_desc = $rs->strField('user_desc');
         }
 
         echo
@@ -98,7 +98,7 @@ class BackendBehaviors
     {
         $user_desc = '';
         if ($rs instanceof MetaRecord && $rs->exists('user_desc')) {
-            $user_desc = is_string($user_desc = $rs->user_desc) ? $user_desc : '';
+            $user_desc = $rs->strField('user_desc');
         }
 
         echo
@@ -121,11 +121,11 @@ class BackendBehaviors
     public static function authorModeDashboardFavorites(Favorites $favs): string
     {
         $favs->register('authorMode', [
-            'title'       => __('Authors'),
-            'url'         => My::manageUrl(),
-            'small-icon'  => My::icons(),
-            'large-icon'  => My::icons(),
-            'permissions' => My::checkContext(My::MENU),
+            'title'          => __('Authors'),
+            'url'            => My::manageUrl(),
+            'menu-icon'      => My::icon(),
+            'dashboard-icon' => My::icon(),
+            'permissions'    => My::checkContext(My::MENU),
         ]);
 
         return '';

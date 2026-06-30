@@ -68,7 +68,7 @@ class FrontendBehaviors
         }
 
         if (App::frontend()->context()->exists('users') && App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
-            $authormode_user_id    = is_string($authormode_user_id = App::frontend()->context()->users->user_id) ? $authormode_user_id : '';
+            $authormode_user_id    = App::frontend()->context()->users->strField('user_id');
             $authormode_params_sql = is_string($authormode_params_sql = $params['sql']) ? $authormode_params_sql : '';
             $params['sql']         = $authormode_params_sql . " AND P.user_id = '" . $authormode_user_id . "' ";
             unset($authormode_user_id, $authormode_params_sql);

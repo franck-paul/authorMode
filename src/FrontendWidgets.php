@@ -51,8 +51,8 @@ class FrontendWidgets
             return '';
         }
 
-        $post_user_id = App::frontend()->context()->posts instanceof MetaRecord && is_string($post_user_id = App::frontend()->context()->posts->user_id) ? $post_user_id : '';
-        $user_id      = App::frontend()->context()->users instanceof MetaRecord && is_string($user_id = App::frontend()->context()->users->user_id) ? $user_id : '';
+        $post_user_id = App::frontend()->context()->posts instanceof MetaRecord ? App::frontend()->context()->posts->strField('user_id') : '';
+        $user_id      = App::frontend()->context()->users instanceof MetaRecord ? App::frontend()->context()->users->strField('user_id') : '';
 
         $currentuser = match (App::url()->getType()) {
             'post'   => $post_user_id,
@@ -68,11 +68,7 @@ class FrontendWidgets
 
         $lines = function () use ($rs, $currentuser, $w) {
             while ($rs->fetch()) {
-                $user_id          = is_string($user_id = $rs->user_id) ? $user_id : '';
-                $user_name        = is_string($user_name = $rs->user_name) ? $user_name : '';
-                $user_firstname   = is_string($user_firstname = $rs->user_firstname) ? $user_firstname : '';
-                $user_displayname = is_string($user_displayname = $rs->user_displayname) ? $user_displayname : '';
-                $nb_post          = is_numeric($nb_post = $rs->nb_post) ? (int) $nb_post : 0;
+                $user_id = $rs->strField('user_id');
                 yield (new Li())
                     ->class($user_id === $currentuser ? 'current-author' : '')
                     ->items([
@@ -81,12 +77,12 @@ class FrontendWidgets
                             ->text(Html::escapeHTML(
                                 App::users()->getUserCN(
                                     $user_id,
-                                    $user_name,
-                                    $user_firstname,
-                                    $user_displayname
+                                    $rs->strField('user_name'),
+                                    $rs->strField('user_firstname'),
+                                    $rs->strField('user_displayname')
                                 )
                             )),
-                        $w->get('postcount') ? (new Text(null, ' (' . $nb_post . ')')) : (new None()),
+                        $w->get('postcount') ? (new Text(null, ' (' . $rs->intField('nb_post') . ')')) : (new None()),
                     ]);
             }
         };
