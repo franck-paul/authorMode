@@ -33,14 +33,10 @@ class Prepend
             return false;
         }
 
-        // Variable data helpers
-        $_Bool = fn (mixed $var): bool => (bool) $var;
-        $_Str  = fn (mixed $var, string $default = ''): string => $var !== null && is_string($val = $var) ? $val : $default;
-
         $settings = My::settings();
 
-        if (App::blog()->isDefined() && $_Bool($settings->authormode_active)) {
-            $url_prefix = $_Str($settings->authormode_url_author);
+        if (App::blog()->isDefined() && $settings->getBool('authormode_active', false)) {
+            $url_prefix = $settings->getStr('authormode_url_author', false);
             if ($url_prefix === '') {
                 $url_prefix = 'author';
             }
@@ -49,7 +45,7 @@ class Prepend
             App::url()->register('author', $url_prefix, '^' . $url_prefix . '/(.+)$', FrontendUrl::Author(...));
             App::url()->register('author_feed', $feed_prefix, '^' . $feed_prefix . '/(.+)$', FrontendUrl::feed(...));
 
-            $url_prefix = $_Str($settings->authormode_url_authors);
+            $url_prefix = $settings->getStr('authormode_url_authors', false);
             if ($url_prefix !== '') {
                 $url_prefix = 'authors';
             }

@@ -34,7 +34,7 @@ class FrontendWidgets
     {
         $settings = My::settings();
 
-        if (!$settings->authormode_active) {
+        if (!$settings->getBool('authormode_active')) {
             return '';
         }
 

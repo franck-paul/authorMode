@@ -38,7 +38,7 @@ class BackendBehaviors
 
     public static function adminAuthorHeaders(): string
     {
-        $post_format = is_string($post_format = App::auth()->prefs()->get('interface')->get('post_format')) ? $post_format : '';
+        $post_format = App::auth()->prefs()->get('interface')->getStr('post_format', false);
 
         /**
          * @var array<string, string>

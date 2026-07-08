@@ -93,17 +93,13 @@ class Manage
             return;
         }
 
-        // Variable data helpers
-        $_Bool = fn (mixed $var): bool => (bool) $var;
-        $_Str  = fn (mixed $var, string $default = ''): string => $var !== null && is_string($val = $var) ? $val : $default;
-
         $settings = My::settings();
 
-        $active      = $_Bool($settings->authormode_active);
-        $url_author  = $_Str($settings->authormode_url_author);
-        $url_authors = $_Str($settings->authormode_url_authors);
-        $posts_only  = $_Bool($settings->authormode_default_posts_only);
-        $alpha_order = $_Bool($settings->authormode_default_alpha_order);
+        $active      = $settings->getBool('authormode_active', false);
+        $url_author  = $settings->getStr('authormode_url_author', false);
+        $url_authors = $settings->getStr('authormode_url_authors', false);
+        $posts_only  = $settings->getBool('authormode_default_posts_only', false);
+        $alpha_order = $settings->getBool('authormode_default_alpha_order', false);
 
         App::backend()->page()->openModule(My::name());
 

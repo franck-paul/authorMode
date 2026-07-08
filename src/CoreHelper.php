@@ -65,7 +65,7 @@ class CoreHelper
 
         if (!empty($params['post_type']) && is_string($params['post_type'])) {
             $sql->and('P.post_type = ' . $sql->quote($params['post_type']));
-        } elseif ($settings->authormode_default_posts_only) {
+        } elseif ($settings->getBool('authormode_default_posts_only')) {
             $sql->and('P.post_type = ' . $sql->quote('post'));
         }
 
@@ -79,7 +79,7 @@ class CoreHelper
 
         if (!empty($params['order']) && is_string($params['order'])) {
             $sql->order($sql->escape($params['order']));
-        } elseif ($settings->authormode_default_alpha_order) {
+        } elseif ($settings->getBool('authormode_default_alpha_order')) {
             $sql->order([
                 'user_displayname',
                 'user_firstname',
