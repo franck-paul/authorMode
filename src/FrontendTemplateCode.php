@@ -159,7 +159,7 @@ class FrontendTemplateCode
         string $_tag_
     ): void {
         if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
-            $authormode_author_cn = is_string($authormode_author_cn = App::frontend()->context()->users->getAuthorCN()) ? $authormode_author_cn : '';
+            $authormode_author_cn = App::frontend()->context()->users->getAuthorCN();
             echo App::frontend()->context()::global_filters(
                 $authormode_author_cn,
                 $_params_,
@@ -252,7 +252,7 @@ class FrontendTemplateCode
         string $_tag_
     ): void {
         if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
-            $authormode_author_email = is_string($authormode_author_email = App::frontend()->context()->users->getAuthorEmail($_spam_protected_)) ? $authormode_author_email : '';
+            $authormode_author_email = App::frontend()->context()->users->getAuthorEmail($_spam_protected_);
             echo App::frontend()->context()::global_filters(
                 $authormode_author_email,
                 $_params_,
@@ -272,7 +272,7 @@ class FrontendTemplateCode
         string $_tag_
     ): void {
         if (App::frontend()->context()->users instanceof \Dotclear\Database\MetaRecord) {
-            $authormode_author_link = is_string($authormode_author_link = App::frontend()->context()->users->getAuthorLink()) ? $authormode_author_link : '';
+            $authormode_author_link = App::frontend()->context()->users->getAuthorLink();
             echo App::frontend()->context()::global_filters(
                 $authormode_author_link,
                 $_params_,

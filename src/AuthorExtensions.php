@@ -38,7 +38,7 @@ class AuthorExtensions
             $res = '<a href="%2$s">%1$s</a>';
         }
 
-        $author_cn = is_string($author_cn = $rs->getAuthorCN()) ? $author_cn : '';
+        $author_cn = $rs->getAuthorCN();
 
         return sprintf($res, $author_cn, $url);
     }
