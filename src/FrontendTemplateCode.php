@@ -33,10 +33,15 @@ class FrontendTemplateCode
             if ($_post_type_ !== '') {
                 $authormode_params['post_type'] = addslashes($_post_type_);
             }
+
             if ($_sort_by_ !== '' && $_order_ !== '') {
                 $authormode_params['order'] = $_sort_by_ . ' ' . $_order_ ;
             }
-            if ($_post_type_ === '' && $_sort_by_ === '' && $_order_ === '') {
+
+            if ($_post_type_  === ''
+                && $_sort_by_ === ''
+                && $_order_   === ''
+            ) {
                 $authormode_params = [];
             }
             App::frontend()->context()->users = \Dotclear\Plugin\authorMode\CoreHelper::getPostsUsers($authormode_params);

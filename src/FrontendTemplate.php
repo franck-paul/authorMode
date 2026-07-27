@@ -41,7 +41,10 @@ class FrontendTemplate
             };
 
             $order = 'asc';
-            if (isset($attr['order']) && is_string($attr['order']) && preg_match('/^(desc|asc)$/i', $attr['order'])) {
+            if (isset($attr['order'])
+                && is_string($attr['order'])
+                && preg_match('/^(desc|asc)$/i', $attr['order'])
+            ) {
                 $order = $attr['order'];
             }
         }

@@ -46,7 +46,10 @@ class BackendBehaviors
         $post_editor = is_array($post_editor = App::auth()->prefs()->get('interface')->get('editor')) ? $post_editor : [];
 
         $admin_post_behavior = '';
-        if ($post_editor !== [] && $post_format !== '' && !empty($post_editor[$post_format])) {
+        if ($post_editor    !== []
+            && $post_format !== ''
+            && !empty($post_editor[$post_format])
+        ) {
             $admin_post_behavior = App::behavior()->callBehavior(
                 'adminPostEditor',
                 $post_editor[$post_format],
