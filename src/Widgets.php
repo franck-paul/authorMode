@@ -19,9 +19,9 @@ use Dotclear\Plugin\widgets\WidgetsStack;
 
 class Widgets
 {
-    public static function initWidgets(WidgetsStack $w): string
+    public static function initWidgets(WidgetsStack $widgetsStack): string
     {
-        $w
+        $widgetsStack
             ->create('authors', __('AuthorMode: authors'), FrontendWidgets::authors(...), null, __('List of authors'), My::id())
             ->addTitle(__('Authors'))
             ->setting('postcount', __('With entries counts'), 0, 'check')

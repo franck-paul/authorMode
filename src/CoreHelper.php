@@ -37,39 +37,39 @@ class CoreHelper
             $params = ['author' => $params];
         }
 
-        $sql = new SelectStatement();
-        $sql
+        $selectStatement = new SelectStatement();
+        $selectStatement
             ->columns([
                 'P.user_id',
                 'user_name',
                 'user_firstname',
                 'user_displayname',
                 'user_desc',
-                $sql->count('P.post_id', 'nb_post'),
+                $selectStatement->count('P.post_id', 'nb_post'),
             ])
-            ->from($sql->as(App::db()->con()->prefix() . App::auth()::USER_TABLE_NAME, 'U'))
+            ->from($selectStatement->as(App::db()->con()->prefix() . App::auth()::USER_TABLE_NAME, 'U'))
             ->join(
                 (new JoinStatement())
                     ->left()
-                    ->from($sql->as(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME, 'P'))
+                    ->from($selectStatement->as(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME, 'P'))
                     ->on('P.user_id = U.user_id')
                     ->statement()
             )
-            ->where('blog_id = ' . $sql->quote(App::blog()->id()))
+            ->where('blog_id = ' . $selectStatement->quote(App::blog()->id()))
             ->and('P.post_status = ' . App::status()->post()::PUBLISHED)
         ;
 
         if (!empty($params['author']) && is_string($params['author'])) {
-            $sql->and('P.user_id = ' . $sql->quote($params['author']));
+            $selectStatement->and('P.user_id = ' . $selectStatement->quote($params['author']));
         }
 
         if (!empty($params['post_type']) && is_string($params['post_type'])) {
-            $sql->and('P.post_type = ' . $sql->quote($params['post_type']));
+            $selectStatement->and('P.post_type = ' . $selectStatement->quote($params['post_type']));
         } elseif ($settings->getBool('authormode_default_posts_only')) {
-            $sql->and('P.post_type = ' . $sql->quote('post'));
+            $selectStatement->and('P.post_type = ' . $selectStatement->quote('post'));
         }
 
-        $sql->group([
+        $selectStatement->group([
             'P.user_id',
             'user_name',
             'user_firstname',
@@ -78,16 +78,16 @@ class CoreHelper
         ]);
 
         if (!empty($params['order']) && is_string($params['order'])) {
-            $sql->order($sql->escape($params['order']));
+            $selectStatement->order($selectStatement->escape($params['order']));
         } elseif ($settings->getBool('authormode_default_alpha_order')) {
-            $sql->order([
+            $selectStatement->order([
                 'user_displayname',
                 'user_firstname',
                 'user_name',
             ]);
         }
 
-        $rs = $sql->select();
+        $rs = $selectStatement->select();
         if ($rs) {
             $rs->extend(AuthorExtensions::class);
         }

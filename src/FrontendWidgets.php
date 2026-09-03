@@ -30,7 +30,7 @@ use Dotclear\Plugin\widgets\WidgetsElement;
 
 class FrontendWidgets
 {
-    public static function authors(WidgetsElement $w): string
+    public static function authors(WidgetsElement $widgetsElement): string
     {
         $settings = My::settings();
 
@@ -38,18 +38,18 @@ class FrontendWidgets
             return '';
         }
 
-        if ($w->offline) {
+        if ($widgetsElement->offline) {
             return '';
         }
 
-        if (($w->homeonly == 1 && !App::url()->isHome(App::url()->getType()))
-            || ($w->homeonly == 2 && App::url()->isHome(App::url()->getType()))
+        if (($widgetsElement->homeonly == 1 && !App::url()->isHome(App::url()->getType()))
+            || ($widgetsElement->homeonly == 2 && App::url()->isHome(App::url()->getType()))
         ) {
             return '';
         }
 
-        $rs = CoreHelper::getPostsUsers();
-        if ($rs->isEmpty()) {
+        $metaRecord = CoreHelper::getPostsUsers();
+        if ($metaRecord->isEmpty()) {
             return '';
         }
 
@@ -64,13 +64,13 @@ class FrontendWidgets
 
         $items = [];
 
-        if ($w->title) {
-            $items[] = (new Text(null, $w->renderTitle(Html::escapeHTML($w->title))));
+        if ($widgetsElement->title) {
+            $items[] = (new Text(null, $widgetsElement->renderTitle(Html::escapeHTML($widgetsElement->title))));
         }
 
-        $lines = function () use ($rs, $currentuser, $w) {
-            while ($rs->fetch()) {
-                $user_id = $rs->strField('user_id');
+        $lines = function () use ($metaRecord, $currentuser, $widgetsElement) {
+            while ($metaRecord->fetch()) {
+                $user_id = $metaRecord->strField('user_id');
                 yield (new Li())
                     ->class($user_id === $currentuser ? 'current-author' : '')
                     ->items([
@@ -79,12 +79,12 @@ class FrontendWidgets
                             ->text(Html::escapeHTML(
                                 App::users()->getUserCN(
                                     $user_id,
-                                    $rs->strField('user_name'),
-                                    $rs->strField('user_firstname'),
-                                    $rs->strField('user_displayname')
+                                    $metaRecord->strField('user_name'),
+                                    $metaRecord->strField('user_firstname'),
+                                    $metaRecord->strField('user_displayname')
                                 )
                             )),
-                        $w->get('postcount') ? (new Text(null, ' (' . $rs->intField('nb_post') . ')')) : (new None()),
+                        $widgetsElement->get('postcount') ? (new Text(null, ' (' . $metaRecord->intField('nb_post') . ')')) : (new None()),
                     ]);
             }
         };
@@ -94,7 +94,7 @@ class FrontendWidgets
                 ... $lines(),
             ]);
 
-        if (is_null($w->get('allauthors')) || $w->get('allauthors')) {
+        if (is_null($widgetsElement->get('allauthors')) || $widgetsElement->get('allauthors')) {
             $items[] = (new Para())
                 ->class('listauthors')
                 ->items([
@@ -110,6 +110,6 @@ class FrontendWidgets
             ->items($items)
         ->render();
 
-        return $w->renderDiv((bool) $w->content_only, 'authors ' . $w->class, '', $res);
+        return $widgetsElement->renderDiv((bool) $widgetsElement->content_only, 'authors ' . $widgetsElement->class, '', $res);
     }
 }

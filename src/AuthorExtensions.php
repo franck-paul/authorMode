@@ -20,32 +20,32 @@ use Dotclear\Database\MetaRecord;
 
 class AuthorExtensions
 {
-    public static function getAuthorCN(MetaRecord $rs): string
+    public static function getAuthorCN(MetaRecord $metaRecord): string
     {
         return App::users()->getUserCN(
-            $rs->strField('user_id'),
-            $rs->strField('user_name'),
-            $rs->strField('user_firstname'),
-            $rs->strField('user_displayname')
+            $metaRecord->strField('user_id'),
+            $metaRecord->strField('user_name'),
+            $metaRecord->strField('user_firstname'),
+            $metaRecord->strField('user_displayname')
         );
     }
 
-    public static function getAuthorLink(MetaRecord $rs): string
+    public static function getAuthorLink(MetaRecord $metaRecord): string
     {
         $res = '%1$s';
-        $url = $rs->strField('user_url');
+        $url = $metaRecord->strField('user_url');
         if ($url !== '') {
             $res = '<a href="%2$s">%1$s</a>';
         }
 
-        $author_cn = $rs->getAuthorCN();
+        $author_cn = $metaRecord->getAuthorCN();
 
         return sprintf($res, $author_cn, $url);
     }
 
-    public static function getAuthorEmail(MetaRecord $rs, bool $encoded = true): string
+    public static function getAuthorEmail(MetaRecord $metaRecord, bool $encoded = true): string
     {
-        $user_email = $rs->strField('user_email');
+        $user_email = $metaRecord->strField('user_email');
         if ($encoded) {
             return strtr($user_email, ['@' => '%40', '.' => '%2e']);
         }

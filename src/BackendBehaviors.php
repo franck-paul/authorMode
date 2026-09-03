@@ -29,9 +29,9 @@ use Dotclear\Helper\Html\Html;
 
 class BackendBehaviors
 {
-    public static function adminBeforeUserUpdate(Cursor $cur): string
+    public static function adminBeforeUserUpdate(Cursor $cursor): string
     {
-        $cur->user_desc = $_POST['user_desc'];
+        $cursor->user_desc = $_POST['user_desc'];
 
         return '';
     }
@@ -68,16 +68,16 @@ class BackendBehaviors
     {
         $user_desc = '';
 
-        $sql = new SelectStatement();
-        $sql
+        $selectStatement = new SelectStatement();
+        $selectStatement
             ->column('user_desc')
             ->from(App::db()->con()->prefix() . App::auth()::USER_TABLE_NAME)
-            ->where('user_id = ' . $sql->quote((string) App::auth()->userID()))
+            ->where('user_id = ' . $selectStatement->quote((string) App::auth()->userID()))
         ;
 
-        $rs = $sql->select();
-        if ($rs instanceof MetaRecord && !$rs->isEmpty()) {
-            $user_desc = $rs->strField('user_desc');
+        $metaRecord = $selectStatement->select();
+        if ($metaRecord instanceof MetaRecord && !$metaRecord->isEmpty()) {
+            $user_desc = $metaRecord->strField('user_desc');
         }
 
         echo
@@ -97,11 +97,11 @@ class BackendBehaviors
         return '';
     }
 
-    public static function adminUserForm(?MetaRecord $rs): string
+    public static function adminUserForm(?MetaRecord $metaRecord): string
     {
         $user_desc = '';
-        if ($rs instanceof MetaRecord && $rs->exists('user_desc')) {
-            $user_desc = $rs->strField('user_desc');
+        if ($metaRecord instanceof MetaRecord && $metaRecord->exists('user_desc')) {
+            $user_desc = $metaRecord->strField('user_desc');
         }
 
         echo
@@ -121,9 +121,9 @@ class BackendBehaviors
         return '';
     }
 
-    public static function authorModeDashboardFavorites(Favorites $favs): string
+    public static function authorModeDashboardFavorites(Favorites $favorites): string
     {
-        $favs->register('authorMode', [
+        $favorites->register('authorMode', [
             'title'          => __('Authors'),
             'url'            => My::manageUrl(),
             'menu-icon'      => My::icon(),
