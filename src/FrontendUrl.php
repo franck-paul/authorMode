@@ -58,11 +58,6 @@ class FrontendUrl extends Url
 
     public static function feed($args): void
     {
-        $mime     = 'application/xml';
-        $author   = '';
-        $type     = '';
-        $comments = false;
-
         if (preg_match('#^(.+)/(atom|rss2)(/comments)?$#', (string) $args, $m)) {
             $author   = $m[1];
             $type     = $m[2];
@@ -78,6 +73,7 @@ class FrontendUrl extends Url
             self::p404();
         }
 
+        $mime = 'application/xml';
         if ($type === 'atom') {
             $mime = 'application/atom+xml';
         }
