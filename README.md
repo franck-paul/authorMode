@@ -3,7 +3,7 @@ Author Mode plugin
 [![Release](https://img.shields.io/github/v/release/franck-paul/authorMode)](https://github.com/franck-paul/authorMode/releases)
 [![Date](https://img.shields.io/github/release-date/franck-paul/authorMode)](https://github.com/franck-paul/authorMode/releases)
 [![Issues](https://img.shields.io/github/issues/franck-paul/authorMode)](https://github.com/franck-paul/authorMode/issues)
-[![License](https://img.shields.io/github/license/franck-paul/authorMode)](https://github.com/franck-paul/authorMode/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/franck-paul/authorMode)](https://github.com/franck-paul/authorMode/blob/main/LICENSE)
 
 ==================
 
