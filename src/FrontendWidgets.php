@@ -38,13 +38,11 @@ class FrontendWidgets
             return '';
         }
 
-        if ($widgetsElement->offline) {
+        if ($widgetsElement->isOffline()) {
             return '';
         }
 
-        if (($widgetsElement->homeonly == 1 && !App::url()->isHome(App::url()->getType()))
-            || ($widgetsElement->homeonly == 2 && App::url()->isHome(App::url()->getType()))
-        ) {
+        if (!$widgetsElement->checkHomeOnly(App::url()->getType())) {
             return '';
         }
 
@@ -64,8 +62,8 @@ class FrontendWidgets
 
         $items = [];
 
-        if ($widgetsElement->title) {
-            $items[] = (new Text(null, $widgetsElement->renderTitle(Html::escapeHTML($widgetsElement->title))));
+        if ($widgetsElement->getTitle() !== '') {
+            $items[] = (new Text(null, $widgetsElement->renderTitle(Html::escapeHTML($widgetsElement->getTitle()))));
         }
 
         $lines = function () use ($metaRecord, $currentuser, $widgetsElement) {
@@ -110,6 +108,6 @@ class FrontendWidgets
             ->items($items)
         ->render();
 
-        return $widgetsElement->renderDiv((bool) $widgetsElement->content_only, 'authors ' . $widgetsElement->class, '', $res);
+        return $widgetsElement->renderDiv($widgetsElement->getContentOnly(), 'authors ' . $widgetsElement->getClass(), '', $res);
     }
 }
