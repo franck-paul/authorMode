@@ -37,7 +37,7 @@ class Install
         try {
             $old_version = App::version()->getVersion(My::id());
             // Rename settings namespace
-            if (version_compare((string) $old_version, '3.0', '<') && App::blog()->settings()->exists('authormode')) {
+            if (version_compare($old_version, '3.0', '<') && App::blog()->settings()->exists('authormode')) {
                 App::blog()->settings()->delWorkspace(My::id());
                 App::blog()->settings()->renWorkspace('authormode', My::id());
             }
