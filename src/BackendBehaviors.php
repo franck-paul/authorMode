@@ -72,7 +72,7 @@ class BackendBehaviors
         $selectStatement
             ->column('user_desc')
             ->from(App::db()->con()->prefix() . App::auth()::USER_TABLE_NAME)
-            ->where('user_id = ' . $selectStatement->quote((string) App::auth()->userID()))
+            ->where('user_id = ' . $selectStatement->quote(App::auth()->userID()))
         ;
 
         $metaRecord = $selectStatement->select();
