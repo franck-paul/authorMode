@@ -34,7 +34,7 @@ class Frontend
         }
 
         $settings = My::settings();
-        if (!$settings->getBool('authormode_active')) {
+        if (!$settings->getBool('authormode_active', false)) {
             return false;
         }
 

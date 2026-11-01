@@ -34,7 +34,7 @@ class FrontendWidgets
     {
         $settings = My::settings();
 
-        if (!$settings->getBool('authormode_active')) {
+        if (!$settings->getBool('authormode_active', false)) {
             return '';
         }
 
@@ -82,7 +82,7 @@ class FrontendWidgets
                                     $metaRecord->strField('user_displayname')
                                 )
                             )),
-                        $widgetsElement->get('postcount') ? (new Text(null, ' (' . $metaRecord->intField('nb_post') . ')')) : (new None()),
+                        (bool) $widgetsElement->get('postcount') ? (new Text(null, ' (' . $metaRecord->intField('nb_post') . ')')) : (new None()),
                     ]);
             }
         };
@@ -92,7 +92,7 @@ class FrontendWidgets
                 ... $lines(),
             ]);
 
-        if (is_null($widgetsElement->get('allauthors')) || $widgetsElement->get('allauthors')) {
+        if (is_null($widgetsElement->get('allauthors')) || (bool) $widgetsElement->get('allauthors')) {
             $items[] = (new Para())
                 ->class('listauthors')
                 ->items([

@@ -43,7 +43,7 @@ class FrontendTemplate
             $order = 'asc';
             if (isset($attr['order'])
                 && is_string($attr['order'])
-                && preg_match('/^(desc|asc)$/i', $attr['order'])
+                && (bool) preg_match('/^(desc|asc)$/i', $attr['order'])
             ) {
                 $order = $attr['order'];
             }
@@ -223,12 +223,13 @@ class FrontendTemplate
      */
     public static function AuthorEmail(array|ArrayObject $attr): string
     {
-        $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
+        $attr    = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
+        $protect = isset($attr['spam_protected']) && is_numeric($protect = $attr['spam_protected']) ? (int) $protect : 1;
 
         return Code::getPHPTemplateValueCode(
             FrontendTemplateCode::AuthorEmail(...),
             [
-                !isset($attr['spam_protected']) || $attr['spam_protected'],
+                (bool) $protect,
             ],
             attr: $attr,
         );
@@ -268,7 +269,7 @@ class FrontendTemplate
         $attr = $attr instanceof ArrayObject ? $attr : new ArrayObject($attr);
 
         $type = isset($attr['type']) && is_string($type = $attr['type']) ? $type : '';
-        if (!preg_match('/^(rss2|atom)$/', $type)) {
+        if (!(bool) preg_match('/^(rss2|atom)$/', $type)) {
             $type = 'rss2';
         }
 

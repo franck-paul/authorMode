@@ -25,10 +25,10 @@ class FrontendUrl extends Url
         $n = self::getPageNumber($args);
 
         $args = is_string($args) ? $args : '';
-        if ($args === '' && !$n) {
+        if ($args === '' && empty($n)) {
             self::p404();
         } else {
-            if ($n) {
+            if ($n > 0) {
                 App::frontend()->setPageNumber($n);
             }
 
@@ -58,7 +58,7 @@ class FrontendUrl extends Url
 
     public static function feed($args): void
     {
-        if (preg_match('#^(.+)/(atom|rss2)(/comments)?$#', (string) $args, $m)) {
+        if ((bool) preg_match('#^(.+)/(atom|rss2)(/comments)?$#', (string) $args, $m)) {
             $author   = $m[1];
             $type     = $m[2];
             $comments = isset($m[3]);

@@ -65,7 +65,7 @@ class CoreHelper
 
         if (!empty($params['post_type']) && is_string($params['post_type'])) {
             $selectStatement->and('P.post_type = ' . $selectStatement->quote($params['post_type']));
-        } elseif ($settings->getBool('authormode_default_posts_only')) {
+        } elseif ($settings->getBool('authormode_default_posts_only', false)) {
             $selectStatement->and('P.post_type = ' . $selectStatement->quote('post'));
         }
 
@@ -79,7 +79,7 @@ class CoreHelper
 
         if (!empty($params['order']) && is_string($params['order'])) {
             $selectStatement->order($selectStatement->escape($params['order']));
-        } elseif ($settings->getBool('authormode_default_alpha_order')) {
+        } elseif ($settings->getBool('authormode_default_alpha_order', false)) {
             $selectStatement->order([
                 'user_displayname',
                 'user_firstname',
@@ -88,7 +88,7 @@ class CoreHelper
         }
 
         $rs = $selectStatement->select();
-        if ($rs) {
+        if ($rs instanceof MetaRecord) {
             $rs->extend(AuthorExtensions::class);
         }
 
