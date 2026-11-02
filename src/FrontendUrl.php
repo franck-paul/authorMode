@@ -22,14 +22,14 @@ class FrontendUrl extends Url
 {
     public static function Author(?string $args): void
     {
-        $n = self::getPageNumber($args);
+        $page_number = self::getPageNumber($args);
 
         $args = is_string($args) ? $args : '';
-        if ($args === '' && empty($n)) {
+        if ($args === '' && $page_number === false) {
             self::p404();
         } else {
-            if ($n > 0) {
-                App::frontend()->setPageNumber($n);
+            if ($page_number !== false) {
+                App::frontend()->setPageNumber($page_number);
             }
 
             App::frontend()->context()->users = CoreHelper::getPostsUsers($args);
