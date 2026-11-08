@@ -17,9 +17,9 @@ if (isset($this) && is_object($this) && method_exists($this, 'registerModule') &
         'Author Mode',
         'Post entries per author + author desc handling',
         'xave, Pierre Van Glabeke, Franck Paul',
-        '9.0',
+        '10.0',
         [
-            'date'     => '2026-08-03T09:45:04+0200',
+            'date'     => '2026-11-08T10:09:39+0100',
             'requires' => [
                 ['core', '2.40'],
                 ['TemplateHelper'],
